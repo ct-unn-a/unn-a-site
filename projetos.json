@@ -1,42 +1,44 @@
 {
-  "2001_SERPA PINTO": {
-    "titlePT": "2001_SERPA PINTO",
-    "titleEN": "2001_SERPA PINTO",
-    "metaPT": "Habitação Unifamiliar · Porto",
-    "metaEN": "Single-Family Housing · Porto",
-    "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2001_SERPA PINTO. Esta descrição pode ser personalizada através do painel ou alterada diretamente no ficheiro.</p></div><div class='lang-en'><p>Placeholder text for 2001_SERPA PINTO. This description can be edited directly in the file.</p></div>",
-    "images": []
-  },
-  "2002_GUINCHO": {
-    "titlePT": "2002_GUINCHO",
-    "titleEN": "2002_GUINCHO",
-    "metaPT": "Intervenção Urbana · Cascais",
-    "metaEN": "Urban Intervention · Cascais",
-    "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2002_GUINCHO. Estudo de integração com a paisagem costeira.</p></div><div class='lang-en'><p>Placeholder text for 2002_GUINCHO. Integration study with the coastal landscape.</p></div>",
-    "images": []
-  },
-  "2005_AZENHA": {
-    "titlePT": "2005_AZENHA",
-    "titleEN": "2005_AZENHA",
-    "metaPT": "Recuperação de Património · Braga",
-    "metaEN": "Heritage Recovery · Braga",
-    "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2005_AZENHA. Foco na sustentabilidade e materiais locais.</p></div><div class='lang-en'><p>Placeholder text for 2005_AZENHA. Focus on sustainability and local materials.</p></div>",
-    "images": []
-  },
-  "2501_VILLA LOBO": {
-    "titlePT": "2501_VILLA LOBO",
-    "titleEN": "2501_VILLA LOBO",
-    "metaPT": "Moradia Contemporânea · Algarve",
-    "metaEN": "Contemporary Villa · Algarve",
-    "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2501_VILLA LOBO. Linhas minimalistas com forte presença de luz natural.</p></div><div class='lang-en'><p>Placeholder text for 2501_VILLA LOBO. Minimalist lines with a strong presence of natural light.</p></div>",
-    "images": []
-  },
-  "2605_ARCO": {
-    "titlePT": "2605_ARCO",
-    "titleEN": "2605_ARCO",
-    "metaPT": "Edifício de Escritórios · Lisboa",
-    "metaEN": "Office Building · Lisbon",
-    "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2605_ARCO. Estrutura focada em novos modelos de espaço de trabalho partilhado.</p></div><div class='lang-en'><p>Placeholder text for 2605_ARCO. Structure focused on new shared workspace models.</p></div>",
-    "images": []
+  "projetos": {
+    "2001_SERPA PINTO": {
+      "titlePT": "2001_SERPA PINTO",
+      "titleEN": "2001_SERPA PINTO",
+      "metaPT": "Habitação Unifamiliar · Porto",
+      "metaEN": "Single-Family Housing · Porto",
+      "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2001_SERPA PINTO.</p></div><div class='lang-en'><p>Placeholder text for 2001_SERPA PINTO.</p></div>",
+      "images": []
+    },
+    "2002_GUINCHO": {
+      "titlePT": "2002_GUINCHO",
+      "titleEN": "2002_GUINCHO",
+      "metaPT": "Intervenção Urbana · Cascais",
+      "metaEN": "Urban Intervention · Cascais",
+      "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2002_GUINCHO.</p></div><div class='lang-en'><p>Placeholder text for 2002_GUINCHO.</p></div>",
+      "images": []
+    },
+    "2005_AZENHA": {
+      "titlePT": "2005_AZENHA",
+      "titleEN": "2005_AZENHA",
+      "metaPT": "Recuperação de Património · Braga",
+      "metaEN": "Heritage Recovery · Braga",
+      "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2005_AZENHA.</p></div><div class='lang-en'><p>Placeholder text for 2005_AZENHA.</p></div>",
+      "images": []
+    },
+    "2501_VILLA LOBO": {
+      "titlePT": "2501_VILLA LOBO",
+      "titleEN": "2501_VILLA LOBO",
+      "metaPT": "Moradia Contemporânea · Algarve",
+      "metaEN": "Contemporary Villa · Algarve",
+      "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2501_VILLA LOBO.</p></div><div class='lang-en'><p>Placeholder text for 2501_VILLA LOBO.</p></div>",
+      "images": []
+    },
+    "2605_ARCO": {
+      "titlePT": "2605_ARCO",
+      "titleEN": "2605_ARCO",
+      "metaPT": "Edifício de Escritórios · Lisboa",
+      "metaEN": "Office Building · Lisbon",
+      "description": "<div class='lang-pt'><p>Texto temporário para o projeto 2605_ARCO.</p></div><div class='lang-en'><p>Placeholder text for 2605_ARCO.</p></div>",
+      "images": []
+    }
   }
 }
