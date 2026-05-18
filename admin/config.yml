@@ -2,8 +2,9 @@ backend:
   name: github
   repo: ct-unn-a/unn-a-site
   branch: main
-  # ATIVAÇÃO DO LOGIN DIRETO SEM SERVIDOR:
+  # ISTO FORÇA O CMS A IGNORAR O NETLIFY E A USAR O LOGIN DIRETO:
   auth_type: implicit
+  base_url: ""
   app_id: "3758439" # O App ID (número) que guardaste no Passo 1
   client_id: "Iv23ligNPFRwwdFdxQlm" # O Client ID que guardaste no Passo 1
 
