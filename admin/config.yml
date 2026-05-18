@@ -1,1 +1,33 @@
-#vazio
+backend:
+  name: github
+  repo: ct-unn-a/unn-a-site
+  branch: main
+  auth_type: implicit
+  app_id: 3758439
+  client_id: "Iv23ligNPFRwwdFdxQlm"
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "dados"
+    label: "Dados do Site"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "lista_projetos"
+        label: "Projetos UNN-A"
+        file: "projetos.json"
+        format: "json"
+        fields:
+          - label: "Lista de Projetos"
+            name: "projetos"
+            widget: "object"
+            fields:
+              - { label: "Título em PT", name: "titlePT", widget: "string" }
+              - { label: "Título em EN", name: "titleEN", widget: "string" }
+              - { label: "Meta Detalhes PT", name: "metaPT", widget: "string" }
+              - { label: "Meta Detalhes EN", name: "metaEN", widget: "string" }
+              - { label: "Descrição", name: "description", widget: "text" }
+              - { label: "Galeria de Imagens", name: "images", widget: "list", field: { label: "Imagem", name: "image", widget: "image" } }
