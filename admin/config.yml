@@ -1,28 +1,30 @@
 backend:
   name: github
-  repo: o-teu-utilizador/o-teu-repositorio # ALTERA AQUI: bota o teu user/nome-do-repo do GitHub
-  branch: main # Ou 'master', dependendo da tua branch principal
+  repo: o-teu-utilizador/o-teu-repositorio # Altera para o teu user/repo do GitHub
+  branch: main
+  # Usamos este gateway gratuito da comunidade para fazer a ponte de login:
+  base_url: https://oauth.staticcms.org
+  auth_endpoint: /api/auth
 
-media_folder: "images" # Onde as imagens carregadas pelos teus colegas vão ser guardadas
+media_folder: "images"
 public_folder: "/images"
 
 collections:
   - name: "projetos"
     label: "Projetos"
     label_singular: "Projeto"
-    file: "projetos.json" # O ficheiro que criámos antes!
+    file: "projetos.json"
     format: "json"
     editor:
-      preview: false # Desativa a pré-visualização para carregar mais rápido
+      preview: false
     fields:
       - label: "Lista de Projetos"
         name: "projetos"
         widget: "object"
         fields:
-          # Define aqui os campos para os teus colegas preencherem
           - { label: "Título em PT", name: "titlePT", widget: "string" }
           - { label: "Título em EN", name: "titleEN", widget: "string" }
-          - { label: "Meta Detalhes PT (Ex: Habitação · Porto)", name: "metaPT", widget: "string" }
+          - { label: "Meta Detalhes PT", name: "metaPT", widget: "string" }
           - { label: "Meta Detalhes EN", name: "metaEN", widget: "string" }
-          - { label: "Descrição (Podes usar HTML simples)", name: "description", widget: "text" }
+          - { label: "Descrição", name: "description", widget: "text" }
           - { label: "Galeria de Imagens", name: "images", widget: "list", field: { label: "Imagem", name: "image", widget: "image" } }
