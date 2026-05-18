@@ -2,7 +2,8 @@ backend:
   name: github
   repo: ct-unn-a/unn-a-site
   branch: main
-  base_url: https://oauth.staticcms.org
+  # Alterado para o novo servidor estável:
+  base_url: https://decap-cms-oauth-node.vercel.app
   auth_endpoint: /api/auth
 
 media_folder: "images"
