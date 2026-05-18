@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: o-teu-utilizador/o-teu-repositorio # Altera para o teu user/repo do GitHub
+  repo: ct-unn-a/unn-a-site # Altera para o teu user/repo do GitHub
   branch: main
   # Usamos este gateway gratuito da comunidade para fazer a ponte de login:
   base_url: https://oauth.staticcms.org
