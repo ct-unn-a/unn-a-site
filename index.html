@@ -125,8 +125,11 @@ aboutMenuBtn.addEventListener("click", () => {
 fetch('./projetos.json')
   .then(response => response.json())
   .then(data => {
-    Object.keys(data).forEach(key => {
-      const project = data[key];
+    // Aponta para a propriedade 'projetos' dentro do JSON estruturado para o CMS
+    const listaProjetos = data.projetos;
+    
+    Object.keys(listaProjetos).forEach(key => {
+      const project = listaProjetos[key];
       
       // 1. Criar botão no menu lateral
       const li = document.createElement("li");
@@ -137,14 +140,17 @@ fetch('./projetos.json')
         document.querySelectorAll(".project-content").forEach(c => c.classList.remove("active"));
         
         btn.classList.add("active");
-        document.getElementById(`project-${key}`).classList.add("active");
+        
+        // Proteção contra id com espaços (usa o encode do JS ou substitui por hífen)
+        const safeId = `project-${key.replace(/\s+/g, '-')}`;
+        document.getElementById(safeId).classList.add("active");
       });
       li.appendChild(btn);
       projectsMenu.appendChild(li);
       
       // 2. Criar a secção de conteúdo do projeto
       const section = document.createElement("section");
-      section.id = `project-${key}`;
+      section.id = `project-${key.replace(/\s+/g, '-')}`;
       section.className = "project-content";
       
       let imagesHTML = "";
