@@ -7,61 +7,6 @@
   <link rel="stylesheet" href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" />
 </head>
 <body>
-  <div id="nc-root"></div>
-
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    // Ativa o modo manual
-    window.CMS_MANUAL_INIT = true;
-
-    document.addEventListener("DOMContentLoaded", function() {
-      window.initCMS({
-        config: {
-          backend: {
-            name: "github",
-            repo: "ct-unn-a/unn-a-site",
-            branch: "main",
-            auth_type: "implicit",
-            app_id: 3758439,
-            client_id: "Iv23ligNPFRwwdFdxQlm",
-            base_url: ""
-          },
-          media_folder: "images",
-          public_folder: "/images",
-          collections: [
-            {
-              name: "dados",
-              label: "Dados do Site",
-              delete: false,
-              editor: { preview: false },
-              files: [
-                {
-                  name: "lista_projetos",
-                  label: "Projetos UNN-A",
-                  file: "projetos.json",
-                  format: "json",
-                  fields: [
-                    {
-                      label: "Lista de Projetos",
-                      name: "projetos",
-                      widget: "object",
-                      fields: [
-                        { label: "Título em PT", name: "titlePT", widget: "string" },
-                        { label: "Título em EN", name: "titleEN", widget: "string" },
-                        { label: "Meta Detalhes PT", name: "metaPT", widget: "string" },
-                        { label: "Meta Detalhes EN", name: "metaEN", widget: "string" },
-                        { label: "Descrição", name: "description", widget: "text" },
-                        { label: "Galeria de Imagens", name: "images", widget: "list", field: { label: "Imagem", name: "image", widget: "image" } }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      });
-    });
-  </script>
 </body>
 </html>
