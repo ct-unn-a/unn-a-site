@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UNN-A (Unnamed Architects)</title>
+<style>
+:root {
+  --blue: #1f4fff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 20px;
+  font-family: Arial, sans-serif;
+  background: white; color: black;
+}
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 40px; border-bottom: 1px solid #e0e0e0; padding-bottom: 20px;
+}
+.logo {
+  font-size: 24px; font-weight: bold; color: var(--blue); margin: 0;
+}
+.subtitle {
+  font-size: 14px; color: #666; margin-top: 4px;
+}
+.controls {
+  display: flex; gap: 10px;
+}
+button {
+  background: white; border: 1px solid black; padding: 6px 12px; cursor: pointer;
+}
+button:hover { background: var(--blue); color: white; border-color: var(--blue); }
+
+.layout {
+  display: flex; gap: 40px;
+}
+nav {
+  width: 250px; flex-shrink: 0;
+}
+nav ul { list-style: none; padding: 0; margin: 0; }
+nav li { margin-bottom: 10px; }
+nav button {
+  width: 100%; text-align: left; background: none; border: none;
+  padding: 8px; font-size: 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer;
+}
+nav button:hover, nav button.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+main { flex: 1; }
+.project-content { display: none; }
+.project-content.active { display: block; }
+.project-content h2 { margin-top: 0; color: var(--blue); }
+.project-meta { font-style: italic; color: #555; margin-bottom: 20px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+.gallery img { width: 100%; height: auto; border: 1px solid #ddd; display: block; }
+
+#about-section { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="logo">UNN-A</h1>
+    <div class="subtitle">Unnamed Architects</div>
+  </div>
+  <div class="controls">
+    <button id="langToggle">EN</button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav>
+    <ul>
+      <li><button id="menu-about" class="active">Sobre / About</button></li>
+      <div id="projects-menu"></div>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <section id="about-section" class="project-content active">
+      <h2 class="lang-pt">Sobre UNN-A</h2>
+      <h2 class="lang-en" style="display:none">About UNN-A</h2>
+      <div class="lang-pt">
+        <p>UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.</p>
+      </div>
+      <div class="lang-en" style="display:none">
+        <p>UNN-A (Unnamed Architects) is an architecture studio focused on contemporary, functional solutions integrated into the territory.</p>
+      </div>
+    </section>
+
+    <div id="projects-container"></div>
+  </main>
+</div>
+
+<script>
+let currentLang = "pt";
+
+const langBtn = document.getElementById("langToggle");
+const projectsMenu = document.getElementById("projects-menu");
+const projectsContainer = document.getElementById("projects-container");
+const aboutSection = document.getElementById("about-section");
+const aboutMenuBtn = document.getElementById("menu-about");
+
+function applyLang(lang) {
+  const isEN = lang === "en";
+  document.querySelectorAll(".lang-pt").forEach(el => el.style.display = isEN ? "none" : "block");
+  document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEN ? "block" : "none");
+}
+
+langBtn.addEventListener("click", () => {
+  currentLang = currentLang === "pt" ? "en" : "pt";
+  langBtn.textContent = currentLang === "pt" ? "EN" : "PT";
+  applyLang(currentLang);
+});
+
+aboutMenuBtn.addEventListener("click", () => {
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".project-content").forEach(c => c.classList.remove("active"));
+  aboutMenuBtn.classList.add("active");
+  aboutSection.classList.add("active");
+});
+
+// Carregar dados dinamicamente do ficheiro projetos.json
+fetch('./projetos.json')
+  .then(response => response.json())
+  .then(data => {
+    Object.keys(data).forEach(key => {
+      const project = data[key];
+      
+      // 1. Criar botão no menu lateral
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.textContent = key;
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".project-content").forEach(c => c.classList.remove("active"));
+        
+        btn.classList.add("active");
+        document.getElementById(`project-${key}`).classList.add("active");
+      });
+      li.appendChild(btn);
+      projectsMenu.appendChild(li);
+      
+      // 2. Criar a secção de conteúdo do projeto
+      const section = document.createElement("section");
+      section.id = `project-${key}`;
+      section.className = "project-content";
+      
+      let imagesHTML = "";
+      if (project.images && project.images.length > 0) {
+        imagesHTML = `<div class="gallery">` + 
+          project.images.map(img => `<img src="${img}" alt="${key}">`).join("") + 
+          `</div>`;
+      }
+
+      section.innerHTML = `
+        <h2 class="lang-pt">${project.titlePT}</h2>
+        <h2 class="lang-en" style="display:none">${project.titleEN}</h2>
+        <div class="project-meta lang-pt">${project.metaPT}</div>
+        <div class="project-meta lang-en" style="display:none">${project.metaEN}</div>
+        <div class="project-description">
+          ${project.description}
+        </div>
+        ${imagesHTML}
+      `;
+      
+      projectsContainer.appendChild(section);
+    });
+    
+    applyLang(currentLang);
+  })
+  .catch(error => {
+    console.error("Erro ao carregar o ficheiro projetos.json:", error);
+  });
+</script>
+
+</body>
+</html>
