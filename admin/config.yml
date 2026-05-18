@@ -5,6 +5,9 @@ backend:
   auth_type: implicit
   app_id: 3758439
   client_id: "Iv23ligNPFRwwdFdxQlm"
+  # ESTAS DUAS LINHAS TRAVAM O REDIRECIONAMENTO DA NETLIFY:
+  base_url: https://ct-unn-a.github.io
+  auth_endpoint: /unn-a-site/admin/
 
 media_folder: "images"
 public_folder: "/images"
