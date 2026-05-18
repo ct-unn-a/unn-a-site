@@ -7,9 +7,11 @@
   <link rel="stylesheet" href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" />
 </head>
 <body>
+  <div id="nc-root"></div>
+
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    // Isto injeta a configuração diretamente no arranque do CMS, ignorando o config.yml antigo
+    // Ativa o modo manual
     window.CMS_MANUAL_INIT = true;
 
     document.addEventListener("DOMContentLoaded", function() {
