@@ -3,8 +3,7 @@ backend:
   repo: ct-unn-a/unn-a-site
   branch: main
   auth_type: implicit
-  app_id: 3758439
-  client_id: "Iv23ligNPFRwwdFdxQlm"
+  client_id: "Ov23liuZHO9O0WhF3BBe"
 
 media_folder: "images"
 public_folder: "/images"
