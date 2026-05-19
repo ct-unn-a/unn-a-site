@@ -2,7 +2,9 @@ backend:
   name: github
   repo: ct-unn-a/unn-a-site
   branch: main
-  base_url: https://decapgateway.com
+  auth_type: implicit
+  app_id: 3758439
+  client_id: "Iv23ligNPFRwwdFdxQlm"
 
 media_folder: "images"
 public_folder: "/images"
