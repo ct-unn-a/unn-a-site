@@ -18,32 +18,15 @@ collections:
       preview: false
     identifier_field: "id"
     fields:
-      - label: "ID do Projeto (ex: 2001_SERPA_PINTO)"
-        name: "id"
-        widget: "string"
-      - label: "Título em PT"
-        name: "titlePT"
-        widget: "string"
-      - label: "Título em EN"
-        name: "titleEN"
-        widget: "string"
-      - label: "Meta Detalhes PT"
-        name: "metaPT"
-        widget: "string"
-      - label: "Meta Detalhes EN"
-        name: "metaEN"
-        widget: "string"
-      - label: "Descrição PT"
-        name: "descriptionPT"
-        widget: "markdown"
-      - label: "Descrição EN"
-        name: "descriptionEN"
-        widget: "markdown"
+      - { label: "ID do Projeto (ex: 2001_SERPA_PINTO)", name: "id", widget: "string" }
+      - { label: "Título em PT", name: "titlePT", widget: "string" }
+      - { label: "Título em EN", name: "titleEN", widget: "string" }
+      - { label: "Meta Detalhes PT (ex: Habitação Unifamiliar · Porto)", name: "metaPT", widget: "string" }
+      - { label: "Meta Detalhes EN (ex: Single-Family Housing · Porto)", name: "metaEN", widget: "string" }
+      - { label: "Descrição PT", name: "descriptionPT", widget: "markdown" }
+      - { label: "Descrição EN", name: "descriptionEN", widget: "markdown" }
       - label: "Galeria de Imagens"
         name: "images"
         widget: "list"
         required: false
-        field:
-          label: "Imagem"
-          name: "image"
-          widget: "image"
+        field: { label: "Imagem", name: "image", widget: "image" }

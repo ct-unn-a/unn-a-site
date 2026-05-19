@@ -54,8 +54,6 @@ main { flex: 1; }
 .project-meta { font-style: italic; color: #555; margin-bottom: 20px; }
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
 .gallery img { width: 100%; height: auto; border: 1px solid #ddd; display: block; }
-
-#about-section { display: block; }
 </style>
 </head>
 <body>
@@ -132,11 +130,42 @@ aboutMenuBtn.addEventListener("click", () => {
   aboutSection.classList.add("active");
 });
 
-fetch('./projetos.json')
-  .then(response => response.json())
-  .then(data => {
-    Object.keys(data).forEach(key => {
-      const project = data[key];
+function parseFrontmatter(text) {
+  const match = text.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const yaml = match[1];
+  const result = {};
+  yaml.split("\n").forEach(line => {
+    const colonIndex = line.indexOf(":");
+    if (colonIndex === -1) return;
+    const key = line.slice(0, colonIndex).trim();
+    let value = line.slice(colonIndex + 1).trim();
+    value = value.replace(/^["']|["']$/g, "");
+    if (value === "[]") {
+      result[key] = [];
+    } else {
+      result[key] = value;
+    }
+  });
+  return result;
+}
+
+const GITHUB_API = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/_projetos";
+
+fetch(GITHUB_API)
+  .then(res => res.json())
+  .then(files => {
+    files.sort((a, b) => a.name.localeCompare(b.name));
+    return Promise.all(
+      files
+        .filter(f => f.name.endsWith(".md"))
+        .map(f => fetch(f.download_url).then(r => r.text()))
+    );
+  })
+  .then(markdownFiles => {
+    markdownFiles.forEach(md => {
+      const project = parseFrontmatter(md);
+      const key = project.id || project.titlePT;
 
       const li = document.createElement("li");
       const btn = document.createElement("button");
@@ -162,12 +191,13 @@ fetch('./projetos.json')
       }
 
       section.innerHTML = `
-        <h2 class="lang-pt">${project.titlePT}</h2>
-        <h2 class="lang-en" style="display:none">${project.titleEN}</h2>
-        <div class="project-meta lang-pt">${project.metaPT}</div>
-        <div class="project-meta lang-en" style="display:none">${project.metaEN}</div>
+        <h2 class="lang-pt">${project.titlePT || key}</h2>
+        <h2 class="lang-en" style="display:none">${project.titleEN || key}</h2>
+        <div class="project-meta lang-pt">${project.metaPT || ""}</div>
+        <div class="project-meta lang-en" style="display:none">${project.metaEN || ""}</div>
         <div class="project-description">
-          ${project.description}
+          <div class="lang-pt"><p>${project.descriptionPT || ""}</p></div>
+          <div class="lang-en" style="display:none"><p>${project.descriptionEN || ""}</p></div>
         </div>
         ${imagesHTML}
       `;
@@ -178,7 +208,7 @@ fetch('./projetos.json')
     applyLang(currentLang);
   })
   .catch(error => {
-    console.error("Erro ao carregar o ficheiro projetos.json:", error);
+    console.error("Erro ao carregar projetos:", error);
   });
 </script>
 
