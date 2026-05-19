@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>UNN-A (Unnamed Architects)</title>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
 :root {
   --blue: #1f4fff;
@@ -94,6 +95,16 @@ main { flex: 1; }
 </div>
 
 <script>
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
+}
+
 let currentLang = "pt";
 
 const langBtn = document.getElementById("langToggle");
@@ -121,42 +132,32 @@ aboutMenuBtn.addEventListener("click", () => {
   aboutSection.classList.add("active");
 });
 
-// Carregar dados dinamicamente do ficheiro projetos.json
 fetch('./projetos.json')
   .then(response => response.json())
   .then(data => {
-    // Aponta para a propriedade 'projetos' dentro do JSON estruturado para o CMS
-    const listaProjetos = data.projetos;
-    
-    Object.keys(listaProjetos).forEach(key => {
-      const project = listaProjetos[key];
-      
-      // 1. Criar botão no menu lateral
+    Object.keys(data).forEach(key => {
+      const project = data[key];
+
       const li = document.createElement("li");
       const btn = document.createElement("button");
       btn.textContent = key;
       btn.addEventListener("click", () => {
         document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
         document.querySelectorAll(".project-content").forEach(c => c.classList.remove("active"));
-        
         btn.classList.add("active");
-        
-        // Proteção contra id com espaços (usa o encode do JS ou substitui por hífen)
-        const safeId = `project-${key.replace(/\s+/g, '-')}`;
-        document.getElementById(safeId).classList.add("active");
+        document.getElementById(`project-${key}`).classList.add("active");
       });
       li.appendChild(btn);
       projectsMenu.appendChild(li);
-      
-      // 2. Criar a secção de conteúdo do projeto
+
       const section = document.createElement("section");
-      section.id = `project-${key.replace(/\s+/g, '-')}`;
+      section.id = `project-${key}`;
       section.className = "project-content";
-      
+
       let imagesHTML = "";
       if (project.images && project.images.length > 0) {
-        imagesHTML = `<div class="gallery">` + 
-          project.images.map(img => `<img src="${img}" alt="${key}">`).join("") + 
+        imagesHTML = `<div class="gallery">` +
+          project.images.map(img => `<img src="${img}" alt="${key}">`).join("") +
           `</div>`;
       }
 
@@ -170,10 +171,10 @@ fetch('./projetos.json')
         </div>
         ${imagesHTML}
       `;
-      
+
       projectsContainer.appendChild(section);
     });
-    
+
     applyLang(currentLang);
   })
   .catch(error => {
