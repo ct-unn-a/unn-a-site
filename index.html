@@ -57,17 +57,24 @@ header{
 
   padding:32px;
 
-  pointer-events:none;
+  /* SUPER IMPORTANTE */
+  isolation:isolate;
 }
 
-/* IMPORTANT:
-   pointer-events none no header
-   e depois auto nos elementos clicáveis
-*/
+/* ====================================
+   DIFFERENCE TEXT
+==================================== */
 
 .logo,
-.top-nav{
-  pointer-events:auto;
+.top-nav button,
+.hero-text p{
+  color:white;
+
+  mix-blend-mode:difference;
+
+  /* ESSENCIAL */
+  position:relative;
+  z-index:9999;
 }
 
 .logo{
@@ -77,23 +84,12 @@ header{
   line-height:.88;
   letter-spacing:-0.09em;
   font-weight:500;
-
-  color:white;
-
-  /* FIX DO DIFFERENCE */
-  mix-blend-mode:difference;
-
-  position:relative;
-  z-index:10;
 }
 
 .top-nav{
   display:flex;
   align-items:center;
   gap:28px;
-
-  position:relative;
-  z-index:10;
 }
 
 .top-nav button{
@@ -102,19 +98,11 @@ header{
 
   cursor:pointer;
 
-  color:white;
-
   font-size:12px;
   letter-spacing:.16em;
   text-transform:uppercase;
 
   transition:opacity .2s ease;
-
-  /* FIX DO DIFFERENCE */
-  mix-blend-mode:difference;
-
-  position:relative;
-  z-index:10;
 }
 
 .top-nav button:hover{
@@ -137,6 +125,8 @@ header{
   align-items:flex-end;
 
   padding:32px;
+
+  background:black;
 }
 
 .hero-image-wrap{
@@ -172,23 +162,15 @@ header{
 
 .hero-text{
   position:relative;
-  z-index:5;
+  z-index:20;
 
   max-width:640px;
 }
 
 .hero-text p{
-  color:white;
-
   font-size:15px;
   line-height:1.8;
   letter-spacing:.01em;
-
-  /* FIX DIFFERENCE */
-  mix-blend-mode:difference;
-
-  position:relative;
-  z-index:10;
 }
 
 /* ====================================
@@ -205,6 +187,8 @@ header{
     140px
     32px
     80px;
+
+  background:var(--bg);
 }
 
 .project-thumb{
@@ -253,6 +237,8 @@ header{
 
 .project-view{
   display:none;
+
+  background:var(--bg);
 }
 
 .project-content{
@@ -325,6 +311,8 @@ header{
     160px
     32px
     120px;
+
+  background:var(--bg);
 }
 
 .about-section h2{
@@ -582,20 +570,8 @@ function parseFrontmatter(text){
 }
 
 /* ====================================
-   PATH FIX
+   IMAGE PATH FIX
 ==================================== */
-
-/*
-  ESTA FUNÇÃO:
-
-  /images/serpa1.jpg
-
-  vira
-
-  /unn-a-site/images/serpa1.jpg
-
-  porque o repo chama-se unn-a-site
-*/
 
 function fixImagePath(path){
 
@@ -780,32 +756,6 @@ function renderProjects(){
         fixImagePath(
           project.coverImage
         );
-
-    }
-
-    else if(
-      project.images &&
-      Array.isArray(project.images) &&
-      project.images.length > 0
-    ){
-
-      if(typeof project.images[0] === "string"){
-
-        cover =
-          fixImagePath(
-            project.images[0]
-          );
-
-      }
-
-      else{
-
-        cover =
-          fixImagePath(
-            project.images[0].image
-          );
-
-      }
 
     }
 
