@@ -66,7 +66,7 @@ header{
   letter-spacing:-0.09em;
   font-weight:500;
 
-  color:black;
+  color:white;
 
   mix-blend-mode:difference;
 }
@@ -83,6 +83,7 @@ header{
 
   cursor:pointer;
 
+  color:white;
 
   mix-blend-mode:difference;
 
@@ -154,7 +155,7 @@ header{
 }
 
 .hero-text p{
-  color:black;
+  color:white;
 
   mix-blend-mode:difference;
 
@@ -257,8 +258,27 @@ header{
 }
 
 .project-description{
+  font-family:'Inter',sans-serif;
+
   font-size:16px;
   line-height:1.9;
+
+  font-weight:400;
+}
+
+.project-description p{
+  margin-bottom:1.2em;
+}
+
+.project-description em,
+.project-description i{
+  font-family:'Inter',sans-serif;
+  font-style:italic;
+}
+
+.project-description strong{
+  font-family:'Inter',sans-serif;
+  font-weight:500;
 }
 
 .project-gallery{
@@ -671,26 +691,9 @@ function setRandomHeroImage(){
 
   projects.forEach(project => {
 
-    if(
-      project.images &&
-      Array.isArray(project.images)
-    ){
+    if(project.coverImage){
 
-      project.images.forEach(img => {
-
-        if(typeof img === "string"){
-
-          allImages.push(img);
-
-        }
-
-        else if(img.image){
-
-          allImages.push(img.image);
-
-        }
-
-      });
+      allImages.push(project.coverImage);
 
     }
 
@@ -723,7 +726,13 @@ function renderProjects(){
 
     let cover = "";
 
-    if(
+    if(project.coverImage){
+
+      cover = project.coverImage;
+
+    }
+
+    else if(
       project.images &&
       Array.isArray(project.images) &&
       project.images.length > 0
@@ -885,4 +894,4 @@ function openProject(project){
 </script>
 
 </body>
-</html> 
+</html>
