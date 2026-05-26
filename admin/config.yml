@@ -11,7 +11,7 @@ collections:
   - name: "projetos"
     label: "Projetos"
     label_singular: "Projeto"
-    folder: "_projetos"
+    folder: "projetos"
     create: true
     delete: true
     editor:

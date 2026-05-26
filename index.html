@@ -3,214 +3,886 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>UNN-A (Unnamed Architects)</title>
+
+<title>UNN-A · Unnamed Architects</title>
+
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-:root {
-  --blue: #1f4fff;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0; padding: 20px;
-  font-family: Arial, sans-serif;
-  background: white; color: black;
-}
-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 40px; border-bottom: 1px solid #e0e0e0; padding-bottom: 20px;
-}
-.logo {
-  font-size: 24px; font-weight: bold; color: var(--blue); margin: 0;
-}
-.subtitle {
-  font-size: 14px; color: #666; margin-top: 4px;
-}
-.controls {
-  display: flex; gap: 10px;
-}
-button {
-  background: white; border: 1px solid black; padding: 6px 12px; cursor: pointer;
-}
-button:hover { background: var(--blue); color: white; border-color: var(--blue); }
 
-.layout {
-  display: flex; gap: 40px;
+:root{
+  --bg:#f5f3ef;
+  --text:#111;
+  --muted:#8b8b8b;
 }
-nav {
-  width: 250px; flex-shrink: 0;
-}
-nav ul { list-style: none; padding: 0; margin: 0; }
-nav li { margin-bottom: 10px; }
-nav button {
-  width: 100%; text-align: left; background: none; border: none;
-  padding: 8px; font-size: 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer;
-}
-nav button:hover, nav button.active { color: var(--blue); border-bottom-color: var(--blue); }
 
-main { flex: 1; }
-.project-content { display: none; }
-.project-content.active { display: block; }
-.project-content h2 { margin-top: 0; color: var(--blue); }
-.project-meta { font-style: italic; color: #555; margin-bottom: 20px; }
-.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-.gallery img { width: 100%; height: auto; border: 1px solid #ddd; display: block; }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+/* ====================================
+   HEADER
+==================================== */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+
+  z-index:1000;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  padding:32px;
+}
+
+.logo{
+  text-decoration:none;
+
+  font-size:76px;
+  line-height:.88;
+  letter-spacing:-0.09em;
+  font-weight:500;
+
+  color:black;
+
+  mix-blend-mode:difference;
+}
+
+.top-nav{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
+
+.top-nav button{
+  border:none;
+  background:none;
+
+  cursor:pointer;
+
+
+  mix-blend-mode:difference;
+
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+
+  transition:opacity .2s ease;
+}
+
+.top-nav button:hover{
+  opacity:.5;
+}
+
+/* ====================================
+   HERO
+==================================== */
+
+.hero{
+  position:relative;
+
+  width:100%;
+  height:100vh;
+
+  overflow:hidden;
+
+  display:flex;
+  align-items:flex-end;
+
+  padding:32px;
+}
+
+.hero-image-wrap{
+  position:absolute;
+  inset:0;
+}
+
+.hero-image-wrap img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  filter:
+    contrast(1.02)
+    saturate(.94)
+    brightness(.98);
+
+  transform:scale(1.01);
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.12),
+      rgba(0,0,0,.02)
+    );
+}
+
+.hero-text{
+  position:relative;
+  z-index:2;
+
+  max-width:640px;
+}
+
+.hero-text p{
+  color:black;
+
+  mix-blend-mode:difference;
+
+  font-size:15px;
+  line-height:1.8;
+  letter-spacing:.01em;
+}
+
+/* ====================================
+   PROJECTS GRID
+==================================== */
+
+.projects-grid{
+  display:none;
+
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+
+  padding:
+    140px
+    32px
+    80px;
+}
+
+.project-thumb{
+  cursor:pointer;
+}
+
+.project-thumb img{
+  width:100%;
+  aspect-ratio:4/3;
+
+  object-fit:cover;
+  display:block;
+
+  transition:
+    opacity .25s ease,
+    transform .4s ease;
+}
+
+.project-thumb:hover img{
+  opacity:.92;
+  transform:scale(.995);
+}
+
+.project-info{
+  margin-top:10px;
+}
+
+.project-title{
+  font-size:14px;
+  letter-spacing:.02em;
+}
+
+.project-meta{
+  margin-top:4px;
+
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  color:var(--muted);
+}
+
+/* ====================================
+   PROJECT VIEW
+==================================== */
+
+.project-view{
+  display:none;
+}
+
+.project-content{
+  padding:
+    160px
+    32px
+    72px;
+
+  max-width:760px;
+}
+
+.project-content h1{
+  font-family:'Cormorant Garamond',serif;
+
+  font-size:84px;
+  line-height:.92;
+  font-weight:400;
+
+  margin-bottom:24px;
+}
+
+.project-content .meta{
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+
+  color:var(--muted);
+
+  margin-bottom:42px;
+}
+
+.project-description{
+  font-size:16px;
+  line-height:1.9;
+}
+
+.project-gallery{
+  display:grid;
+  gap:18px;
+
+  padding:
+    0
+    32px
+    120px;
+}
+
+.project-gallery img{
+  width:100%;
+  display:block;
+}
+
+/* ====================================
+   ABOUT
+==================================== */
+
+.about-section{
+  display:none;
+
+  min-height:100vh;
+
+  padding:
+    160px
+    32px
+    120px;
+}
+
+.about-section h2{
+  font-family:'Cormorant Garamond',serif;
+
+  font-size:84px;
+  line-height:.92;
+  font-weight:400;
+
+  margin-bottom:32px;
+}
+
+.about-section p{
+  max-width:720px;
+
+  font-size:17px;
+  line-height:1.9;
+}
+
+/* ====================================
+   MOBILE
+==================================== */
+
+@media(max-width:900px){
+
+  header{
+    padding:22px;
+  }
+
+  .logo{
+    font-size:46px;
+  }
+
+  .top-nav{
+    gap:16px;
+  }
+
+  .top-nav button{
+    font-size:11px;
+  }
+
+  .projects-grid{
+    grid-template-columns:1fr;
+
+    padding:
+      110px
+      22px
+      60px;
+  }
+
+  .project-content{
+    padding:
+      120px
+      22px
+      60px;
+  }
+
+  .project-gallery{
+    padding:
+      0
+      22px
+      80px;
+  }
+
+  .project-content h1{
+    font-size:54px;
+  }
+
+  .about-section{
+    padding:
+      120px
+      22px
+      80px;
+  }
+
+  .about-section h2{
+    font-size:54px;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
 
 <header>
-  <div>
-    <h1 class="logo">UNN-A</h1>
-    <div class="subtitle">Unnamed Architects</div>
-  </div>
-  <div class="controls">
-    <button id="langToggle">EN</button>
-  </div>
-</header>
 
-<div class="layout">
-  <nav>
-    <ul>
-      <li><button id="menu-about" class="active">Sobre / About</button></li>
-      <div id="projects-menu"></div>
-    </ul>
+  <a href="#" class="logo" id="homeBtn">
+    UNN-A
+  </a>
+
+  <nav class="top-nav">
+
+    <button id="projectsBtn">
+      <span class="lang-pt">Projetos</span>
+      <span class="lang-en" style="display:none">Projects</span>
+    </button>
+
+    <button id="aboutBtn">
+      About
+    </button>
+
+    <button id="langToggle">
+      EN
+    </button>
+
   </nav>
 
-  <main id="main-content">
-    <section id="about-section" class="project-content active">
-      <h2 class="lang-pt">Sobre UNN-A</h2>
-      <h2 class="lang-en" style="display:none">About UNN-A</h2>
-      <div class="lang-pt">
-        <p>UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.</p>
-      </div>
-      <div class="lang-en" style="display:none">
-        <p>UNN-A (Unnamed Architects) is an architecture studio focused on contemporary, functional solutions integrated into the territory.</p>
-      </div>
-    </section>
+</header>
 
-    <div id="projects-container"></div>
-  </main>
-</div>
+<!-- HERO -->
+
+<section class="hero" id="hero">
+
+  <div class="hero-image-wrap">
+    <img id="heroImage" src="" alt="">
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-text">
+
+    <p class="lang-pt">
+      Arquitetura contemporânea, funcional e integrada no território.
+    </p>
+
+    <p class="lang-en" style="display:none">
+      Contemporary architecture integrated into territory and context.
+    </p>
+
+  </div>
+
+</section>
+
+<!-- PROJECTS GRID -->
+
+<section class="projects-grid" id="projectsGrid"></section>
+
+<!-- PROJECT PAGE -->
+
+<section class="project-view" id="projectView"></section>
+
+<!-- ABOUT -->
+
+<section class="about-section" id="aboutSection">
+
+  <div class="lang-pt">
+
+    <h2>UNN-A</h2>
+
+    <p>
+      UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
+    </p>
+
+  </div>
+
+  <div class="lang-en" style="display:none">
+
+    <h2>UNN-A</h2>
+
+    <p>
+      UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
+    </p>
+
+  </div>
+
+</section>
 
 <script>
-if (window.netlifyIdentity) {
+
+/* ====================================
+   NETLIFY IDENTITY
+==================================== */
+
+if(window.netlifyIdentity){
+
   window.netlifyIdentity.on("init", user => {
-    if (!user) {
+
+    if(!user){
+
       window.netlifyIdentity.on("login", () => {
+
         document.location.href = "/admin/";
+
       });
+
     }
+
   });
+
 }
+
+/* ====================================
+   LANGUAGE
+==================================== */
 
 let currentLang = "pt";
 
-const langBtn = document.getElementById("langToggle");
-const projectsMenu = document.getElementById("projects-menu");
-const projectsContainer = document.getElementById("projects-container");
-const aboutSection = document.getElementById("about-section");
-const aboutMenuBtn = document.getElementById("menu-about");
+function applyLang(lang){
 
-function applyLang(lang) {
   const isEN = lang === "en";
-  document.querySelectorAll(".lang-pt").forEach(el => el.style.display = isEN ? "none" : "block");
-  document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEN ? "block" : "none");
-}
 
-langBtn.addEventListener("click", () => {
-  currentLang = currentLang === "pt" ? "en" : "pt";
-  langBtn.textContent = currentLang === "pt" ? "EN" : "PT";
-  applyLang(currentLang);
-});
+  document.querySelectorAll(".lang-pt")
+    .forEach(el => {
 
-aboutMenuBtn.addEventListener("click", () => {
-  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".project-content").forEach(c => c.classList.remove("active"));
-  aboutMenuBtn.classList.add("active");
-  aboutSection.classList.add("active");
-});
+      el.style.display =
+        isEN ? "none" : "";
 
-function parseFrontmatter(text) {
-  const match = text.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return {};
-  const yaml = match[1];
-  const result = {};
-  yaml.split("\n").forEach(line => {
-    const colonIndex = line.indexOf(":");
-    if (colonIndex === -1) return;
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-    value = value.replace(/^["']|["']$/g, "");
-    if (value === "[]") {
-      result[key] = [];
-    } else {
-      result[key] = value;
-    }
-  });
-  return result;
-}
-
-const GITHUB_API = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/_projetos";
-
-fetch(GITHUB_API)
-  .then(res => res.json())
-  .then(files => {
-    files.sort((a, b) => a.name.localeCompare(b.name));
-    return Promise.all(
-      files
-        .filter(f => f.name.endsWith(".md"))
-        .map(f => fetch(f.download_url).then(r => r.text()))
-    );
-  })
-  .then(markdownFiles => {
-    markdownFiles.forEach(md => {
-      const project = parseFrontmatter(md);
-      const key = project.id || project.titlePT;
-
-      const li = document.createElement("li");
-      const btn = document.createElement("button");
-      btn.textContent = key;
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".project-content").forEach(c => c.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(`project-${key}`).classList.add("active");
-      });
-      li.appendChild(btn);
-      projectsMenu.appendChild(li);
-
-      const section = document.createElement("section");
-      section.id = `project-${key}`;
-      section.className = "project-content";
-
-      let imagesHTML = "";
-      if (project.images && project.images.length > 0) {
-        imagesHTML = `<div class="gallery">` +
-          project.images.map(img => `<img src="${img}" alt="${key}">`).join("") +
-          `</div>`;
-      }
-
-      section.innerHTML = `
-        <h2 class="lang-pt">${project.titlePT || key}</h2>
-        <h2 class="lang-en" style="display:none">${project.titleEN || key}</h2>
-        <div class="project-meta lang-pt">${project.metaPT || ""}</div>
-        <div class="project-meta lang-en" style="display:none">${project.metaEN || ""}</div>
-        <div class="project-description">
-          <div class="lang-pt"><p>${project.descriptionPT || ""}</p></div>
-          <div class="lang-en" style="display:none"><p>${project.descriptionEN || ""}</p></div>
-        </div>
-        ${imagesHTML}
-      `;
-
-      projectsContainer.appendChild(section);
     });
 
-    applyLang(currentLang);
-  })
-  .catch(error => {
-    console.error("Erro ao carregar projetos:", error);
+  document.querySelectorAll(".lang-en")
+    .forEach(el => {
+
+      el.style.display =
+        isEN ? "" : "none";
+
+    });
+
+}
+
+document
+.getElementById("langToggle")
+.addEventListener("click",()=>{
+
+  currentLang =
+    currentLang === "pt"
+      ? "en"
+      : "pt";
+
+  document.getElementById("langToggle").textContent =
+    currentLang === "pt"
+      ? "EN"
+      : "PT";
+
+  applyLang(currentLang);
+
+  renderProjects();
+
+});
+
+/* ====================================
+   PARSE FRONTMATTER
+==================================== */
+
+function parseFrontmatter(text){
+
+  const match =
+    text.match(/^---\n([\s\S]*?)\n---/);
+
+  if(!match) return {};
+
+  return jsyaml.load(match[1]);
+
+}
+
+/* ====================================
+   UI STATES
+==================================== */
+
+const hero         = document.getElementById("hero");
+const projectsGrid = document.getElementById("projectsGrid");
+const projectView  = document.getElementById("projectView");
+const aboutSection = document.getElementById("aboutSection");
+
+function hideAll(){
+
+  hero.style.display = "none";
+  projectsGrid.style.display = "none";
+  projectView.style.display = "none";
+  aboutSection.style.display = "none";
+
+}
+
+document
+.getElementById("homeBtn")
+.addEventListener("click",(e)=>{
+
+  e.preventDefault();
+
+  hideAll();
+
+  hero.style.display = "flex";
+
+  setRandomHeroImage();
+
+  window.scrollTo(0,0);
+
+});
+
+document
+.getElementById("projectsBtn")
+.addEventListener("click",()=>{
+
+  hideAll();
+
+  projectsGrid.style.display = "grid";
+
+  window.scrollTo(0,0);
+
+});
+
+document
+.getElementById("aboutBtn")
+.addEventListener("click",()=>{
+
+  hideAll();
+
+  aboutSection.style.display = "block";
+
+  window.scrollTo(0,0);
+
+});
+
+/* ====================================
+   FETCH PROJECTS
+==================================== */
+
+const GITHUB_API =
+"https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
+
+let projects = [];
+
+fetch(GITHUB_API)
+
+.then(res => res.json())
+
+.then(files => {
+
+  files.sort((a,b)=>
+    a.name.localeCompare(b.name)
+  );
+
+  return Promise.all(
+
+    files
+      .filter(f => f.name.endsWith(".md"))
+      .map(f =>
+        fetch(f.download_url)
+          .then(r => r.text())
+      )
+
+  );
+
+})
+
+.then(markdownFiles => {
+
+  markdownFiles.forEach(md => {
+
+    const project =
+      parseFrontmatter(md);
+
+    projects.push(project);
+
   });
+
+  renderProjects();
+
+  setRandomHeroImage();
+
+})
+
+.catch(err => {
+
+  console.error(
+    "Erro ao carregar projetos:",
+    err
+  );
+
+});
+
+/* ====================================
+   RANDOM HERO IMAGE
+==================================== */
+
+function setRandomHeroImage(){
+
+  const allImages = [];
+
+  projects.forEach(project => {
+
+    if(
+      project.images &&
+      Array.isArray(project.images)
+    ){
+
+      project.images.forEach(img => {
+
+        if(typeof img === "string"){
+
+          allImages.push(img);
+
+        }
+
+        else if(img.image){
+
+          allImages.push(img.image);
+
+        }
+
+      });
+
+    }
+
+  });
+
+  if(allImages.length === 0) return;
+
+  const randomImage =
+    allImages[
+      Math.floor(
+        Math.random() * allImages.length
+      )
+    ];
+
+  document
+    .getElementById("heroImage")
+    .src = randomImage;
+
+}
+
+/* ====================================
+   RENDER PROJECTS
+==================================== */
+
+function renderProjects(){
+
+  projectsGrid.innerHTML = "";
+
+  projects.forEach(project => {
+
+    let cover = "";
+
+    if(
+      project.images &&
+      Array.isArray(project.images) &&
+      project.images.length > 0
+    ){
+
+      if(typeof project.images[0] === "string"){
+
+        cover = project.images[0];
+
+      }
+
+      else{
+
+        cover = project.images[0].image;
+
+      }
+
+    }
+
+    const thumb =
+      document.createElement("div");
+
+    thumb.className =
+      "project-thumb";
+
+    thumb.innerHTML = `
+
+      <img
+        src="${cover}"
+        alt="${project.titlePT}"
+      >
+
+      <div class="project-info">
+
+        <div class="project-title">
+
+          ${
+            currentLang === "pt"
+              ? project.titlePT
+              : project.titleEN
+          }
+
+        </div>
+
+        <div class="project-meta">
+
+          ${
+            currentLang === "pt"
+              ? project.metaPT
+              : project.metaEN
+          }
+
+        </div>
+
+      </div>
+
+    `;
+
+    thumb.addEventListener("click",()=>{
+
+      openProject(project);
+
+    });
+
+    projectsGrid.appendChild(thumb);
+
+  });
+
+}
+
+/* ====================================
+   OPEN PROJECT
+==================================== */
+
+function openProject(project){
+
+  hideAll();
+
+  projectView.style.display = "block";
+
+  let galleryHTML = "";
+
+  if(
+    project.images &&
+    Array.isArray(project.images)
+  ){
+
+    galleryHTML =
+      project.images
+      .map(img => {
+
+        const src =
+          typeof img === "string"
+            ? img
+            : img.image;
+
+        return `
+
+          <img
+            src="${src}"
+            loading="lazy"
+          >
+
+        `;
+
+      })
+      .join("");
+
+  }
+
+  projectView.innerHTML = `
+
+    <div class="project-content">
+
+      <h1>
+
+        ${
+          currentLang === "pt"
+            ? project.titlePT
+            : project.titleEN
+        }
+
+      </h1>
+
+      <div class="meta">
+
+        ${
+          currentLang === "pt"
+            ? project.metaPT
+            : project.metaEN
+        }
+
+      </div>
+
+      <div class="project-description">
+
+        ${
+          currentLang === "pt"
+            ? project.descriptionPT
+            : project.descriptionEN
+        }
+
+      </div>
+
+    </div>
+
+    <div class="project-gallery">
+
+      ${galleryHTML}
+
+    </div>
+
+  `;
+
+  window.scrollTo(0,0);
+
+}
+
 </script>
 
 </body>
-</html>
+</html> 
