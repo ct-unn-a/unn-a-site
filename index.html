@@ -271,14 +271,8 @@ header{
 }
 
 .project-description em,
-.project-description i{
-  font-family:'Inter',sans-serif;
-  font-style:italic;
-}
-
 .project-description strong{
   font-family:'Inter',sans-serif;
-  font-weight:500;
 }
 
 .project-gallery{
@@ -561,7 +555,11 @@ function parseFrontmatter(text){
 
   if(!match) return {};
 
-  return jsyaml.load(match[1]);
+  const data = jsyaml.load(match[1]);
+
+  console.log("PROJECT:", data);
+
+  return data;
 
 }
 
@@ -666,6 +664,8 @@ fetch(GITHUB_API)
 
   });
 
+  console.log("ALL PROJECTS:", projects);
+
   renderProjects();
 
   setRandomHeroImage();
@@ -691,6 +691,8 @@ function setRandomHeroImage(){
 
   projects.forEach(project => {
 
+    console.log("COVER:", project.coverImage);
+
     if(project.coverImage){
 
       allImages.push(project.coverImage);
@@ -698,6 +700,8 @@ function setRandomHeroImage(){
     }
 
   });
+
+  console.log("ALL HERO IMAGES:", allImages);
 
   if(allImages.length === 0) return;
 
@@ -707,6 +711,8 @@ function setRandomHeroImage(){
         Math.random() * allImages.length
       )
     ];
+
+  console.log("RANDOM HERO:", randomImage);
 
   document
     .getElementById("heroImage")
@@ -725,6 +731,8 @@ function renderProjects(){
   projects.forEach(project => {
 
     let cover = "";
+
+    console.log("PROJECT IMAGES:", project.images);
 
     if(project.coverImage){
 
@@ -751,6 +759,8 @@ function renderProjects(){
       }
 
     }
+
+    console.log("COVER FINAL:", cover);
 
     const thumb =
       document.createElement("div");
@@ -824,10 +834,14 @@ function openProject(project){
       project.images
       .map(img => {
 
+        console.log("IMAGE:", img);
+
         const src =
           typeof img === "string"
             ? img
             : img.image;
+
+        console.log("SRC:", src);
 
         return `
 
