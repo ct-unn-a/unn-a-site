@@ -45,8 +45,8 @@ body{
 
 header{
   position:fixed;
-  top:0;
-  left:0;
+  inset:0 0 auto 0;
+
   width:100%;
 
   z-index:1000;
@@ -56,6 +56,18 @@ header{
   align-items:flex-start;
 
   padding:32px;
+
+  pointer-events:none;
+}
+
+/* IMPORTANT:
+   pointer-events none no header
+   e depois auto nos elementos clicáveis
+*/
+
+.logo,
+.top-nav{
+  pointer-events:auto;
 }
 
 .logo{
@@ -68,13 +80,20 @@ header{
 
   color:white;
 
+  /* FIX DO DIFFERENCE */
   mix-blend-mode:difference;
+
+  position:relative;
+  z-index:10;
 }
 
 .top-nav{
   display:flex;
   align-items:center;
   gap:28px;
+
+  position:relative;
+  z-index:10;
 }
 
 .top-nav button{
@@ -85,13 +104,17 @@ header{
 
   color:white;
 
-  mix-blend-mode:difference;
-
   font-size:12px;
   letter-spacing:.16em;
   text-transform:uppercase;
 
   transition:opacity .2s ease;
+
+  /* FIX DO DIFFERENCE */
+  mix-blend-mode:difference;
+
+  position:relative;
+  z-index:10;
 }
 
 .top-nav button:hover{
@@ -142,14 +165,14 @@ header{
   background:
     linear-gradient(
       to top,
-      rgba(0,0,0,.12),
+      rgba(0,0,0,.16),
       rgba(0,0,0,.02)
     );
 }
 
 .hero-text{
   position:relative;
-  z-index:2;
+  z-index:5;
 
   max-width:640px;
 }
@@ -157,11 +180,15 @@ header{
 .hero-text p{
   color:white;
 
-  mix-blend-mode:difference;
-
   font-size:15px;
   line-height:1.8;
   letter-spacing:.01em;
+
+  /* FIX DIFFERENCE */
+  mix-blend-mode:difference;
+
+  position:relative;
+  z-index:10;
 }
 
 /* ====================================
@@ -268,11 +295,6 @@ header{
 
 .project-description p{
   margin-bottom:1.2em;
-}
-
-.project-description em,
-.project-description strong{
-  font-family:'Inter',sans-serif;
 }
 
 .project-gallery{
@@ -555,11 +577,37 @@ function parseFrontmatter(text){
 
   if(!match) return {};
 
-  const data = jsyaml.load(match[1]);
+  return jsyaml.load(match[1]);
 
-  console.log("PROJECT:", data);
+}
 
-  return data;
+/* ====================================
+   PATH FIX
+==================================== */
+
+/*
+  ESTA FUNÇÃO:
+
+  /images/serpa1.jpg
+
+  vira
+
+  /unn-a-site/images/serpa1.jpg
+
+  porque o repo chama-se unn-a-site
+*/
+
+function fixImagePath(path){
+
+  if(!path) return "";
+
+  if(path.startsWith("/images/")){
+
+    return "/unn-a-site" + path;
+
+  }
+
+  return path;
 
 }
 
@@ -664,8 +712,6 @@ fetch(GITHUB_API)
 
   });
 
-  console.log("ALL PROJECTS:", projects);
-
   renderProjects();
 
   setRandomHeroImage();
@@ -691,17 +737,15 @@ function setRandomHeroImage(){
 
   projects.forEach(project => {
 
-    console.log("COVER:", project.coverImage);
-
     if(project.coverImage){
 
-      allImages.push(project.coverImage);
+      allImages.push(
+        fixImagePath(project.coverImage)
+      );
 
     }
 
   });
-
-  console.log("ALL HERO IMAGES:", allImages);
 
   if(allImages.length === 0) return;
 
@@ -711,8 +755,6 @@ function setRandomHeroImage(){
         Math.random() * allImages.length
       )
     ];
-
-  console.log("RANDOM HERO:", randomImage);
 
   document
     .getElementById("heroImage")
@@ -732,11 +774,12 @@ function renderProjects(){
 
     let cover = "";
 
-    console.log("PROJECT IMAGES:", project.images);
-
     if(project.coverImage){
 
-      cover = project.coverImage;
+      cover =
+        fixImagePath(
+          project.coverImage
+        );
 
     }
 
@@ -748,19 +791,23 @@ function renderProjects(){
 
       if(typeof project.images[0] === "string"){
 
-        cover = project.images[0];
+        cover =
+          fixImagePath(
+            project.images[0]
+          );
 
       }
 
       else{
 
-        cover = project.images[0].image;
+        cover =
+          fixImagePath(
+            project.images[0].image
+          );
 
       }
 
     }
-
-    console.log("COVER FINAL:", cover);
 
     const thumb =
       document.createElement("div");
@@ -834,14 +881,10 @@ function openProject(project){
       project.images
       .map(img => {
 
-        console.log("IMAGE:", img);
-
         const src =
           typeof img === "string"
-            ? img
-            : img.image;
-
-        console.log("SRC:", src);
+            ? fixImagePath(img)
+            : fixImagePath(img.image);
 
         return `
 
