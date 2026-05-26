@@ -28,6 +28,11 @@
   box-sizing:border-box;
 }
 
+html,
+body{
+  background:#fff;
+}
+
 html{
   scroll-behavior:smooth;
 }
@@ -45,11 +50,11 @@ body{
 
 header{
   position:fixed;
-  inset:0 0 auto 0;
-
+  top:0;
+  left:0;
   width:100%;
 
-  z-index:1000;
+  z-index:9999;
 
   display:flex;
   justify-content:space-between;
@@ -57,24 +62,12 @@ header{
 
   padding:32px;
 
-  /* SUPER IMPORTANTE */
-  isolation:isolate;
+  mix-blend-mode:difference;
+  pointer-events:none;
 }
 
-/* ====================================
-   DIFFERENCE TEXT
-==================================== */
-
-.logo,
-.top-nav button,
-.hero-text p{
-  color:white;
-
-  mix-blend-mode:difference;
-
-  /* ESSENCIAL */
-  position:relative;
-  z-index:9999;
+header *{
+  pointer-events:auto;
 }
 
 .logo{
@@ -84,6 +77,8 @@ header{
   line-height:.88;
   letter-spacing:-0.09em;
   font-weight:500;
+
+  color:white;
 }
 
 .top-nav{
@@ -97,6 +92,8 @@ header{
   background:none;
 
   cursor:pointer;
+
+  color:white;
 
   font-size:12px;
   letter-spacing:.16em;
@@ -125,8 +122,6 @@ header{
   align-items:flex-end;
 
   padding:32px;
-
-  background:black;
 }
 
 .hero-image-wrap{
@@ -155,19 +150,23 @@ header{
   background:
     linear-gradient(
       to top,
-      rgba(0,0,0,.16),
+      rgba(0,0,0,.12),
       rgba(0,0,0,.02)
     );
 }
 
 .hero-text{
   position:relative;
-  z-index:20;
+  z-index:2;
 
   max-width:640px;
+
+  mix-blend-mode:difference;
 }
 
 .hero-text p{
+  color:white;
+
   font-size:15px;
   line-height:1.8;
   letter-spacing:.01em;
@@ -187,8 +186,6 @@ header{
     140px
     32px
     80px;
-
-  background:var(--bg);
 }
 
 .project-thumb{
@@ -237,8 +234,6 @@ header{
 
 .project-view{
   display:none;
-
-  background:var(--bg);
 }
 
 .project-content{
@@ -279,10 +274,6 @@ header{
   font-weight:400;
 }
 
-.project-description p{
-  margin-bottom:1.2em;
-}
-
 .project-gallery{
   display:grid;
   gap:18px;
@@ -311,8 +302,6 @@ header{
     160px
     32px
     120px;
-
-  background:var(--bg);
 }
 
 .about-section h2{
@@ -424,8 +413,6 @@ header{
 
 </header>
 
-<!-- HERO -->
-
 <section class="hero" id="hero">
 
   <div class="hero-image-wrap">
@@ -448,15 +435,9 @@ header{
 
 </section>
 
-<!-- PROJECTS GRID -->
-
 <section class="projects-grid" id="projectsGrid"></section>
 
-<!-- PROJECT PAGE -->
-
 <section class="project-view" id="projectView"></section>
-
-<!-- ABOUT -->
 
 <section class="about-section" id="aboutSection">
 
@@ -484,10 +465,6 @@ header{
 
 <script>
 
-/* ====================================
-   NETLIFY IDENTITY
-==================================== */
-
 if(window.netlifyIdentity){
 
   window.netlifyIdentity.on("init", user => {
@@ -505,10 +482,6 @@ if(window.netlifyIdentity){
   });
 
 }
-
-/* ====================================
-   LANGUAGE
-==================================== */
 
 let currentLang = "pt";
 
@@ -554,10 +527,6 @@ document
 
 });
 
-/* ====================================
-   PARSE FRONTMATTER
-==================================== */
-
 function parseFrontmatter(text){
 
   const match =
@@ -568,28 +537,6 @@ function parseFrontmatter(text){
   return jsyaml.load(match[1]);
 
 }
-
-/* ====================================
-   IMAGE PATH FIX
-==================================== */
-
-function fixImagePath(path){
-
-  if(!path) return "";
-
-  if(path.startsWith("/images/")){
-
-    return "/unn-a-site" + path;
-
-  }
-
-  return path;
-
-}
-
-/* ====================================
-   UI STATES
-==================================== */
 
 const hero         = document.getElementById("hero");
 const projectsGrid = document.getElementById("projectsGrid");
@@ -645,10 +592,6 @@ document
 
 });
 
-/* ====================================
-   FETCH PROJECTS
-==================================== */
-
 const GITHUB_API =
 "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
 
@@ -703,9 +646,17 @@ fetch(GITHUB_API)
 
 });
 
-/* ====================================
-   RANDOM HERO IMAGE
-==================================== */
+function normalizeImagePath(path){
+
+  if(!path) return "";
+
+  if(path.startsWith("/unn-a-site")){
+    return path;
+  }
+
+  return "/unn-a-site" + path;
+
+}
 
 function setRandomHeroImage(){
 
@@ -716,7 +667,7 @@ function setRandomHeroImage(){
     if(project.coverImage){
 
       allImages.push(
-        fixImagePath(project.coverImage)
+        normalizeImagePath(project.coverImage)
       );
 
     }
@@ -738,10 +689,6 @@ function setRandomHeroImage(){
 
 }
 
-/* ====================================
-   RENDER PROJECTS
-==================================== */
-
 function renderProjects(){
 
   projectsGrid.innerHTML = "";
@@ -753,7 +700,7 @@ function renderProjects(){
     if(project.coverImage){
 
       cover =
-        fixImagePath(
+        normalizeImagePath(
           project.coverImage
         );
 
@@ -810,10 +757,6 @@ function renderProjects(){
 
 }
 
-/* ====================================
-   OPEN PROJECT
-==================================== */
-
 function openProject(project){
 
   hideAll();
@@ -832,9 +775,7 @@ function openProject(project){
       .map(img => {
 
         const src =
-          typeof img === "string"
-            ? fixImagePath(img)
-            : fixImagePath(img.image);
+          normalizeImagePath(img.image);
 
         return `
 
