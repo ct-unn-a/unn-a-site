@@ -52,7 +52,8 @@ body{
 a,
 button,
 .project-thumb,
-.project-gallery img{
+.project-gallery img,
+.lightbox button{
   cursor:none;
 }
 
@@ -61,8 +62,8 @@ button,
   top:0;
   left:0;
 
-  width:22px;
-  height:22px;
+  width:24px;
+  height:24px;
 
   border-radius:50%;
 
@@ -72,7 +73,7 @@ button,
 
   pointer-events:none;
 
-  z-index:999999;
+  z-index:9999999;
 
   transform:
     translate(-50%,-50%)
@@ -87,7 +88,7 @@ button,
 .cursor.hover{
   transform:
     translate(-50%,-50%)
-    scale(2.4);
+    scale(2.5);
 }
 
 /* ====================================
@@ -136,8 +137,6 @@ header *{
 .top-nav button{
   border:none;
   background:none;
-
-  cursor:none;
 
   color:white;
 
@@ -235,10 +234,6 @@ header *{
     80px;
 }
 
-.project-thumb{
-  cursor:none;
-}
-
 .project-thumb img{
   width:100%;
   aspect-ratio:4/3;
@@ -298,12 +293,9 @@ header *{
 }
 
 .project-content h1{
-  font-family:'Cormorant Garamond',serif;
-
   font-size:92px;
-  line-height:.9;
-
-  letter-spacing:-0.06em;
+  line-height:.88;
+  letter-spacing:-0.09em;
   font-weight:500;
 
   margin-bottom:24px;
@@ -330,12 +322,10 @@ header *{
 
 .project-gallery{
   display:flex;
-  gap:18px;
+  gap:22px;
 
   overflow-x:auto;
   overflow-y:hidden;
-
-  scroll-snap-type:x mandatory;
 
   padding:
     0
@@ -351,7 +341,7 @@ header *{
   -webkit-overflow-scrolling:touch;
 }
 
-.project-gallery:active{
+.project-gallery.dragging{
   cursor:grabbing;
 }
 
@@ -360,17 +350,16 @@ header *{
 }
 
 .project-gallery img{
-  flex:0 0 88vw;
-
   height:78vh;
+  width:auto;
 
-  object-fit:cover;
+  object-fit:contain;
 
-  scroll-snap-align:center;
+  flex:none;
 
   display:block;
 
-  pointer-events:auto;
+  pointer-events:none;
 }
 
 /* ====================================
@@ -422,16 +411,10 @@ header *{
   justify-content:center;
 
   z-index:999999;
-
-  cursor:auto;
 }
 
 .lightbox.active{
   display:flex;
-}
-
-.lightbox.active ~ .cursor{
-  opacity:0;
 }
 
 .lightbox img{
@@ -452,8 +435,6 @@ header *{
   color:white;
 
   font-size:48px;
-
-  cursor:pointer;
 }
 
 .lightbox-nav{
@@ -470,8 +451,6 @@ header *{
   font-size:72px;
 
   padding:20px;
-
-  cursor:pointer;
 }
 
 .lightbox-nav.prev{
@@ -534,7 +513,6 @@ header *{
   }
 
   .project-gallery img{
-    flex:0 0 92vw;
     height:62vh;
   }
 
@@ -669,10 +647,6 @@ header *{
 
 <script>
 
-/* ====================================
-   NETLIFY
-==================================== */
-
 if(window.netlifyIdentity){
 
   window.netlifyIdentity.on("init", user => {
@@ -690,10 +664,6 @@ if(window.netlifyIdentity){
   });
 
 }
-
-/* ====================================
-   LANGUAGE
-==================================== */
 
 let currentLang = "pt";
 
@@ -738,10 +708,6 @@ document
   renderProjects();
 
 });
-
-/* ====================================
-   PARSE FRONTMATTER
-==================================== */
 
 function parseFrontmatter(text){
 
@@ -807,10 +773,6 @@ document
   window.scrollTo(0,0);
 
 });
-
-/* ====================================
-   GITHUB
-==================================== */
 
 const GITHUB_API =
 "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
@@ -878,10 +840,6 @@ function normalizeImagePath(path){
 
 }
 
-/* ====================================
-   RANDOM HERO IMAGE
-==================================== */
-
 function setRandomHeroImage(){
 
   const allImages = [];
@@ -910,10 +868,6 @@ function setRandomHeroImage(){
     .src = allImages[randomIndex];
 
 }
-
-/* ====================================
-   PROJECTS GRID
-==================================== */
 
 function renderProjects(){
 
@@ -982,10 +936,6 @@ function renderProjects(){
   });
 
 }
-
-/* ====================================
-   OPEN PROJECT
-==================================== */
 
 function openProject(project){
 
@@ -1082,6 +1032,8 @@ function openProject(project){
 
     imgs.forEach(img=>{
 
+      img.style.pointerEvents = "auto";
+
       img.addEventListener("click",()=>{
 
         openLightbox(
@@ -1093,7 +1045,7 @@ function openProject(project){
 
     });
 
-  },0);
+  },50);
 
   window.scrollTo(0,0);
 
@@ -1120,11 +1072,8 @@ function setupGalleryDrag(){
 
     slider.classList.add("dragging");
 
-    startX =
-      e.pageX - slider.offsetLeft;
-
-    scrollLeft =
-      slider.scrollLeft;
+    startX = e.pageX;
+    scrollLeft = slider.scrollLeft;
 
   });
 
@@ -1132,11 +1081,15 @@ function setupGalleryDrag(){
 
     isDown = false;
 
+    slider.classList.remove("dragging");
+
   });
 
   slider.addEventListener("mouseup",()=>{
 
     isDown = false;
+
+    slider.classList.remove("dragging");
 
   });
 
@@ -1146,11 +1099,9 @@ function setupGalleryDrag(){
 
     e.preventDefault();
 
-    const x =
-      e.pageX - slider.offsetLeft;
+    const x = e.pageX;
 
-    const walk =
-      (x - startX) * 1.2;
+    const walk = (x - startX) * 1.5;
 
     slider.scrollLeft =
       scrollLeft - walk;
@@ -1214,8 +1165,6 @@ function openLightbox(images,index){
 
   lightbox.classList.add("active");
 
-  document.body.style.cursor = "auto";
-
 }
 
 function updateLightbox(){
@@ -1258,8 +1207,6 @@ prevSlideBtn.addEventListener(
 function closeLB(){
 
   lightbox.classList.remove("active");
-
-  document.body.style.cursor = "none";
 
 }
 
