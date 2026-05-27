@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
 <style>
 
@@ -42,6 +42,54 @@ body{
   color:var(--text);
   font-family:'Inter',sans-serif;
   overflow-x:hidden;
+  cursor:none;
+}
+
+/* ====================================
+   CUSTOM CURSOR
+==================================== */
+
+a,
+button,
+.project-thumb,
+.project-gallery img{
+  cursor:none;
+}
+
+.cursor{
+  position:fixed;
+  top:0;
+  left:0;
+
+  width:14px;
+  height:14px;
+
+  border-radius:50%;
+
+  background:white;
+
+  mix-blend-mode:difference;
+
+  pointer-events:none;
+
+  z-index:999999;
+
+  transform:
+    translate(-50%,-50%)
+    scale(1);
+
+  transition:
+    transform .18s ease,
+    width .18s ease,
+    height .18s ease;
+
+  will-change:transform;
+}
+
+.cursor.hover{
+  transform:
+    translate(-50%,-50%)
+    scale(2.8);
 }
 
 /* ====================================
@@ -91,7 +139,7 @@ header *{
   border:none;
   background:none;
 
-  cursor:pointer;
+  cursor:none;
 
   color:white;
 
@@ -179,7 +227,8 @@ header *{
 .projects-grid{
   display:none;
 
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(4,1fr);
+
   gap:18px;
 
   padding:
@@ -189,7 +238,7 @@ header *{
 }
 
 .project-thumb{
-  cursor:pointer;
+  cursor:none;
 }
 
 .project-thumb img{
@@ -214,12 +263,18 @@ header *{
 }
 
 .project-title{
-  font-size:14px;
-  letter-spacing:.02em;
+  font-family:'Instrument Serif',serif;
+
+  font-size:28px;
+  line-height:1;
+
+  letter-spacing:-0.03em;
+
+  margin-top:6px;
 }
 
 .project-meta{
-  margin-top:4px;
+  margin-top:8px;
 
   font-size:11px;
   letter-spacing:.08em;
@@ -246,7 +301,7 @@ header *{
 }
 
 .project-content h1{
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Instrument Serif',serif;
 
   font-size:84px;
   line-height:.92;
@@ -305,7 +360,7 @@ header *{
 }
 
 .about-section h2{
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Instrument Serif',serif;
 
   font-size:84px;
   line-height:.92;
@@ -322,8 +377,85 @@ header *{
 }
 
 /* ====================================
-   MOBILE
+   LIGHTBOX
 ==================================== */
+
+.lightbox{
+  position:fixed;
+  inset:0;
+
+  background:black;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  z-index:999999;
+}
+
+.lightbox.active{
+  display:flex;
+}
+
+.lightbox img{
+  max-width:92vw;
+  max-height:92vh;
+
+  object-fit:contain;
+}
+
+.lightbox-close{
+  position:absolute;
+  top:24px;
+  right:24px;
+
+  background:none;
+  border:none;
+
+  color:white;
+
+  font-size:48px;
+
+  cursor:none;
+}
+
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  background:none;
+  border:none;
+
+  color:white;
+
+  font-size:72px;
+
+  padding:20px;
+
+  cursor:none;
+}
+
+.lightbox-nav.prev{
+  left:20px;
+}
+
+.lightbox-nav.next{
+  right:20px;
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+
+@media(max-width:1100px){
+
+  .projects-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
 
 @media(max-width:900px){
 
@@ -344,8 +476,6 @@ header *{
   }
 
   .projects-grid{
-    grid-template-columns:1fr;
-
     padding:
       110px
       22px
@@ -383,10 +513,20 @@ header *{
 
 }
 
+@media(max-width:640px){
+
+  .projects-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="cursor"></div>
 
 <header>
 
@@ -462,6 +602,24 @@ header *{
   </div>
 
 </section>
+
+<div class="lightbox" id="lightbox">
+
+  <button class="lightbox-close" id="lightboxClose">
+    ×
+  </button>
+
+  <button class="lightbox-nav prev" id="prevSlide">
+    ‹
+  </button>
+
+  <img id="lightboxImage" src="" alt="">
+
+  <button class="lightbox-nav next" id="nextSlide">
+    ›
+  </button>
+
+</div>
 
 <script>
 
@@ -765,23 +923,29 @@ function openProject(project){
 
   let galleryHTML = "";
 
+  let galleryImages = [];
+
   if(
     project.images &&
     Array.isArray(project.images)
   ){
 
-    galleryHTML =
-      project.images
-      .map(img => {
+    galleryImages =
+      project.images.map(img =>
+        normalizeImagePath(img.image)
+      );
 
-        const src =
-          normalizeImagePath(img.image);
+    galleryHTML =
+      galleryImages
+      .map((src,index) => {
 
         return `
 
           <img
             src="${src}"
             loading="lazy"
+            data-index="${index}"
+            class="gallery-image"
           >
 
         `;
@@ -835,9 +999,169 @@ function openProject(project){
 
   `;
 
+  setTimeout(()=>{
+
+    const imgs =
+      document.querySelectorAll(
+        ".gallery-image"
+      );
+
+    imgs.forEach(img=>{
+
+      img.addEventListener("click",()=>{
+
+        openLightbox(
+          galleryImages,
+          parseInt(img.dataset.index)
+        );
+
+      });
+
+    });
+
+  },0);
+
   window.scrollTo(0,0);
 
 }
+
+/* ====================================
+   CUSTOM CURSOR
+==================================== */
+
+const cursor = document.querySelector(".cursor");
+
+window.addEventListener("mousemove",(e)=>{
+
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top  = e.clientY + "px";
+
+});
+
+document.addEventListener("mouseover",(e)=>{
+
+  if(
+    e.target.closest(
+      "a, button, .project-thumb, .project-gallery img"
+    )
+  ){
+
+    cursor.classList.add("hover");
+
+  }else{
+
+    cursor.classList.remove("hover");
+
+  }
+
+});
+
+/* ====================================
+   LIGHTBOX
+==================================== */
+
+const lightbox      = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+
+const prevSlideBtn  = document.getElementById("prevSlide");
+const nextSlideBtn  = document.getElementById("nextSlide");
+
+const closeLightbox = document.getElementById("lightboxClose");
+
+let currentGallery = [];
+let currentIndex   = 0;
+
+function openLightbox(images,index){
+
+  currentGallery = images;
+  currentIndex   = index;
+
+  updateLightbox();
+
+  lightbox.classList.add("active");
+
+}
+
+function updateLightbox(){
+
+  lightboxImage.src =
+    currentGallery[currentIndex];
+
+}
+
+function nextSlide(){
+
+  currentIndex =
+    (currentIndex + 1)
+    % currentGallery.length;
+
+  updateLightbox();
+
+}
+
+function prevSlide(){
+
+  currentIndex =
+    (currentIndex - 1 + currentGallery.length)
+    % currentGallery.length;
+
+  updateLightbox();
+
+}
+
+nextSlideBtn.addEventListener(
+  "click",
+  nextSlide
+);
+
+prevSlideBtn.addEventListener(
+  "click",
+  prevSlide
+);
+
+closeLightbox.addEventListener(
+  "click",
+  ()=>{
+
+    lightbox.classList.remove("active");
+
+  }
+);
+
+lightbox.addEventListener("click",(e)=>{
+
+  if(e.target === lightbox){
+
+    lightbox.classList.remove("active");
+
+  }
+
+});
+
+document.addEventListener("keydown",(e)=>{
+
+  if(!lightbox.classList.contains("active"))
+    return;
+
+  if(e.key === "ArrowRight"){
+
+    nextSlide();
+
+  }
+
+  if(e.key === "ArrowLeft"){
+
+    prevSlide();
+
+  }
+
+  if(e.key === "Escape"){
+
+    lightbox.classList.remove("active");
+
+  }
+
+});
 
 </script>
 
