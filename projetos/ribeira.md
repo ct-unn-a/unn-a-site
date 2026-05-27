@@ -1,0 +1,25 @@
+---
+id: "ribeira"
+titlePT: "Apartamento na Ribeira"
+titleEN: "Ribeira's Appartment"
+metaPT: "Remodelação de apartamento na ribeira do Porto"
+metaEN: "Remodelation of appartment in Porto"
+descriptionPT: "Texto temporário para o projeto 2605_ARCO. Estrutura focada em novos modelos de espaço de trabalho partilhado."
+descriptionEN: "Placeholder text for 2605_ARCO. Structure focused on new shared workspace models."
+coverImage: "/images/ribeira/ribeira1.jpg"
+
+images:
+  - image: "/images/ribeira/ribeira2.jpg"
+  - image: "/images/ribeira/ribeira3.jpg"
+  - image: "/images/ribeira/ribeira4.jpg"
+  - image: "/images/ribeira/ribeira5.jpg"
+  - image: "/images/ribeira/ribeira6.jpg"
+  - image: "/images/ribeira/ribeira7.jpg"
+  - image: "/images/ribeira/ribeira8.jpg"
+  - image: "/images/ribeira/ribeira9.jpg"
+  - image: "/images/ribeira/ribeira10.jpg"
+  - image: "/images/ribeira/ribeira1.jpg"
+  - image: "/images/ribeira/ribeira11.jpg"
+   -image: "/images/ribeira/ribeira12.jpg"
+    image: "/images/ribeira/ribeira13.jpg"
+---
