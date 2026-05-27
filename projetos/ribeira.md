@@ -20,6 +20,6 @@ images:
   - image: "/images/ribeira/ribeira10.jpg"
   - image: "/images/ribeira/ribeira1.jpg"
   - image: "/images/ribeira/ribeira11.jpg"
-   -image: "/images/ribeira/ribeira12.jpg"
-    image: "/images/ribeira/ribeira13.jpg"
+  - image: "/images/ribeira/ribeira12.jpg"
+  - image: "/images/ribeira/ribeira13.jpg"
 ---

@@ -20,6 +20,6 @@ images:
   - image: "/images/bremen/bremen10.jpg"
   - image: "/images/bremen/bremen1.jpg"
   - image: "/images/bremen/bremen11.jpg"
-   -image: "/images/bremen/bremen12.jpg"
-    image: "/images/bremen/bremen13.jpg"
+  - image: "/images/bremen/bremen12.jpg"
+  - image: "/images/bremen/bremen13.jpg"
 ---
