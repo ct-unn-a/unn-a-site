@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
@@ -61,8 +61,8 @@ button,
   top:0;
   left:0;
 
-  width:14px;
-  height:14px;
+  width:22px;
+  height:22px;
 
   border-radius:50%;
 
@@ -79,9 +79,7 @@ button,
     scale(1);
 
   transition:
-    transform .18s ease,
-    width .18s ease,
-    height .18s ease;
+    transform .18s ease;
 
   will-change:transform;
 }
@@ -89,7 +87,7 @@ button,
 .cursor.hover{
   transform:
     translate(-50%,-50%)
-    scale(2.8);
+    scale(2.4);
 }
 
 /* ====================================
@@ -255,22 +253,21 @@ header *{
 
 .project-thumb:hover img{
   opacity:.92;
-  transform:scale(.995);
+  transform:scale(.99);
 }
 
 .project-info{
-  margin-top:10px;
+  margin-top:12px;
 }
 
 .project-title{
-  font-family:'Instrument Serif',serif;
+  font-family:'Syne',sans-serif;
 
-  font-size:28px;
-  line-height:1;
+  font-size:30px;
+  line-height:.95;
 
-  letter-spacing:-0.03em;
-
-  margin-top:6px;
+  letter-spacing:-0.07em;
+  font-weight:600;
 }
 
 .project-meta{
@@ -295,17 +292,19 @@ header *{
   padding:
     160px
     32px
-    72px;
+    60px;
 
-  max-width:760px;
+  max-width:900px;
 }
 
 .project-content h1{
-  font-family:'Instrument Serif',serif;
+  font-family:'Cormorant Garamond',serif;
 
-  font-size:84px;
-  line-height:.92;
-  font-weight:400;
+  font-size:92px;
+  line-height:.9;
+
+  letter-spacing:-0.06em;
+  font-weight:500;
 
   margin-bottom:24px;
 }
@@ -321,27 +320,57 @@ header *{
 }
 
 .project-description{
-  font-family:'Inter',sans-serif;
-
   font-size:16px;
   line-height:1.9;
-
-  font-weight:400;
 }
 
+/* ====================================
+   HORIZONTAL SLIDESHOW
+==================================== */
+
 .project-gallery{
-  display:grid;
+  display:flex;
   gap:18px;
+
+  overflow-x:auto;
+  overflow-y:hidden;
+
+  scroll-snap-type:x mandatory;
 
   padding:
     0
     32px
     120px;
+
+  scrollbar-width:none;
+
+  cursor:grab;
+
+  user-select:none;
+
+  -webkit-overflow-scrolling:touch;
+}
+
+.project-gallery:active{
+  cursor:grabbing;
+}
+
+.project-gallery::-webkit-scrollbar{
+  display:none;
 }
 
 .project-gallery img{
-  width:100%;
+  flex:0 0 88vw;
+
+  height:78vh;
+
+  object-fit:cover;
+
+  scroll-snap-align:center;
+
   display:block;
+
+  pointer-events:auto;
 }
 
 /* ====================================
@@ -360,11 +389,13 @@ header *{
 }
 
 .about-section h2{
-  font-family:'Instrument Serif',serif;
+  font-family:'Cormorant Garamond',serif;
 
   font-size:84px;
-  line-height:.92;
-  font-weight:400;
+  line-height:.9;
+
+  letter-spacing:-0.05em;
+  font-weight:500;
 
   margin-bottom:32px;
 }
@@ -391,10 +422,16 @@ header *{
   justify-content:center;
 
   z-index:999999;
+
+  cursor:auto;
 }
 
 .lightbox.active{
   display:flex;
+}
+
+.lightbox.active ~ .cursor{
+  opacity:0;
 }
 
 .lightbox img{
@@ -416,7 +453,7 @@ header *{
 
   font-size:48px;
 
-  cursor:none;
+  cursor:pointer;
 }
 
 .lightbox-nav{
@@ -434,7 +471,7 @@ header *{
 
   padding:20px;
 
-  cursor:none;
+  cursor:pointer;
 }
 
 .lightbox-nav.prev{
@@ -486,7 +523,7 @@ header *{
     padding:
       120px
       22px
-      60px;
+      50px;
   }
 
   .project-gallery{
@@ -496,8 +533,13 @@ header *{
       80px;
   }
 
+  .project-gallery img{
+    flex:0 0 92vw;
+    height:62vh;
+  }
+
   .project-content h1{
-    font-size:54px;
+    font-size:58px;
   }
 
   .about-section{
@@ -508,7 +550,7 @@ header *{
   }
 
   .about-section h2{
-    font-size:54px;
+    font-size:58px;
   }
 
 }
@@ -517,6 +559,10 @@ header *{
 
   .projects-grid{
     grid-template-columns:1fr;
+  }
+
+  .project-title{
+    font-size:24px;
   }
 
 }
@@ -623,6 +669,10 @@ header *{
 
 <script>
 
+/* ====================================
+   NETLIFY
+==================================== */
+
 if(window.netlifyIdentity){
 
   window.netlifyIdentity.on("init", user => {
@@ -640,6 +690,10 @@ if(window.netlifyIdentity){
   });
 
 }
+
+/* ====================================
+   LANGUAGE
+==================================== */
 
 let currentLang = "pt";
 
@@ -684,6 +738,10 @@ document
   renderProjects();
 
 });
+
+/* ====================================
+   PARSE FRONTMATTER
+==================================== */
 
 function parseFrontmatter(text){
 
@@ -749,6 +807,10 @@ document
   window.scrollTo(0,0);
 
 });
+
+/* ====================================
+   GITHUB
+==================================== */
 
 const GITHUB_API =
 "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
@@ -816,6 +878,10 @@ function normalizeImagePath(path){
 
 }
 
+/* ====================================
+   RANDOM HERO IMAGE
+==================================== */
+
 function setRandomHeroImage(){
 
   const allImages = [];
@@ -834,18 +900,20 @@ function setRandomHeroImage(){
 
   if(allImages.length === 0) return;
 
-  const randomImage =
-    allImages[
-      Math.floor(
-        Math.random() * allImages.length
-      )
-    ];
+  const randomIndex =
+    Math.floor(
+      Math.random() * allImages.length
+    );
 
   document
     .getElementById("heroImage")
-    .src = randomImage;
+    .src = allImages[randomIndex];
 
 }
+
+/* ====================================
+   PROJECTS GRID
+==================================== */
 
 function renderProjects(){
 
@@ -914,6 +982,10 @@ function renderProjects(){
   });
 
 }
+
+/* ====================================
+   OPEN PROJECT
+==================================== */
 
 function openProject(project){
 
@@ -991,13 +1063,15 @@ function openProject(project){
 
     </div>
 
-    <div class="project-gallery">
+    <div class="project-gallery" id="projectGallery">
 
       ${galleryHTML}
 
     </div>
 
   `;
+
+  setupGalleryDrag();
 
   setTimeout(()=>{
 
@@ -1026,6 +1100,66 @@ function openProject(project){
 }
 
 /* ====================================
+   DRAG SLIDESHOW
+==================================== */
+
+function setupGalleryDrag(){
+
+  const slider =
+    document.getElementById("projectGallery");
+
+  if(!slider) return;
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener("mousedown",(e)=>{
+
+    isDown = true;
+
+    slider.classList.add("dragging");
+
+    startX =
+      e.pageX - slider.offsetLeft;
+
+    scrollLeft =
+      slider.scrollLeft;
+
+  });
+
+  slider.addEventListener("mouseleave",()=>{
+
+    isDown = false;
+
+  });
+
+  slider.addEventListener("mouseup",()=>{
+
+    isDown = false;
+
+  });
+
+  slider.addEventListener("mousemove",(e)=>{
+
+    if(!isDown) return;
+
+    e.preventDefault();
+
+    const x =
+      e.pageX - slider.offsetLeft;
+
+    const walk =
+      (x - startX) * 1.2;
+
+    slider.scrollLeft =
+      scrollLeft - walk;
+
+  });
+
+}
+
+/* ====================================
    CUSTOM CURSOR
 ==================================== */
 
@@ -1042,7 +1176,7 @@ document.addEventListener("mouseover",(e)=>{
 
   if(
     e.target.closest(
-      "a, button, .project-thumb, .project-gallery img"
+      "a, button, .project-thumb, .gallery-image"
     )
   ){
 
@@ -1079,6 +1213,8 @@ function openLightbox(images,index){
   updateLightbox();
 
   lightbox.classList.add("active");
+
+  document.body.style.cursor = "auto";
 
 }
 
@@ -1119,20 +1255,24 @@ prevSlideBtn.addEventListener(
   prevSlide
 );
 
+function closeLB(){
+
+  lightbox.classList.remove("active");
+
+  document.body.style.cursor = "none";
+
+}
+
 closeLightbox.addEventListener(
   "click",
-  ()=>{
-
-    lightbox.classList.remove("active");
-
-  }
+  closeLB
 );
 
 lightbox.addEventListener("click",(e)=>{
 
   if(e.target === lightbox){
 
-    lightbox.classList.remove("active");
+    closeLB();
 
   }
 
@@ -1157,7 +1297,7 @@ document.addEventListener("keydown",(e)=>{
 
   if(e.key === "Escape"){
 
-    lightbox.classList.remove("active");
+    closeLB();
 
   }
 
