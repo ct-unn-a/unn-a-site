@@ -95,7 +95,6 @@ body{
   height:69px;
 }
 
-/* Transformação do cursor líquido em triângulos geométricos de autor */
 .cursor.arrow-left {
   width: 24px;
   height: 24px;
@@ -124,7 +123,6 @@ body{
   mix-blend-mode:difference;
 }
 
-/* Hide line trail when cursor is an arrow for visual cleanness */
 .cursor.arrow-left + .cursor-svg,
 .cursor.arrow-right + .cursor-svg {
   opacity: 0;
@@ -156,7 +154,7 @@ header{
   padding:32px;
 
   display:flex;
-  justify-content:flex-end; /* Menu fixo sempre alinhado à direita */
+  justify-content:flex-end;
   align-items:flex-start;
 
   z-index:1000;
@@ -170,7 +168,6 @@ header *{
   pointer-events:auto;
 }
 
-/* O Logo agora move-se com o scroll por ser absoluto */
 .logo{
   position:absolute;
   top:32px;
@@ -193,8 +190,8 @@ header *{
   gap:28px;
 }
 
-.top-nav button{
-  border:none;
+.top-nav a{
+  text-decoration: none;
   background:none;
 
   color:white;
@@ -206,8 +203,21 @@ header *{
   transition:opacity .2s ease;
 }
 
-.top-nav button:hover{
+.top-nav a:hover{
   opacity:.5;
+}
+
+#langToggle {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transition: opacity .2s ease;
+}
+#langToggle:hover {
+  opacity: .5;
 }
 
 /* ====================================
@@ -215,6 +225,7 @@ header *{
 ==================================== */
 
 .hero{
+  display:none;
   position:relative;
 
   width:100%;
@@ -290,6 +301,12 @@ header *{
     140px
     32px
     100px;
+}
+
+.project-thumb{
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .project-thumb img{
@@ -432,7 +449,7 @@ header *{
 .slide-nav{
   position:absolute;
   top:0;
-  bottom:120px; /* Alinhado para não sobrepor margens inferiores */
+  bottom:120px;
   width:50%;
   
   border:none;
@@ -547,7 +564,7 @@ header *{
   }
   
   .slide-nav {
-    display:none; /* Taps nativos em mobile */
+    display:none;
   }
 
 }
@@ -579,89 +596,52 @@ header *{
   />
 </svg>
 
-<a href="#" class="logo" id="homeBtn">UNN-A</a>
+<a href="#" class="logo">UNN-A</a>
 
 <header>
   <nav class="top-nav">
-    <button id="projectsBtn">
+    <a href="#projetos">
       <span class="lang-pt">Projetos</span>
       <span class="lang-en" style="display:none">Projects</span>
-    </button>
+    </a>
 
-    <button id="aboutBtn">About</button>
+    <a href="#about">About</a>
     <button id="langToggle">EN</button>
   </nav>
 </header>
 
 <section class="hero" id="hero">
-
   <div class="hero-image-wrap">
     <img id="heroImage" src="" alt="">
   </div>
-
   <div class="hero-overlay"></div>
-
   <div class="hero-text">
-
     <p class="lang-pt">
-      Arquitetura contemporânea,
-      funcional e integrada no território.
+      Arquitetura contemporânea, funcional e integrada no território.
     </p>
-
-    <p
-      class="lang-en"
-      style="display:none">
-
-      Contemporary architecture integrated
-      into territory and context.
-
+    <p class="lang-en" style="display:none">
+      Contemporary architecture integrated into territory and context.
     </p>
-
   </div>
-
 </section>
 
-<section
-  class="projects-grid"
-  id="projectsGrid">
-</section>
+<section class="projects-grid" id="projectsGrid"></section>
 
-<section
-  class="project-view"
-  id="projectView">
-</section>
+<section class="project-view" id="projectView"></section>
 
-<section
-  class="about-section"
-  id="aboutSection">
-
+<section class="about-section" id="aboutSection">
   <div class="lang-pt">
-
     <h2>UNN-A</h2>
-
     <p>
-      UNN-A (Unnamed Architects)
-      é um atelier de arquitetura focado
-      em soluções contemporâneas,
-      funcionais e integradas no território.
+      UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
     </p>
-
   </div>
-
-  <div
-    class="lang-en"
-    style="display:none">
-
+  <div class="lang-en" style="display:none">
     <h2>UNN-A</h2>
-
     <p>
-      UNN-A is an architecture studio focused
-      on contemporary and contextual
-      architect solutions.
+      UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
     </p>
-
   </div>
-
 </section>
 
 <script>
@@ -669,792 +649,327 @@ header *{
 /* ====================================
    NETLIFY
 ==================================== */
-
 if(window.netlifyIdentity){
-
-  window.netlifyIdentity.on(
-    "init",
-    user => {
-
-      if(!user){
-
-        window.netlifyIdentity.on(
-          "login",
-          () => {
-
-            document.location.href =
-              "/admin/";
-
-          }
-        );
-
-      }
-
+  window.netlifyIdentity.on("init", user => {
+    if(!user){
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
     }
-  );
-
+  });
 }
 
 /* ====================================
    LANGUAGE
 ==================================== */
-
 let currentLang = "pt";
 
 function applyLang(lang){
-
   const isEN = lang === "en";
-
-  document
-    .querySelectorAll(".lang-pt")
-    .forEach(el=>{
-
-      el.style.display =
-        isEN ? "none" : "";
-
-    });
-
-  document
-    .querySelectorAll(".lang-en")
-    .forEach(el=>{
-
-      el.style.display =
-        isEN ? "" : "none";
-
-    });
-
+  document.querySelectorAll(".lang-pt").forEach(el=>{ el.style.display = isEN ? "none" : ""; });
+  document.querySelectorAll(".lang-en").forEach(el=>{ el.style.display = isEN ? "" : "none"; });
 }
 
-document
-.getElementById("langToggle")
-.addEventListener("click",()=>{
-
-  currentLang =
-    currentLang === "pt"
-      ? "en"
-      : "pt";
-
-  document
-    .getElementById("langToggle")
-    .textContent =
-      currentLang === "pt"
-        ? "EN"
-        : "PT";
-
+document.getElementById("langToggle").addEventListener("click",()=>{
+  currentLang = currentLang === "pt" ? "en" : "pt";
+  document.getElementById("langToggle").textContent = currentLang === "pt" ? "EN" : "PT";
   applyLang(currentLang);
-
   renderProjects();
-
 });
 
 /* ====================================
    HELPERS
 ==================================== */
-
 function parseFrontmatter(text){
-
-  const match =
-    text.match(/^---\n([\s\S]*?)\n---/);
-
+  const match = text.match(/^---\n([\s\S]*?)\n---/);
   if(!match) return {};
-
   return jsyaml.load(match[1]);
-
 }
 
 function normalizeImagePath(path){
-
   if(!path) return "";
-
-  if(path.startsWith("/unn-a-site")){
-    return path;
-  }
-
+  if(path.startsWith("/unn-a-site")){ return path; }
   return "/unn-a-site" + path;
-
 }
 
 /* ====================================
    DOM
 ==================================== */
-
-const hero =
-  document.getElementById("hero");
-
-const projectsGrid =
-  document.getElementById("projectsGrid");
-
-const projectView =
-  document.getElementById("projectView");
-
-const aboutSection =
-  document.getElementById("aboutSection");
+const hero = document.getElementById("hero");
+const projectsGrid = document.getElementById("projectsGrid");
+const projectView = document.getElementById("projectView");
+const aboutSection = document.getElementById("aboutSection");
 
 /* ====================================
-   NAVIGATION
+   ROUTING ENGINE (MANAGES HISTORIC / BACK BUTTON)
 ==================================== */
-
 function hideAll(){
-
   hero.style.display = "none";
   projectsGrid.style.display = "none";
   projectView.style.display = "none";
   aboutSection.style.display = "none";
-
 }
 
-document
-.getElementById("homeBtn")
-.addEventListener("click",(e)=>{
-
-  e.preventDefault();
-
+function handleRouting() {
+  const hash = window.location.hash;
   hideAll();
 
-  hero.style.display = "flex";
+  if (!hash || hash === "#" || hash === "#home") {
+    hero.style.display = "flex";
+    setRandomHeroImage();
+    window.scrollTo(0, 0);
+  } else if (hash === "#projetos") {
+    projectsGrid.style.display = "grid";
+    window.scrollTo(0, 0);
+  } else if (hash === "#about") {
+    aboutSection.style.display = "block";
+    window.scrollTo(0, 0);
+  } else {
+    // Rota dinâmica para os projetos: e.g. #2001_SERPA_PINTO
+    const projectId = hash.replace("#", "");
+    const cleanProjectId = decodeURIComponent(projectId);
+    const targetProject = projects.find(p => p.id === cleanProjectId || p.titlePT === cleanProjectId);
+    
+    if (targetProject) {
+      openProjectView(targetProject);
+    } else {
+      // Se projetos ainda não carregaram da API, espera um pouco e tenta novamente
+      if (projects.length === 0) {
+        setTimeout(handleRouting, 300);
+      } else {
+        // Fallback caso o ID não exista
+        window.location.hash = "#projetos";
+      }
+    }
+  }
+}
 
-  setRandomHeroImage();
-
-  window.scrollTo(0,0);
-
-});
-
-document
-.getElementById("projectsBtn")
-.addEventListener("click",()=>{
-
-  hideAll();
-
-  projectsGrid.style.display =
-    "grid";
-
-  window.scrollTo(0,0);
-
-});
-
-document
-.getElementById("aboutBtn")
-.addEventListener("click",()=>{
-
-  hideAll();
-
-  aboutSection.style.display =
-    "block";
-
-  window.scrollTo(0,0);
-
-});
+// Ouve as alterações do botão retroceder/avançar do próprio browser
+window.addEventListener("hashchange", handleRouting);
 
 /* ====================================
    FETCH PROJECTS
 ==================================== */
-
-const GITHUB_API =
-"https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
-
+const GITHUB_API = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
 let projects = [];
 
 fetch(GITHUB_API)
-
 .then(res=>res.json())
-
 .then(files=>{
-
-  files.sort((a,b)=>
-    a.name.localeCompare(b.name)
-  );
-
+  files.sort((a,b)=> a.name.localeCompare(b.name) );
   return Promise.all(
-
-    files
-      .filter(f =>
-        f.name.endsWith(".md")
-      )
-      .map(f =>
-        fetch(f.download_url)
-        .then(r=>r.text())
-      )
-
+    files.filter(f => f.name.endsWith(".md")).map(f => fetch(f.download_url).then(r=>r.text()))
   );
-
 })
-
 .then(markdownFiles=>{
-
+  projects = [];
   markdownFiles.forEach(md=>{
-
-    const project =
-      parseFrontmatter(md);
-
+    const project = parseFrontmatter(md);
     projects.push(project);
-
   });
 
   renderProjects();
-
-  setRandomHeroImage();
-
+  handleRouting(); // Ativa a rota inicial vinda pelo URL direto assim que carrega os ficheiros
 })
-
 .catch(err=>{
-
-  console.error(
-    "Erro ao carregar projetos:",
-    err
-  );
-
+  console.error("Erro ao carregar projetos:", err);
+  handleRouting();
 });
 
 /* ====================================
    HERO IMAGE
 ==================================== */
-
 function setRandomHeroImage(){
-
+  if(!projects.length) return;
   const allImages = [];
-
   projects.forEach(project=>{
-
-    if(project.coverImage){
-
-      allImages.push(
-        normalizeImagePath(
-          project.coverImage
-        )
-      );
-
-    }
-
+    if(project.coverImage){ allImages.push(normalizeImagePath(project.coverImage)); }
   });
-
   if(!allImages.length) return;
-
-  const randomIndex =
-    Math.floor(
-      Math.random() *
-      allImages.length
-    );
-
-  const randomImage =
-    allImages[randomIndex];
-
-  document
-    .getElementById("heroImage")
-    .src =
-      randomImage +
-      "?v=" +
-      Date.now();
-
+  const randomIndex = Math.floor(Math.random() * allImages.length);
+  document.getElementById("heroImage").src = allImages[randomIndex] + "?v=" + Date.now();
 }
 
 /* ====================================
    PROJECT GRID
 ==================================== */
-
 function renderProjects(){
-
   projectsGrid.innerHTML = "";
 
-  projects.forEach(project=>{
+  projects.forEach(project => {
+    let cover = project.coverImage ? normalizeImagePath(project.coverImage) : "";
+    
+    // Define o ID seguro para a Hash
+    const projectSlug = project.id ? project.id : encodeURIComponent(project.titlePT);
 
-    let cover = "";
-
-    if(project.coverImage){
-
-      cover =
-        normalizeImagePath(
-          project.coverImage
-        );
-
-    }
-
-    const thumb =
-      document.createElement("div");
-
-    thumb.className =
-      "project-thumb";
+    const thumb = document.createElement("a");
+    thumb.className = "project-thumb";
+    thumb.href = `#${projectSlug}`; // Ao clicar, muda a Hash automaticamente e gera histórico
 
     thumb.innerHTML = `
-
-      <img
-        src="${cover}"
-        alt="${project.titlePT}"
-      >
-
+      <img src="${cover}" alt="${project.titlePT}">
       <div class="project-info">
-
         <div class="project-title">
-
-          ${
-            currentLang === "pt"
-              ? project.titlePT
-              : project.titleEN
-          }
-
+          ${currentLang === "pt" ? project.titlePT : project.titleEN}
         </div>
-
         <div class="project-meta">
-
-          ${
-            currentLang === "pt"
-              ? project.metaPT
-              : project.metaEN
-          }
-
+          ${currentLang === "pt" ? project.metaPT : project.metaEN}
         </div>
-
       </div>
-
     `;
 
-    thumb.addEventListener(
-      "click",
-      ()=>{
-
-        openProject(project);
-
-      }
-    );
-
-    projectsGrid.appendChild(
-      thumb
-    );
-
+    projectsGrid.appendChild(thumb);
   });
-
 }
 
 /* ====================================
-   OPEN PROJECT
+   RENDER PROJECT VIEW INTERNALLY
 ==================================== */
-
-function openProject(project){
-
-  hideAll();
-
-  projectView.style.display =
-    "block";
+function openProjectView(project){
+  projectView.style.display = "block";
 
   let galleryHTML = "";
-
-  if(
-    project.images &&
-    Array.isArray(project.images)
-  ){
-
-    galleryHTML =
-      project.images
-      .map(img=>{
-
-        const src =
-          normalizeImagePath(
-            img.image
-          );
-
-        return `
-
-          <img
-            src="${src}"
-            loading="lazy"
-            draggable="false"
-          >
-
-        `;
-
-      })
-      .join("");
-
+  if(project.images && Array.isArray(project.images)){
+    galleryHTML = project.images.map(img=>{
+      return `<img src="${normalizeImagePath(img.image)}" loading="lazy" draggable="false">`;
+    }).join("");
   }
 
   projectView.innerHTML = `
-
     <div class="project-content">
-
-      <h1>
-
-        ${
-          currentLang === "pt"
-            ? project.titlePT
-            : project.titleEN
-        }
-
-      </h1>
-
-      <div class="meta">
-
-        ${
-          currentLang === "pt"
-            ? project.metaPT
-            : project.metaEN
-        }
-
-      </div>
-
+      <h1>${currentLang === "pt" ? project.titlePT : project.titleEN}</h1>
+      <div class="meta">${currentLang === "pt" ? project.metaPT : project.metaEN}</div>
       <div class="project-description">
-
-        ${
-          currentLang === "pt"
-            ? project.descriptionPT
-            : project.descriptionEN
-        }
-
+        ${currentLang === "pt" ? project.descriptionPT : project.descriptionEN}
       </div>
-
     </div>
-
     <div class="project-gallery-wrap">
-
-      <button
-        class="slide-nav slide-prev"
-        id="slidePrev"
-      >
-      </button>
-
-      <div
-        class="project-gallery"
-        id="projectGallery"
-      >
-
-        ${galleryHTML}
-
-      </div>
-
-      <button
-        class="slide-nav slide-next"
-        id="slideNext"
-      >
-      </button>
-
+      <button class="slide-nav slide-prev" id="slidePrev"></button>
+      <div class="project-gallery" id="projectGallery">${galleryHTML}</div>
+      <button class="slide-nav slide-next" id="slideNext"></button>
     </div>
-
   `;
 
   setupGalleryDrag();
   setupGalleryButtons();
-
-  window.scrollTo(0,0);
-
+  window.scrollTo(0, 0);
 }
 
 /* ====================================
    DRAG SLIDER
 ==================================== */
-
 function setupGalleryDrag(){
-
-  const slider =
-    document.getElementById(
-      "projectGallery"
-    );
-
+  const slider = document.getElementById("projectGallery");
   if(!slider) return;
 
-  let isDown = false;
-  let startX = 0;
-  let scrollLeft = 0;
+  let isDown = false, startX = 0, scrollLeft = 0;
 
-  slider.addEventListener(
-    "pointerdown",
-    e => {
+  slider.addEventListener("pointerdown", e => {
+    isDown = true;
+    startX = e.clientX;
+    scrollLeft = slider.scrollLeft;
+    slider.classList.add("dragging");
+    slider.setPointerCapture(e.pointerId);
+  });
 
-      isDown = true;
+  slider.addEventListener("pointermove", e => {
+    if(!isDown) return;
+    const walk = e.clientX - startX;
+    slider.scrollLeft = scrollLeft - walk;
+  });
 
-      startX = e.clientX;
-
-      scrollLeft =
-        slider.scrollLeft;
-
-      slider.classList.add(
-        "dragging"
-      );
-
-      slider.setPointerCapture(
-        e.pointerId
-      );
-
-    }
-  );
-
-  slider.addEventListener(
-    "pointermove",
-    e => {
-
-      if(!isDown) return;
-
-      const walk =
-        e.clientX - startX;
-
-      slider.scrollLeft =
-        scrollLeft - walk;
-
-    }
-  );
-
-  slider.addEventListener(
-    "pointerup",
-    e => {
-
-      isDown = false;
-
-      slider.classList.remove(
-        "dragging"
-      );
-
-      slider.releasePointerCapture(
-        e.pointerId
-      );
-
-    }
-  );
-
+  slider.addEventListener("pointerup", e => {
+    isDown = false;
+    slider.classList.remove("dragging");
+    slider.releasePointerCapture(e.pointerId);
+  });
 }
 
 /* ====================================
    NEXT / PREV
 ==================================== */
-
 function setupGalleryButtons(){
+  const slider = document.getElementById("projectGallery");
+  const next = document.getElementById("slideNext");
+  const prev = document.getElementById("slidePrev");
+  if(!slider || !next || !prev) return;
 
-  const slider =
-    document.getElementById(
-      "projectGallery"
-    );
+  next.addEventListener("click", ()=>{
+    slider.scrollBy({ left: window.innerWidth * .72, behavior:"smooth" });
+  });
 
-  const next =
-    document.getElementById(
-      "slideNext"
-    );
-
-  const prev =
-    document.getElementById(
-      "slidePrev"
-    );
-
-  next.addEventListener(
-    "click",
-    ()=>{
-
-      slider.scrollBy({
-
-        left:
-          window.innerWidth * .72,
-
-        behavior:"smooth"
-
-      });
-
-    }
-  );
-
-  prev.addEventListener(
-    "click",
-    ()=>{
-
-      slider.scrollBy({
-
-        left:
-          -window.innerWidth * .72,
-
-        behavior:"smooth"
-
-      });
-
-    }
-  );
-
+  prev.addEventListener("click", ()=>{
+    slider.scrollBy({ left: -window.innerWidth * .72, behavior:"smooth" });
+  });
 }
 
 /* ====================================
    LIQUID CURSOR & TRIANGLE INTERACTION
 ==================================== */
-
-const cursor =
-  document.querySelector(
-    ".cursor"
-  );
-
-const path =
-  document.getElementById(
-    "cursorPath"
-  );
-
-let mouseX =
-  window.innerWidth / 2;
-
-let mouseY =
-  window.innerHeight / 2;
+const cursor = document.querySelector(".cursor");
+const path = document.getElementById("cursorPath");
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
 
 const CURSOR = {
-
-  dotSize:6,
-  hoverSize:69,
-
-  trailWidth:2.1,
-  trailOpacity:.9,
-
-  points:65,
-
-  headFollow:.77,
-  tailFollow:.7,
-
-  wobble:.7,
-  blur:0
-
+  dotSize:6, hoverSize:69, trailWidth:2.1, trailOpacity:.9,
+  points:65, headFollow:.77, tailFollow:.7, wobble:.7
 };
 
 let points = [];
+for(let i = 0; i < CURSOR.points; i++){ points.push({ x:mouseX, y:mouseY }); }
 
-for(
-  let i = 0;
-  i < CURSOR.points;
-  i++
-){
+path.setAttribute("stroke-width", CURSOR.trailWidth);
+path.setAttribute("opacity", CURSOR.trailOpacity);
 
-  points.push({
-
-    x:mouseX,
-    y:mouseY
-
-  });
-
-}
-
-path.setAttribute(
-  "stroke-width",
-  CURSOR.trailWidth
-);
-
-path.setAttribute(
-  "opacity",
-  CURSOR.trailOpacity
-);
-
-window.addEventListener(
-  "mousemove",
-  e => {
-
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-
-  }
-);
+window.addEventListener("mousemove", e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
 
 function animateCursor(){
+  cursor.style.left = mouseX + "px";
+  cursor.style.top = mouseY + "px";
 
-  cursor.style.left =
-    mouseX + "px";
+  points[0].x += (mouseX - points[0].x) * CURSOR.headFollow;
+  points[0].y += (mouseY - points[0].y) * CURSOR.headFollow;
 
-  cursor.style.top =
-    mouseY + "px";
-
-  points[0].x +=
-    (mouseX - points[0].x) *
-    CURSOR.headFollow;
-
-  points[0].y +=
-    (mouseY - points[0].y) *
-    CURSOR.headFollow;
-
-  for(
-    let i = 1;
-    i < points.length;
-    i++
-  ){
-
-    points[i].x +=
-      (points[i - 1].x - points[i].x) *
-      CURSOR.tailFollow;
-
-    points[i].y +=
-      (points[i - 1].y - points[i].y) *
-      CURSOR.tailFollow;
-
+  for(let i = 1; i < points.length; i++){
+    points[i].x += (points[i - 1].x - points[i].x) * CURSOR.tailFollow;
+    points[i].y += (points[i - 1].y - points[i].y) * CURSOR.tailFollow;
   }
 
-  let d = `
-    M
-    ${points[0].x}
-    ${points[0].y}
-  `;
-
-  for(
-    let i = 1;
-    i < points.length - 2;
-    i++
-  ){
-
-    const wobbleX =
-      Math.sin(
-        performance.now() * .001 + i
-      ) * CURSOR.wobble;
-
-    const wobbleY =
-      Math.cos(
-        performance.now() * .001 + i
-      ) * CURSOR.wobble;
-
-    const xc =
-      (
-        points[i].x +
-        points[i + 1].x
-      ) / 2;
-
-    const yc =
-      (
-        points[i].y +
-        points[i + 1].y
-      ) / 2;
-
-    d += `
-
-      Q
-      ${points[i].x + wobbleX}
-      ${points[i].y + wobbleY}
-      ${xc}
-      ${yc}
-
-    `;
-
+  let d = `M ${points[0].x} ${points[0].y}`;
+  for(let i = 1; i < points.length - 2; i++){
+    const wobbleX = Math.sin(performance.now() * .001 + i) * CURSOR.wobble;
+    const wobbleY = Math.cos(performance.now() * .001 + i) * CURSOR.wobble;
+    const xc = (points[i].x + points[i + 1].x) / 2;
+    const yc = (points[i].y + points[i + 1].y) / 2;
+    d += ` Q ${points[i].x + wobbleX} ${points[i].y + wobbleY} ${xc} ${yc} `;
   }
 
-  path.setAttribute(
-    "d",
-    d
-  );
-
-  requestAnimationFrame(
-    animateCursor
-  );
-
+  path.setAttribute("d", d);
+  requestAnimationFrame(animateCursor);
 }
-
 animateCursor();
 
 /* ====================================
-   HOVER EVENTS (NOW DETECTING GHOST NAVIGATION)
+   HOVER EVENTS
 ==================================== */
+document.addEventListener("mouseover", e => {
+  const target = e.target;
+  cursor.classList.remove("arrow-left", "arrow-right");
 
-document.addEventListener(
-  "mouseover",
-  e => {
-    const target = e.target;
-
-    // Reseta classes customizadas de setas primeiro
-    cursor.classList.remove("arrow-left", "arrow-right");
-
-    if (target.classList.contains("slide-prev")) {
-      cursor.classList.add("arrow-left");
-    } else if (target.classList.contains("slide-next")) {
-      cursor.classList.add("arrow-right");
-    } else if (target.closest("a, button, .project-thumb")) {
-      cursor.classList.add("hover");
-    } else {
-      cursor.classList.remove("hover");
-    }
+  if (target.classList.contains("slide-prev")) {
+    cursor.classList.add("arrow-left");
+  } else if (target.classList.contains("slide-next")) {
+    cursor.classList.add("arrow-right");
+  } else if (target.closest("a, button, .project-thumb")) {
+    cursor.classList.add("hover");
+  } else {
+    cursor.classList.remove("hover");
   }
-);
+});
 
-// Trata o caso em que o rato sai rápido da área do slider
 document.addEventListener("mouseout", e => {
   if (e.target.classList.contains("slide-nav")) {
     cursor.classList.remove("arrow-left", "arrow-right");
