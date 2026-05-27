@@ -334,19 +334,17 @@ header *{
 
   scrollbar-width:none;
 
-  cursor:grab;
-
-  user-select:none;
-
   -webkit-overflow-scrolling:touch;
-}
 
-.project-gallery.dragging{
-  cursor:grabbing;
+  cursor:grab;
 }
 
 .project-gallery::-webkit-scrollbar{
   display:none;
+}
+
+.project-gallery.dragging{
+  cursor:grabbing;
 }
 
 .project-gallery img{
@@ -359,7 +357,9 @@ header *{
 
   display:block;
 
-  pointer-events:none;
+  user-select:none;
+
+  -webkit-user-drag:none;
 }
 
 /* ====================================
@@ -603,29 +603,7 @@ header *{
 
 <section class="project-view" id="projectView"></section>
 
-<section class="about-section" id="aboutSection">
-
-  <div class="lang-pt">
-
-    <h2>UNN-A</h2>
-
-    <p>
-      UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
-    </p>
-
-  </div>
-
-  <div class="lang-en" style="display:none">
-
-    <h2>UNN-A</h2>
-
-    <p>
-      UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
-    </p>
-
-  </div>
-
-</section>
+<section class="about-section" id="aboutSection"></section>
 
 <div class="lightbox" id="lightbox">
 
@@ -723,14 +701,12 @@ function parseFrontmatter(text){
 const hero         = document.getElementById("hero");
 const projectsGrid = document.getElementById("projectsGrid");
 const projectView  = document.getElementById("projectView");
-const aboutSection = document.getElementById("aboutSection");
 
 function hideAll(){
 
   hero.style.display = "none";
   projectsGrid.style.display = "none";
   projectView.style.display = "none";
-  aboutSection.style.display = "none";
 
 }
 
@@ -757,18 +733,6 @@ document
   hideAll();
 
   projectsGrid.style.display = "grid";
-
-  window.scrollTo(0,0);
-
-});
-
-document
-.getElementById("aboutBtn")
-.addEventListener("click",()=>{
-
-  hideAll();
-
-  aboutSection.style.display = "block";
 
   window.scrollTo(0,0);
 
@@ -840,6 +804,10 @@ function normalizeImagePath(path){
 
 }
 
+/* ====================================
+   HERO RANDOM IMAGE
+==================================== */
+
 function setRandomHeroImage(){
 
   const allImages = [];
@@ -849,25 +817,35 @@ function setRandomHeroImage(){
     if(project.coverImage){
 
       allImages.push(
-        normalizeImagePath(project.coverImage)
+        normalizeImagePath(
+          project.coverImage
+        )
       );
 
     }
 
   });
 
-  if(allImages.length === 0) return;
+  if(!allImages.length) return;
 
-  const randomIndex =
-    Math.floor(
-      Math.random() * allImages.length
-    );
+  const randomImage =
+    allImages[
+      Math.floor(
+        Math.random() * allImages.length
+      )
+    ];
 
-  document
-    .getElementById("heroImage")
-    .src = allImages[randomIndex];
+  const heroImg =
+    document.getElementById("heroImage");
+
+  heroImg.src =
+    randomImage + "?v=" + Date.now();
 
 }
+
+/* ====================================
+   PROJECTS
+==================================== */
 
 function renderProjects(){
 
@@ -937,6 +915,10 @@ function renderProjects(){
 
 }
 
+/* ====================================
+   OPEN PROJECT
+==================================== */
+
 function openProject(project){
 
   hideAll();
@@ -944,7 +926,6 @@ function openProject(project){
   projectView.style.display = "block";
 
   let galleryHTML = "";
-
   let galleryImages = [];
 
   if(
@@ -959,20 +940,17 @@ function openProject(project){
 
     galleryHTML =
       galleryImages
-      .map((src,index) => {
+      .map((src,index)=>`
 
-        return `
+        <img
+          src="${src}"
+          loading="lazy"
+          data-index="${index}"
+          class="gallery-image"
+          draggable="false"
+        >
 
-          <img
-            src="${src}"
-            loading="lazy"
-            data-index="${index}"
-            class="gallery-image"
-          >
-
-        `;
-
-      })
+      `)
       .join("");
 
   }
@@ -1013,7 +991,10 @@ function openProject(project){
 
     </div>
 
-    <div class="project-gallery" id="projectGallery">
+    <div
+      class="project-gallery"
+      id="projectGallery"
+    >
 
       ${galleryHTML}
 
@@ -1023,36 +1004,30 @@ function openProject(project){
 
   setupGalleryDrag();
 
-  setTimeout(()=>{
+  const imgs =
+    document.querySelectorAll(
+      ".gallery-image"
+    );
 
-    const imgs =
-      document.querySelectorAll(
-        ".gallery-image"
+  imgs.forEach(img=>{
+
+    img.addEventListener("click",()=>{
+
+      openLightbox(
+        galleryImages,
+        parseInt(img.dataset.index)
       );
-
-    imgs.forEach(img=>{
-
-      img.style.pointerEvents = "auto";
-
-      img.addEventListener("click",()=>{
-
-        openLightbox(
-          galleryImages,
-          parseInt(img.dataset.index)
-        );
-
-      });
 
     });
 
-  },50);
+  });
 
   window.scrollTo(0,0);
 
 }
 
 /* ====================================
-   DRAG SLIDESHOW
+   NATURAL DRAG SCROLL
 ==================================== */
 
 function setupGalleryDrag(){
@@ -1065,48 +1040,77 @@ function setupGalleryDrag(){
   let isDown = false;
   let startX;
   let scrollLeft;
+  let moved = false;
 
-  slider.addEventListener("mousedown",(e)=>{
+  slider.addEventListener(
+    "pointerdown",
+    (e)=>{
 
-    isDown = true;
+      isDown = true;
+      moved = false;
 
-    slider.classList.add("dragging");
+      slider.classList.add(
+        "dragging"
+      );
 
-    startX = e.pageX;
-    scrollLeft = slider.scrollLeft;
+      startX = e.clientX;
+      scrollLeft = slider.scrollLeft;
 
-  });
+      slider.setPointerCapture(
+        e.pointerId
+      );
 
-  slider.addEventListener("mouseleave",()=>{
+    }
+  );
 
-    isDown = false;
+  slider.addEventListener(
+    "pointermove",
+    (e)=>{
 
-    slider.classList.remove("dragging");
+      if(!isDown) return;
 
-  });
+      const walk =
+        (e.clientX - startX);
 
-  slider.addEventListener("mouseup",()=>{
+      if(Math.abs(walk) > 5){
 
-    isDown = false;
+        moved = true;
 
-    slider.classList.remove("dragging");
+      }
 
-  });
+      slider.scrollLeft =
+        scrollLeft - walk;
 
-  slider.addEventListener("mousemove",(e)=>{
+    }
+  );
 
-    if(!isDown) return;
+  slider.addEventListener(
+    "pointerup",
+    ()=>{
 
-    e.preventDefault();
+      isDown = false;
 
-    const x = e.pageX;
+      slider.classList.remove(
+        "dragging"
+      );
 
-    const walk = (x - startX) * 1.5;
+    }
+  );
 
-    slider.scrollLeft =
-      scrollLeft - walk;
+  slider.addEventListener(
+    "click",
+    (e)=>{
 
-  });
+      if(moved){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+      }
+
+    },
+    true
+  );
 
 }
 
@@ -1118,8 +1122,11 @@ const cursor = document.querySelector(".cursor");
 
 window.addEventListener("mousemove",(e)=>{
 
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top  = e.clientY + "px";
+  cursor.style.left =
+    e.clientX + "px";
+
+  cursor.style.top =
+    e.clientY + "px";
 
 });
 
