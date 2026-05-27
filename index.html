@@ -658,78 +658,19 @@ function normalizeImagePath(path){
 
 }
 
-let lastHeroImage = "";
-
 function setRandomHeroImage(){
 
   const allImages = [];
 
   projects.forEach(project => {
 
-    if(
-      project.images &&
-      Array.isArray(project.images)
-    ){
+    if(project.coverImage){
 
-      project.images.forEach(img => {
-
-        let src = "";
-
-        if(typeof img === "string"){
-
-          src = img;
-
-        }else if(img.image){
-
-          src = img.image;
-
-        }
-
-        src = normalizeImagePath(src);
-
-        if(src){
-          allImages.push(src);
-        }
-
-      });
+      allImages.push(
+        normalizeImagePath(project.coverImage)
+      );
 
     }
-
-  });
-
-  if(allImages.length === 0) return;
-
-  let randomImage = "";
-
-  do{
-
-    randomImage =
-      allImages[
-        Math.floor(
-          Math.random() * allImages.length
-        )
-      ];
-
-  }while(
-    allImages.length > 1 &&
-    randomImage === lastHeroImage
-  );
-
-  lastHeroImage = randomImage;
-
-  const img = new Image();
-
-  img.src = randomImage;
-
-  img.onload = () => {
-
-    document
-      .getElementById("heroImage")
-      .src = randomImage;
-
-  };
-
-}
 
   });
 
