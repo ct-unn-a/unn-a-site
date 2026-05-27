@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -30,7 +30,8 @@
 
 html,
 body{
-  background:#fff;
+  width:100%;
+  overflow-x:hidden;
 }
 
 html{
@@ -41,53 +42,81 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:'Inter',sans-serif;
-  overflow-x:hidden;
   cursor:none;
 }
 
 /* ====================================
-   CUSTOM CURSOR
+   FLUID CURSOR
 ==================================== */
-
-a,
-button,
-.project-thumb,
-.project-gallery img{
-  cursor:none;
-}
 
 .cursor{
   position:fixed;
   top:0;
   left:0;
 
-  width:24px;
-  height:24px;
+  width:6px;
+  height:6px;
 
-  border-radius:50%;
-
-  background:white;
-
-  mix-blend-mode:difference;
+  border-radius:999px;
 
   pointer-events:none;
 
   z-index:9999999;
 
-  transform:
-    translate(-50%,-50%)
-    scale(1);
+  mix-blend-mode:difference;
+
+  transform:translate(-50%,-50%);
 
   transition:
-    transform .18s ease;
+    width .25s ease,
+    height .25s ease;
 
-  will-change:transform;
+  will-change:
+    transform,
+    width,
+    height;
+}
+
+.cursor::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  border-radius:inherit;
+
+  background:white;
 }
 
 .cursor.hover{
-  transform:
-    translate(-50%,-50%)
-    scale(2.5);
+  width:69px;
+  height:69px;
+}
+
+.cursor-svg{
+  position:fixed;
+  inset:0;
+
+  width:100vw;
+  height:100vh;
+
+  pointer-events:none;
+
+  z-index:9999998;
+
+  mix-blend-mode:difference;
+}
+
+/* ====================================
+   LINKS
+==================================== */
+
+a,
+button,
+.project-thumb,
+.project-gallery,
+.slide-nav{
+  cursor:none;
 }
 
 /* ====================================
@@ -98,17 +127,19 @@ header{
   position:fixed;
   top:0;
   left:0;
+
   width:100%;
 
-  z-index:9999;
+  padding:32px;
 
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
 
-  padding:32px;
+  z-index:1000;
 
   mix-blend-mode:difference;
+
   pointer-events:none;
 }
 
@@ -119,17 +150,17 @@ header *{
 .logo{
   text-decoration:none;
 
+  color:white;
+
   font-size:76px;
   line-height:.88;
+
   letter-spacing:-0.09em;
   font-weight:500;
-
-  color:white;
 }
 
 .top-nav{
   display:flex;
-  align-items:center;
   gap:28px;
 }
 
@@ -179,12 +210,12 @@ header *{
 
   object-fit:cover;
 
+  transform:scale(1.02);
+
   filter:
     contrast(1.02)
-    saturate(.94)
+    saturate(.95)
     brightness(.98);
-
-  transform:scale(1.01);
 }
 
 .hero-overlay{
@@ -195,7 +226,7 @@ header *{
     linear-gradient(
       to top,
       rgba(0,0,0,.12),
-      rgba(0,0,0,.02)
+      rgba(0,0,0,.03)
     );
 }
 
@@ -213,11 +244,10 @@ header *{
 
   font-size:15px;
   line-height:1.8;
-  letter-spacing:.01em;
 }
 
 /* ====================================
-   PROJECTS GRID
+   GRID
 ==================================== */
 
 .projects-grid{
@@ -230,7 +260,7 @@ header *{
   padding:
     140px
     32px
-    80px;
+    100px;
 }
 
 .project-thumb img{
@@ -238,16 +268,17 @@ header *{
   aspect-ratio:4/3;
 
   object-fit:cover;
+
   display:block;
 
   transition:
-    opacity .25s ease,
-    transform .4s ease;
+    transform .45s ease,
+    opacity .25s ease;
 }
 
 .project-thumb:hover img{
+  transform:scale(.985);
   opacity:.92;
-  transform:scale(.99);
 }
 
 .project-info{
@@ -288,26 +319,27 @@ header *{
     32px
     60px;
 
-  max-width:900px;
+  max-width:920px;
 }
 
 .project-content h1{
   font-size:92px;
   line-height:.88;
+
   letter-spacing:-0.09em;
   font-weight:500;
 
-  margin-bottom:24px;
+  margin-bottom:26px;
 }
 
 .project-content .meta{
+  margin-bottom:42px;
+
   font-size:11px;
   letter-spacing:.12em;
   text-transform:uppercase;
 
   color:var(--muted);
-
-  margin-bottom:42px;
 }
 
 .project-description{
@@ -330,6 +362,8 @@ header *{
   overflow-x:auto;
   overflow-y:hidden;
 
+  scroll-behavior:smooth;
+
   padding:
     0
     32px
@@ -338,64 +372,59 @@ header *{
   scrollbar-width:none;
 
   -webkit-overflow-scrolling:touch;
-
-  cursor:grab;
-
-  scroll-behavior:smooth;
-}
-
-.project-gallery::-webkit-scrollbar{
-  display:none;
 }
 
 .project-gallery.dragging{
   cursor:grabbing;
 }
 
+.project-gallery::-webkit-scrollbar{
+  display:none;
+}
+
 .project-gallery img{
   height:78vh;
   width:auto;
 
-  object-fit:contain;
-
   flex:none;
 
-  display:block;
+  object-fit:contain;
 
   user-select:none;
-
   -webkit-user-drag:none;
 
-  transition:opacity .25s ease;
+  pointer-events:none;
 }
 
-.project-gallery img:hover{
-  opacity:.9;
-}
+/* ====================================
+   NAV
+==================================== */
 
 .slide-nav{
   position:fixed;
   top:50%;
+
   transform:translateY(-50%);
 
-  width:70px;
-  height:70px;
+  width:68px;
+  height:68px;
 
   border:none;
+  border-radius:999px;
+
   background:white;
 
-  border-radius:50%;
-
-  font-size:32px;
   color:black;
 
-  mix-blend-mode:difference;
-
-  z-index:50;
+  font-size:34px;
 
   display:flex;
   align-items:center;
   justify-content:center;
+
+  mix-blend-mode:difference;
+
+  z-index:100;
 }
 
 .slide-prev{
@@ -422,12 +451,10 @@ header *{
 }
 
 .about-section h2{
-  font-family:'Cormorant Garamond',serif;
-
   font-size:84px;
   line-height:.9;
 
-  letter-spacing:-0.05em;
+  letter-spacing:-0.08em;
   font-weight:500;
 
   margin-bottom:32px;
@@ -454,20 +481,21 @@ header *{
 
 @media(max-width:900px){
 
+  body{
+    cursor:auto;
+  }
+
+  .cursor,
+  .cursor-svg{
+    display:none;
+  }
+
   header{
     padding:22px;
   }
 
   .logo{
     font-size:46px;
-  }
-
-  .top-nav{
-    gap:16px;
-  }
-
-  .top-nav button{
-    font-size:11px;
   }
 
   .projects-grid{
@@ -499,34 +527,12 @@ header *{
     font-size:58px;
   }
 
-  .about-section{
-    padding:
-      120px
-      22px
-      80px;
-  }
-
-  .about-section h2{
-    font-size:58px;
-  }
-
-  .slide-nav{
-    width:56px;
-    height:56px;
-
-    font-size:24px;
-  }
-
 }
 
 @media(max-width:640px){
 
   .projects-grid{
     grid-template-columns:1fr;
-  }
-
-  .project-title{
-    font-size:24px;
   }
 
 }
@@ -538,6 +544,18 @@ header *{
 
 <div class="cursor"></div>
 
+<svg class="cursor-svg">
+  <path
+    id="cursorPath"
+    fill="none"
+    stroke="white"
+    stroke-width="2.1"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity=".9"
+  />
+</svg>
+
 <header>
 
   <a href="#" class="logo" id="homeBtn">
@@ -547,8 +565,19 @@ header *{
   <nav class="top-nav">
 
     <button id="projectsBtn">
-      <span class="lang-pt">Projetos</span>
-      <span class="lang-en" style="display:none">Projects</span>
+
+      <span class="lang-pt">
+        Projetos
+      </span>
+
+      <span
+        class="lang-en"
+        style="display:none">
+
+        Projects
+
+      </span>
+
     </button>
 
     <button id="aboutBtn">
@@ -574,42 +603,100 @@ header *{
   <div class="hero-text">
 
     <p class="lang-pt">
-      Arquitetura contemporânea, funcional e integrada no território.
+      Arquitetura contemporânea,
+      funcional e integrada no território.
     </p>
 
-    <p class="lang-en" style="display:none">
-      Contemporary architecture integrated into territory and context.
+    <p
+      class="lang-en"
+      style="display:none">
+
+      Contemporary architecture integrated
+      into territory and context.
+
     </p>
 
   </div>
 
 </section>
 
-<section class="projects-grid" id="projectsGrid"></section>
+<section
+  class="projects-grid"
+  id="projectsGrid">
+</section>
 
-<section class="project-view" id="projectView"></section>
+<section
+  class="project-view"
+  id="projectView">
+</section>
 
-<section class="about-section" id="aboutSection"></section>
+<section
+  class="about-section"
+  id="aboutSection">
+
+  <div class="lang-pt">
+
+    <h2>UNN-A</h2>
+
+    <p>
+      UNN-A (Unnamed Architects)
+      é um atelier de arquitetura focado
+      em soluções contemporâneas,
+      funcionais e integradas no território.
+    </p>
+
+  </div>
+
+  <div
+    class="lang-en"
+    style="display:none">
+
+    <h2>UNN-A</h2>
+
+    <p>
+      UNN-A is an architecture studio focused
+      on contemporary and contextual
+      architectural solutions.
+    </p>
+
+  </div>
+
+</section>
 
 <script>
 
+/* ====================================
+   NETLIFY
+==================================== */
+
 if(window.netlifyIdentity){
 
-  window.netlifyIdentity.on("init", user => {
+  window.netlifyIdentity.on(
+    "init",
+    user => {
 
-    if(!user){
+      if(!user){
 
-      window.netlifyIdentity.on("login", () => {
+        window.netlifyIdentity.on(
+          "login",
+          () => {
 
-        document.location.href = "/admin/";
+            document.location.href =
+              "/admin/";
 
-      });
+          }
+        );
+
+      }
 
     }
-
-  });
+  );
 
 }
+
+/* ====================================
+   LANGUAGE
+==================================== */
 
 let currentLang = "pt";
 
@@ -617,16 +704,18 @@ function applyLang(lang){
 
   const isEN = lang === "en";
 
-  document.querySelectorAll(".lang-pt")
-    .forEach(el => {
+  document
+    .querySelectorAll(".lang-pt")
+    .forEach(el=>{
 
       el.style.display =
         isEN ? "none" : "";
 
     });
 
-  document.querySelectorAll(".lang-en")
-    .forEach(el => {
+  document
+    .querySelectorAll(".lang-en")
+    .forEach(el=>{
 
       el.style.display =
         isEN ? "" : "none";
@@ -644,16 +733,22 @@ document
       ? "en"
       : "pt";
 
-  document.getElementById("langToggle").textContent =
-    currentLang === "pt"
-      ? "EN"
-      : "PT";
+  document
+    .getElementById("langToggle")
+    .textContent =
+      currentLang === "pt"
+        ? "EN"
+        : "PT";
 
   applyLang(currentLang);
 
   renderProjects();
 
 });
+
+/* ====================================
+   HELPERS
+==================================== */
 
 function parseFrontmatter(text){
 
@@ -666,15 +761,44 @@ function parseFrontmatter(text){
 
 }
 
-const hero         = document.getElementById("hero");
-const projectsGrid = document.getElementById("projectsGrid");
-const projectView  = document.getElementById("projectView");
+function normalizeImagePath(path){
+
+  if(!path) return "";
+
+  if(path.startsWith("/unn-a-site")){
+    return path;
+  }
+
+  return "/unn-a-site" + path;
+
+}
+
+/* ====================================
+   DOM
+==================================== */
+
+const hero =
+  document.getElementById("hero");
+
+const projectsGrid =
+  document.getElementById("projectsGrid");
+
+const projectView =
+  document.getElementById("projectView");
+
+const aboutSection =
+  document.getElementById("aboutSection");
+
+/* ====================================
+   NAVIGATION
+==================================== */
 
 function hideAll(){
 
   hero.style.display = "none";
   projectsGrid.style.display = "none";
   projectView.style.display = "none";
+  aboutSection.style.display = "none";
 
 }
 
@@ -700,11 +824,29 @@ document
 
   hideAll();
 
-  projectsGrid.style.display = "grid";
+  projectsGrid.style.display =
+    "grid";
 
   window.scrollTo(0,0);
 
 });
+
+document
+.getElementById("aboutBtn")
+.addEventListener("click",()=>{
+
+  hideAll();
+
+  aboutSection.style.display =
+    "block";
+
+  window.scrollTo(0,0);
+
+});
+
+/* ====================================
+   FETCH PROJECTS
+==================================== */
 
 const GITHUB_API =
 "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
@@ -713,9 +855,9 @@ let projects = [];
 
 fetch(GITHUB_API)
 
-.then(res => res.json())
+.then(res=>res.json())
 
-.then(files => {
+.then(files=>{
 
   files.sort((a,b)=>
     a.name.localeCompare(b.name)
@@ -724,19 +866,21 @@ fetch(GITHUB_API)
   return Promise.all(
 
     files
-      .filter(f => f.name.endsWith(".md"))
+      .filter(f =>
+        f.name.endsWith(".md")
+      )
       .map(f =>
         fetch(f.download_url)
-          .then(r => r.text())
+        .then(r=>r.text())
       )
 
   );
 
 })
 
-.then(markdownFiles => {
+.then(markdownFiles=>{
 
-  markdownFiles.forEach(md => {
+  markdownFiles.forEach(md=>{
 
     const project =
       parseFrontmatter(md);
@@ -751,7 +895,7 @@ fetch(GITHUB_API)
 
 })
 
-.catch(err => {
+.catch(err=>{
 
   console.error(
     "Erro ao carregar projetos:",
@@ -760,27 +904,15 @@ fetch(GITHUB_API)
 
 });
 
-function normalizeImagePath(path){
-
-  if(!path) return "";
-
-  if(path.startsWith("/unn-a-site")){
-    return path;
-  }
-
-  return "/unn-a-site" + path;
-
-}
-
 /* ====================================
-   HERO RANDOM IMAGE
+   HERO IMAGE
 ==================================== */
 
 function setRandomHeroImage(){
 
   const allImages = [];
 
-  projects.forEach(project => {
+  projects.forEach(project=>{
 
     if(project.coverImage){
 
@@ -796,31 +928,33 @@ function setRandomHeroImage(){
 
   if(!allImages.length) return;
 
+  const randomIndex =
+    Math.floor(
+      Math.random() *
+      allImages.length
+    );
+
   const randomImage =
-    allImages[
-      Math.floor(
-        Math.random() * allImages.length
-      )
-    ];
+    allImages[randomIndex];
 
   document
     .getElementById("heroImage")
     .src =
       randomImage +
       "?v=" +
-      Math.random();
+      Date.now();
 
 }
 
 /* ====================================
-   PROJECTS
+   PROJECT GRID
 ==================================== */
 
 function renderProjects(){
 
   projectsGrid.innerHTML = "";
 
-  projects.forEach(project => {
+  projects.forEach(project=>{
 
     let cover = "";
 
@@ -872,13 +1006,18 @@ function renderProjects(){
 
     `;
 
-    thumb.addEventListener("click",()=>{
+    thumb.addEventListener(
+      "click",
+      ()=>{
 
-      openProject(project);
+        openProject(project);
 
-    });
+      }
+    );
 
-    projectsGrid.appendChild(thumb);
+    projectsGrid.appendChild(
+      thumb
+    );
 
   });
 
@@ -892,7 +1031,8 @@ function openProject(project){
 
   hideAll();
 
-  projectView.style.display = "block";
+  projectView.style.display =
+    "block";
 
   let galleryHTML = "";
 
@@ -903,10 +1043,12 @@ function openProject(project){
 
     galleryHTML =
       project.images
-      .map(img => {
+      .map(img=>{
 
         const src =
-          normalizeImagePath(img.image);
+          normalizeImagePath(
+            img.image
+          );
 
         return `
 
@@ -996,7 +1138,7 @@ function openProject(project){
 }
 
 /* ====================================
-   DRAG
+   DRAG SLIDER
 ==================================== */
 
 function setupGalleryDrag(){
@@ -1009,33 +1151,26 @@ function setupGalleryDrag(){
   if(!slider) return;
 
   let isDown = false;
-  let startX;
-  let scrollLeft;
+  let startX = 0;
+  let scrollLeft = 0;
 
   slider.addEventListener(
     "pointerdown",
-    (e)=>{
+    e => {
 
       isDown = true;
+
+      startX = e.clientX;
+
+      scrollLeft =
+        slider.scrollLeft;
 
       slider.classList.add(
         "dragging"
       );
 
-      startX = e.clientX;
-      scrollLeft = slider.scrollLeft;
-
-    }
-  );
-
-  window.addEventListener(
-    "pointerup",
-    ()=>{
-
-      isDown = false;
-
-      slider.classList.remove(
-        "dragging"
+      slider.setPointerCapture(
+        e.pointerId
       );
 
     }
@@ -1043,12 +1178,12 @@ function setupGalleryDrag(){
 
   slider.addEventListener(
     "pointermove",
-    (e)=>{
+    e => {
 
       if(!isDown) return;
 
       const walk =
-        (e.clientX - startX);
+        e.clientX - startX;
 
       slider.scrollLeft =
         scrollLeft - walk;
@@ -1056,10 +1191,27 @@ function setupGalleryDrag(){
     }
   );
 
+  slider.addEventListener(
+    "pointerup",
+    e => {
+
+      isDown = false;
+
+      slider.classList.remove(
+        "dragging"
+      );
+
+      slider.releasePointerCapture(
+        e.pointerId
+      );
+
+    }
+  );
+
 }
 
 /* ====================================
-   CLICK NEXT / PREV
+   NEXT / PREV
 ==================================== */
 
 function setupGalleryButtons(){
@@ -1084,9 +1236,12 @@ function setupGalleryButtons(){
     ()=>{
 
       slider.scrollBy({
+
         left:
-          window.innerWidth * 0.7,
+          window.innerWidth * .72,
+
         behavior:"smooth"
+
       });
 
     }
@@ -1097,9 +1252,12 @@ function setupGalleryButtons(){
     ()=>{
 
       slider.scrollBy({
+
         left:
-          -window.innerWidth * 0.7,
+          -window.innerWidth * .72,
+
         behavior:"smooth"
+
       });
 
     }
@@ -1108,32 +1266,182 @@ function setupGalleryButtons(){
 }
 
 /* ====================================
-   CUSTOM CURSOR
+   LIQUID CURSOR
 ==================================== */
 
 const cursor =
-  document.querySelector(".cursor");
+  document.querySelector(
+    ".cursor"
+  );
+
+const path =
+  document.getElementById(
+    "cursorPath"
+  );
+
+let mouseX =
+  window.innerWidth / 2;
+
+let mouseY =
+  window.innerHeight / 2;
+
+const CURSOR = {
+
+  dotSize:6,
+  hoverSize:69,
+
+  trailWidth:2.1,
+  trailOpacity:.9,
+
+  points:65,
+
+  headFollow:.77,
+  tailFollow:.7,
+
+  wobble:.7,
+  blur:0
+
+};
+
+let points = [];
+
+for(
+  let i = 0;
+  i < CURSOR.points;
+  i++
+){
+
+  points.push({
+
+    x:mouseX,
+    y:mouseY
+
+  });
+
+}
+
+path.setAttribute(
+  "stroke-width",
+  CURSOR.trailWidth
+);
+
+path.setAttribute(
+  "opacity",
+  CURSOR.trailOpacity
+);
 
 window.addEventListener(
   "mousemove",
-  (e)=>{
+  e => {
 
-    cursor.style.left =
-      e.clientX + "px";
-
-    cursor.style.top =
-      e.clientY + "px";
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 
   }
 );
 
+function animateCursor(){
+
+  cursor.style.left =
+    mouseX + "px";
+
+  cursor.style.top =
+    mouseY + "px";
+
+  points[0].x +=
+    (mouseX - points[0].x) *
+    CURSOR.headFollow;
+
+  points[0].y +=
+    (mouseY - points[0].y) *
+    CURSOR.headFollow;
+
+  for(
+    let i = 1;
+    i < points.length;
+    i++
+  ){
+
+    points[i].x +=
+      (points[i - 1].x - points[i].x) *
+      CURSOR.tailFollow;
+
+    points[i].y +=
+      (points[i - 1].y - points[i].y) *
+      CURSOR.tailFollow;
+
+  }
+
+  let d = `
+    M
+    ${points[0].x}
+    ${points[0].y}
+  `;
+
+  for(
+    let i = 1;
+    i < points.length - 2;
+    i++
+  ){
+
+    const wobbleX =
+      Math.sin(
+        performance.now() * .001 + i
+      ) * CURSOR.wobble;
+
+    const wobbleY =
+      Math.cos(
+        performance.now() * .001 + i
+      ) * CURSOR.wobble;
+
+    const xc =
+      (
+        points[i].x +
+        points[i + 1].x
+      ) / 2;
+
+    const yc =
+      (
+        points[i].y +
+        points[i + 1].y
+      ) / 2;
+
+    d += `
+
+      Q
+      ${points[i].x + wobbleX}
+      ${points[i].y + wobbleY}
+      ${xc}
+      ${yc}
+
+    `;
+
+  }
+
+  path.setAttribute(
+    "d",
+    d
+  );
+
+  requestAnimationFrame(
+    animateCursor
+  );
+
+}
+
+animateCursor();
+
+/* ====================================
+   HOVER
+==================================== */
+
 document.addEventListener(
   "mouseover",
-  (e)=>{
+  e => {
 
     if(
       e.target.closest(
-        "a, button, .project-thumb, .project-gallery img"
+        "a, button, .project-thumb, .slide-nav"
       )
     ){
 
