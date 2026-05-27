@@ -52,8 +52,7 @@ body{
 a,
 button,
 .project-thumb,
-.project-gallery img,
-.lightbox button{
+.project-gallery img{
   cursor:none;
 }
 
@@ -317,8 +316,12 @@ header *{
 }
 
 /* ====================================
-   HORIZONTAL SLIDESHOW
+   SLIDESHOW
 ==================================== */
+
+.project-gallery-wrap{
+  position:relative;
+}
 
 .project-gallery{
   display:flex;
@@ -337,6 +340,8 @@ header *{
   -webkit-overflow-scrolling:touch;
 
   cursor:grab;
+
+  scroll-behavior:smooth;
 }
 
 .project-gallery::-webkit-scrollbar{
@@ -360,6 +365,45 @@ header *{
   user-select:none;
 
   -webkit-user-drag:none;
+
+  transition:opacity .25s ease;
+}
+
+.project-gallery img:hover{
+  opacity:.9;
+}
+
+.slide-nav{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+
+  width:70px;
+  height:70px;
+
+  border:none;
+  background:white;
+
+  border-radius:50%;
+
+  font-size:32px;
+  color:black;
+
+  mix-blend-mode:difference;
+
+  z-index:50;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.slide-prev{
+  left:24px;
+}
+
+.slide-next{
+  right:24px;
 }
 
 /* ====================================
@@ -394,71 +438,6 @@ header *{
 
   font-size:17px;
   line-height:1.9;
-}
-
-/* ====================================
-   LIGHTBOX
-==================================== */
-
-.lightbox{
-  position:fixed;
-  inset:0;
-
-  background:black;
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  z-index:999999;
-}
-
-.lightbox.active{
-  display:flex;
-}
-
-.lightbox img{
-  max-width:92vw;
-  max-height:92vh;
-
-  object-fit:contain;
-}
-
-.lightbox-close{
-  position:absolute;
-  top:24px;
-  right:24px;
-
-  background:none;
-  border:none;
-
-  color:white;
-
-  font-size:48px;
-}
-
-.lightbox-nav{
-  position:absolute;
-  top:50%;
-
-  transform:translateY(-50%);
-
-  background:none;
-  border:none;
-
-  color:white;
-
-  font-size:72px;
-
-  padding:20px;
-}
-
-.lightbox-nav.prev{
-  left:20px;
-}
-
-.lightbox-nav.next{
-  right:20px;
 }
 
 /* ====================================
@@ -529,6 +508,13 @@ header *{
 
   .about-section h2{
     font-size:58px;
+  }
+
+  .slide-nav{
+    width:56px;
+    height:56px;
+
+    font-size:24px;
   }
 
 }
@@ -604,24 +590,6 @@ header *{
 <section class="project-view" id="projectView"></section>
 
 <section class="about-section" id="aboutSection"></section>
-
-<div class="lightbox" id="lightbox">
-
-  <button class="lightbox-close" id="lightboxClose">
-    ×
-  </button>
-
-  <button class="lightbox-nav prev" id="prevSlide">
-    ‹
-  </button>
-
-  <img id="lightboxImage" src="" alt="">
-
-  <button class="lightbox-nav next" id="nextSlide">
-    ›
-  </button>
-
-</div>
 
 <script>
 
@@ -835,11 +803,12 @@ function setRandomHeroImage(){
       )
     ];
 
-  const heroImg =
-    document.getElementById("heroImage");
-
-  heroImg.src =
-    randomImage + "?v=" + Date.now();
+  document
+    .getElementById("heroImage")
+    .src =
+      randomImage +
+      "?v=" +
+      Math.random();
 
 }
 
@@ -926,31 +895,30 @@ function openProject(project){
   projectView.style.display = "block";
 
   let galleryHTML = "";
-  let galleryImages = [];
 
   if(
     project.images &&
     Array.isArray(project.images)
   ){
 
-    galleryImages =
-      project.images.map(img =>
-        normalizeImagePath(img.image)
-      );
-
     galleryHTML =
-      galleryImages
-      .map((src,index)=>`
+      project.images
+      .map(img => {
 
-        <img
-          src="${src}"
-          loading="lazy"
-          data-index="${index}"
-          class="gallery-image"
-          draggable="false"
-        >
+        const src =
+          normalizeImagePath(img.image);
 
-      `)
+        return `
+
+          <img
+            src="${src}"
+            loading="lazy"
+            draggable="false"
+          >
+
+        `;
+
+      })
       .join("");
 
   }
@@ -991,63 +959,64 @@ function openProject(project){
 
     </div>
 
-    <div
-      class="project-gallery"
-      id="projectGallery"
-    >
+    <div class="project-gallery-wrap">
 
-      ${galleryHTML}
+      <button
+        class="slide-nav slide-prev"
+        id="slidePrev"
+      >
+        ‹
+      </button>
+
+      <div
+        class="project-gallery"
+        id="projectGallery"
+      >
+
+        ${galleryHTML}
+
+      </div>
+
+      <button
+        class="slide-nav slide-next"
+        id="slideNext"
+      >
+        ›
+      </button>
 
     </div>
 
   `;
 
   setupGalleryDrag();
-
-  const imgs =
-    document.querySelectorAll(
-      ".gallery-image"
-    );
-
-  imgs.forEach(img=>{
-
-    img.addEventListener("click",()=>{
-
-      openLightbox(
-        galleryImages,
-        parseInt(img.dataset.index)
-      );
-
-    });
-
-  });
+  setupGalleryButtons();
 
   window.scrollTo(0,0);
 
 }
 
 /* ====================================
-   NATURAL DRAG SCROLL
+   DRAG
 ==================================== */
 
 function setupGalleryDrag(){
 
   const slider =
-    document.getElementById("projectGallery");
+    document.getElementById(
+      "projectGallery"
+    );
 
   if(!slider) return;
 
   let isDown = false;
   let startX;
   let scrollLeft;
-  let moved = false;
 
   slider.addEventListener(
     "pointerdown",
     (e)=>{
 
       isDown = true;
-      moved = false;
 
       slider.classList.add(
         "dragging"
@@ -1056,8 +1025,17 @@ function setupGalleryDrag(){
       startX = e.clientX;
       scrollLeft = slider.scrollLeft;
 
-      slider.setPointerCapture(
-        e.pointerId
+    }
+  );
+
+  window.addEventListener(
+    "pointerup",
+    ()=>{
+
+      isDown = false;
+
+      slider.classList.remove(
+        "dragging"
       );
 
     }
@@ -1072,44 +1050,59 @@ function setupGalleryDrag(){
       const walk =
         (e.clientX - startX);
 
-      if(Math.abs(walk) > 5){
-
-        moved = true;
-
-      }
-
       slider.scrollLeft =
         scrollLeft - walk;
 
     }
   );
 
-  slider.addEventListener(
-    "pointerup",
+}
+
+/* ====================================
+   CLICK NEXT / PREV
+==================================== */
+
+function setupGalleryButtons(){
+
+  const slider =
+    document.getElementById(
+      "projectGallery"
+    );
+
+  const next =
+    document.getElementById(
+      "slideNext"
+    );
+
+  const prev =
+    document.getElementById(
+      "slidePrev"
+    );
+
+  next.addEventListener(
+    "click",
     ()=>{
 
-      isDown = false;
-
-      slider.classList.remove(
-        "dragging"
-      );
+      slider.scrollBy({
+        left:
+          window.innerWidth * 0.7,
+        behavior:"smooth"
+      });
 
     }
   );
 
-  slider.addEventListener(
+  prev.addEventListener(
     "click",
-    (e)=>{
+    ()=>{
 
-      if(moved){
+      slider.scrollBy({
+        left:
+          -window.innerWidth * 0.7,
+        behavior:"smooth"
+      });
 
-        e.preventDefault();
-        e.stopPropagation();
-
-      }
-
-    },
-    true
+    }
   );
 
 }
@@ -1118,144 +1111,46 @@ function setupGalleryDrag(){
    CUSTOM CURSOR
 ==================================== */
 
-const cursor = document.querySelector(".cursor");
+const cursor =
+  document.querySelector(".cursor");
 
-window.addEventListener("mousemove",(e)=>{
+window.addEventListener(
+  "mousemove",
+  (e)=>{
 
-  cursor.style.left =
-    e.clientX + "px";
+    cursor.style.left =
+      e.clientX + "px";
 
-  cursor.style.top =
-    e.clientY + "px";
-
-});
-
-document.addEventListener("mouseover",(e)=>{
-
-  if(
-    e.target.closest(
-      "a, button, .project-thumb, .gallery-image"
-    )
-  ){
-
-    cursor.classList.add("hover");
-
-  }else{
-
-    cursor.classList.remove("hover");
+    cursor.style.top =
+      e.clientY + "px";
 
   }
-
-});
-
-/* ====================================
-   LIGHTBOX
-==================================== */
-
-const lightbox      = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
-
-const prevSlideBtn  = document.getElementById("prevSlide");
-const nextSlideBtn  = document.getElementById("nextSlide");
-
-const closeLightbox = document.getElementById("lightboxClose");
-
-let currentGallery = [];
-let currentIndex   = 0;
-
-function openLightbox(images,index){
-
-  currentGallery = images;
-  currentIndex   = index;
-
-  updateLightbox();
-
-  lightbox.classList.add("active");
-
-}
-
-function updateLightbox(){
-
-  lightboxImage.src =
-    currentGallery[currentIndex];
-
-}
-
-function nextSlide(){
-
-  currentIndex =
-    (currentIndex + 1)
-    % currentGallery.length;
-
-  updateLightbox();
-
-}
-
-function prevSlide(){
-
-  currentIndex =
-    (currentIndex - 1 + currentGallery.length)
-    % currentGallery.length;
-
-  updateLightbox();
-
-}
-
-nextSlideBtn.addEventListener(
-  "click",
-  nextSlide
 );
 
-prevSlideBtn.addEventListener(
-  "click",
-  prevSlide
+document.addEventListener(
+  "mouseover",
+  (e)=>{
+
+    if(
+      e.target.closest(
+        "a, button, .project-thumb, .project-gallery img"
+      )
+    ){
+
+      cursor.classList.add(
+        "hover"
+      );
+
+    }else{
+
+      cursor.classList.remove(
+        "hover"
+      );
+
+    }
+
+  }
 );
-
-function closeLB(){
-
-  lightbox.classList.remove("active");
-
-}
-
-closeLightbox.addEventListener(
-  "click",
-  closeLB
-);
-
-lightbox.addEventListener("click",(e)=>{
-
-  if(e.target === lightbox){
-
-    closeLB();
-
-  }
-
-});
-
-document.addEventListener("keydown",(e)=>{
-
-  if(!lightbox.classList.contains("active"))
-    return;
-
-  if(e.key === "ArrowRight"){
-
-    nextSlide();
-
-  }
-
-  if(e.key === "ArrowLeft"){
-
-    prevSlide();
-
-  }
-
-  if(e.key === "Escape"){
-
-    closeLB();
-
-  }
-
-});
 
 </script>
 
