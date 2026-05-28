@@ -80,14 +80,14 @@ body{
   height:69px;
 }
 
-.cursor.arrow-left {
+.cursor.arrow-left{
   width:24px;
   height:24px;
   border-radius:0%;
   clip-path:polygon(100% 0%, 0% 50%, 100% 100%);
 }
 
-.cursor.arrow-right {
+.cursor.arrow-right{
   width:24px;
   height:24px;
   border-radius:0%;
@@ -193,45 +193,52 @@ header *{
 }
 
 .project-thumb{
-  text-decoration:none;
-  color:inherit;
+  position:relative;
   display:block;
+  overflow:hidden;
+  text-decoration:none;
+  background:#ddd;
+  aspect-ratio:3/4;
 }
 
 .project-thumb img{
   width:100%;
-  height:320px;
+  height:100%;
   object-fit:cover;
   display:block;
   transition:
-    transform .45s ease,
-    opacity .25s ease;
-  background:#ddd;
+    opacity .45s ease,
+    transform .8s ease;
 }
 
 .project-thumb:hover img{
-  transform:scale(.985);
-  opacity:.92;
+  opacity:0;
+  transform:scale(1.02);
 }
 
-.project-info{
-  margin-top:12px;
+.project-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  opacity:0;
+  transition:opacity .35s ease;
+}
+
+.project-thumb:hover .project-overlay{
+  opacity:1;
 }
 
 .project-title{
   font-family:'Syne',sans-serif;
-  font-size:30px;
-  line-height:.95;
+  font-size:40px;
+  line-height:.9;
   letter-spacing:-0.07em;
   font-weight:600;
-}
-
-.project-meta{
-  margin-top:8px;
-  font-size:11px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--muted);
+  text-align:center;
+  color:var(--text);
 }
 
 /* ====================================
@@ -344,42 +351,41 @@ header *{
   margin-bottom:60px;
 }
 
-/* Estilos adicionados para os Sócios */
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-  max-width: 900px;
-  margin-top: 60px;
+.partners-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:40px;
+  max-width:900px;
+  margin-top:60px;
 }
 
-.partner-card {
-  display: flex;
-  flex-direction: column;
+.partner-card{
+  display:flex;
+  flex-direction:column;
 }
 
-.partner-card img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4/5;
-  object-fit: cover;
-  background: #ddd;
-  margin-bottom: 16px;
+.partner-card img{
+  width:100%;
+  height:auto;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  background:#ddd;
+  margin-bottom:16px;
 }
 
-.partner-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  margin-bottom: 4px;
+.partner-name{
+  font-family:'Syne',sans-serif;
+  font-size:24px;
+  font-weight:500;
+  letter-spacing:-0.04em;
+  margin-bottom:4px;
 }
 
-.partner-role {
-  font-size: 12px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
+.partner-role{
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
 }
 
 /* ====================================
@@ -387,60 +393,95 @@ header *{
 ==================================== */
 
 @media(max-width:1100px){
+
   .projects-grid{
     grid-template-columns:repeat(2,1fr);
   }
+
 }
 
 @media(max-width:900px){
+
   body{
     cursor:auto;
   }
+
   .cursor,
   .cursor-svg{
     display:none;
   }
+
   header{
     padding:22px;
   }
+
   .logo{
     top:22px;
     left:22px;
   }
+
   .logo img{
     width:72px;
   }
+
   .projects-grid{
     padding:110px 22px 60px;
+    gap:14px;
   }
+
+  .project-title{
+    font-size:34px;
+  }
+
   .project-content{
     padding:120px 22px 50px;
   }
+
   .project-gallery{
     padding:0 22px 80px;
   }
+
   .project-gallery img{
     height:62vh;
   }
+
   .project-content h1{
     font-size:58px;
   }
+
   .slide-nav{
     display:none;
   }
+
+  .about-section{
+    padding:120px 22px 80px;
+  }
+
   .about-section h2{
     font-size:54px;
   }
-  .partners-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+
+  .partners-grid{
+    grid-template-columns:1fr;
+    gap:32px;
   }
+
 }
 
 @media(max-width:640px){
+
   .projects-grid{
     grid-template-columns:1fr;
   }
+
+  .project-thumb{
+    aspect-ratio:4/5;
+  }
+
+  .project-title{
+    font-size:42px;
+  }
+
 }
 
 </style>
@@ -467,14 +508,20 @@ header *{
 </a>
 
 <header>
+
   <nav class="top-nav">
+
     <a href="#projetos">
       <span class="lang-pt">Projetos</span>
       <span class="lang-en" style="display:none">Projects</span>
     </a>
+
     <a href="#about">About</a>
+
     <button id="langToggle">EN</button>
+
   </nav>
+
 </header>
 
 <section class="projects-grid" id="projectsGrid"></section>
@@ -482,47 +529,59 @@ header *{
 <section class="project-view" id="projectView"></section>
 
 <section class="about-section" id="aboutSection">
+
   <div class="lang-pt">
+
     <h2>Unnamed Architects</h2>
+
     <p>
       UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
     </p>
-    
-    <!-- Sócios em PT -->
+
     <div class="partners-grid">
+
       <div class="partner-card">
         <img src="/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
         <div class="partner-name">Andreia Santa Margarido</div>
         <div class="partner-role">Arquiteta Sócia Fundadora</div>
       </div>
+
       <div class="partner-card">
         <img src="/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
         <div class="partner-name">Gustavo Guimarães</div>
-        <div class="partner-role">Arquiteto Sócio Fundadora</div>
+        <div class="partner-role">Arquiteto Sócio Fundador</div>
       </div>
+
     </div>
+
   </div>
-  
+
   <div class="lang-en" style="display:none">
+
     <h2>UNN-A</h2>
+
     <p>
       UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
     </p>
-    
-    <!-- Sócios em EN -->
+
     <div class="partners-grid">
+
       <div class="partner-card">
         <img src="/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
         <div class="partner-name">Andreia Santa Margarido</div>
         <div class="partner-role">Founding Partner & Architect</div>
       </div>
+
       <div class="partner-card">
         <img src="/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
         <div class="partner-name">Gustavo Guimarães</div>
         <div class="partner-role">Founding Partner & Architect</div>
       </div>
+
     </div>
+
   </div>
+
 </section>
 
 <script>
@@ -532,13 +591,19 @@ header *{
 ==================================== */
 
 if(window.netlifyIdentity){
+
   window.netlifyIdentity.on("init", user => {
+
     if(!user){
+
       window.netlifyIdentity.on("login", () => {
         document.location.href = "/admin/";
       });
+
     }
+
   });
+
 }
 
 /* ====================================
@@ -548,21 +613,30 @@ if(window.netlifyIdentity){
 let currentLang = "pt";
 
 function applyLang(lang){
+
   const isEN = lang === "en";
+
   document.querySelectorAll(".lang-pt").forEach(el=>{
     el.style.display = isEN ? "none" : "";
   });
+
   document.querySelectorAll(".lang-en").forEach(el=>{
     el.style.display = isEN ? "" : "none";
   });
+
 }
 
 document.getElementById("langToggle").addEventListener("click",()=>{
+
   currentLang = currentLang === "pt" ? "en" : "pt";
+
   document.getElementById("langToggle").textContent =
     currentLang === "pt" ? "EN" : "PT";
+
   applyLang(currentLang);
+
   renderProjects();
+
 });
 
 /* ====================================
@@ -570,27 +644,41 @@ document.getElementById("langToggle").addEventListener("click",()=>{
 ==================================== */
 
 function parseFrontmatter(text){
+
   if(!text.startsWith("---")){
     return {};
   }
+
   const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
+
   if(!match){
     return {};
   }
+
   try{
+
     return jsyaml.load(match[1]) || {};
+
   }catch(e){
+
     console.error("Erro YAML:", e);
+
     return {};
+
   }
+
 }
 
 function normalizeImagePath(path){
+
   if(!path) return "";
+
   if(path.startsWith("/unn-a-site")){
     return path;
   }
+
   return "/unn-a-site" + path;
+
 }
 
 /* ====================================
@@ -606,35 +694,63 @@ const aboutSection = document.getElementById("aboutSection");
 ==================================== */
 
 function hideAll(){
+
   projectsGrid.style.display = "none";
   projectView.style.display = "none";
   aboutSection.style.display = "none";
+
 }
 
 function handleRouting(){
+
   const hash = window.location.hash;
+
   hideAll();
 
   if(!hash || hash === "#" || hash === "#home" || hash === "#projetos"){
+
     projectsGrid.style.display = "grid";
+
     window.scrollTo(0,0);
+
   }else if(hash === "#about"){
+
     aboutSection.style.display = "block";
+
     window.scrollTo(0,0);
+
   }else{
+
     const projectId = hash.replace("#","");
-    const cleanProjectId = decodeURIComponent(projectId).trim().toLowerCase();
+
+    const cleanProjectId =
+      decodeURIComponent(projectId)
+      .trim()
+      .toLowerCase();
+
     const targetProject = projects.find(p => {
-      const pId = p.id ? p.id.toString().trim().toLowerCase() : "";
+
+      const pId =
+        p.id
+        ? p.id.toString().trim().toLowerCase()
+        : "";
+
       return pId === cleanProjectId;
+
     });
 
     if(targetProject){
+
       openProjectView(targetProject);
+
     }else{
+
       window.location.hash = "#projetos";
+
     }
+
   }
+
 }
 
 window.addEventListener("hashchange", handleRouting);
@@ -643,13 +759,19 @@ window.addEventListener("hashchange", handleRouting);
    FETCH PROJECTS
 ==================================== */
 
-const GITHUB_API = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
+const GITHUB_API =
+"https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
+
 let projects = [];
 
 async function loadProjects(){
+
   try{
+
     const response = await fetch(GITHUB_API);
+
     const files = await response.json();
+
     const mdFiles = files
       .filter(f => f.name && f.name.endsWith(".md"))
       .sort((a,b)=> a.name.localeCompare(b.name));
@@ -657,22 +779,38 @@ async function loadProjects(){
     projects = [];
 
     for(const file of mdFiles){
+
       try{
-        const text = await fetch(file.download_url).then(r => r.text());
+
+        const text = await fetch(file.download_url)
+          .then(r => r.text());
+
         const project = parseFrontmatter(text);
+
         if(project && (project.id || project.titlePT)){
+
           projects.push(project);
+
         }
+
       }catch(err){
+
         console.error("Erro:", file.name, err);
+
       }
+
     }
 
     renderProjects();
+
     handleRouting();
+
   }catch(err){
+
     console.error("Erro geral:", err);
+
   }
+
 }
 
 loadProjects();
@@ -682,32 +820,52 @@ loadProjects();
 ==================================== */
 
 function renderProjects(){
+
   projectsGrid.innerHTML = "";
 
   projects.forEach(project => {
-    const cover = project.coverImage ? normalizeImagePath(project.coverImage) : "";
-    const projectSlug = project.id ? project.id.toString().trim() : "";
+
+    const cover = project.coverImage
+      ? normalizeImagePath(project.coverImage)
+      : "";
+
+    const projectSlug =
+      project.id
+      ? project.id.toString().trim()
+      : "";
+
     const thumb = document.createElement("a");
 
     thumb.className = "project-thumb";
+
     thumb.href = `#${projectSlug}`;
+
     thumb.innerHTML = `
+
       <img
         src="${cover}"
         alt="${project.titlePT || ''}"
         loading="lazy"
       >
-      <div class="project-info">
+
+      <div class="project-overlay">
+
         <div class="project-title">
-          ${currentLang === "pt" ? (project.titlePT || '') : (project.titleEN || project.titlePT || '')}
+          ${
+            currentLang === "pt"
+            ? (project.titlePT || '')
+            : (project.titleEN || project.titlePT || '')
+          }
         </div>
-        <div class="project-meta">
-          ${currentLang === "pt" ? (project.metaPT || '') : (project.metaEN || project.metaPT || '')}
-        </div>
+
       </div>
+
     `;
+
     projectsGrid.appendChild(thumb);
+
   });
+
 }
 
 /* ====================================
@@ -715,12 +873,17 @@ function renderProjects(){
 ==================================== */
 
 function openProjectView(project){
+
   projectView.style.display = "block";
+
   let galleryHTML = "";
 
   if(project.images && Array.isArray(project.images)){
+
     galleryHTML = project.images.map(img => {
+
       if(!img || !img.image) return "";
+
       return `
         <img
           src="${normalizeImagePath(img.image)}"
@@ -728,32 +891,59 @@ function openProjectView(project){
           draggable="false"
         >
       `;
+
     }).join("");
+
   }
 
   projectView.innerHTML = `
+
     <div class="project-content">
+
       <h1>
-        ${currentLang === "pt" ? (project.titlePT || '') : (project.titleEN || project.titlePT || '')}
+        ${
+          currentLang === "pt"
+          ? (project.titlePT || '')
+          : (project.titleEN || project.titlePT || '')
+        }
       </h1>
+
       <div class="meta">
-        ${currentLang === "pt" ? (project.metaPT || '') : (project.metaEN || project.metaPT || '')}
+        ${
+          currentLang === "pt"
+          ? (project.metaPT || '')
+          : (project.metaEN || project.metaPT || '')
+        }
       </div>
+
       <div class="project-description">
-        ${currentLang === "pt" ? (project.descriptionPT || '') : (project.descriptionEN || project.descriptionPT || '')}
+        ${
+          currentLang === "pt"
+          ? (project.descriptionPT || '')
+          : (project.descriptionEN || project.descriptionPT || '')
+        }
       </div>
+
     </div>
+
     <div class="project-gallery-wrap">
+
       <button class="slide-nav slide-prev" id="slidePrev"></button>
+
       <div class="project-gallery" id="projectGallery">
         ${galleryHTML}
       </div>
+
       <button class="slide-nav slide-next" id="slideNext"></button>
+
     </div>
+
   `;
 
   setupGalleryButtons();
+
   window.scrollTo(0,0);
+
 }
 
 /* ====================================
@@ -761,6 +951,7 @@ function openProjectView(project){
 ==================================== */
 
 function setupGalleryButtons(){
+
   const slider = document.getElementById("projectGallery");
   const next = document.getElementById("slideNext");
   const prev = document.getElementById("slidePrev");
@@ -768,18 +959,23 @@ function setupGalleryButtons(){
   if(!slider || !next || !prev) return;
 
   next.addEventListener("click", ()=>{
+
     slider.scrollBy({
       left:window.innerWidth * .72,
       behavior:"smooth"
     });
+
   });
 
   prev.addEventListener("click", ()=>{
+
     slider.scrollBy({
       left:-window.innerWidth * .72,
       behavior:"smooth"
     });
+
   });
+
 }
 
 /* ====================================
@@ -789,29 +985,49 @@ function setupGalleryButtons(){
 const cursor = document.querySelector(".cursor");
 
 window.addEventListener("mousemove", e => {
+
   cursor.style.left = e.clientX + "px";
   cursor.style.top = e.clientY + "px";
+
 });
 
 document.addEventListener("mouseover", e => {
+
   const target = e.target;
+
   cursor.classList.remove("arrow-left","arrow-right");
 
   if(target.classList.contains("slide-prev")){
+
     cursor.classList.add("arrow-left");
+
   }else if(target.classList.contains("slide-next")){
+
     cursor.classList.add("arrow-right");
+
   }else if(target.closest("a, button, .project-thumb")){
+
     cursor.classList.add("hover");
+
   }else{
+
     cursor.classList.remove("hover");
+
   }
+
 });
 
 document.addEventListener("mouseout", e => {
+
   if(e.target.classList.contains("slide-nav")){
-    cursor.classList.remove("arrow-left","arrow-right");
+
+    cursor.classList.remove(
+      "arrow-left",
+      "arrow-right"
+    );
+
   }
+
 });
 
 </script>
