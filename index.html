@@ -203,13 +203,11 @@ header *{
   object-fit:cover;
   display:block;
   transition:
-    transform .55s ease,
     opacity .35s ease,
     filter .35s ease;
 }
 
 .project-thumb:hover img{
-  transform:scale(1.015);
   filter:brightness(.88);
 }
 
@@ -236,12 +234,6 @@ header *{
   letter-spacing:-0.06em;
   font-weight:600;
   color:white;
-  transform:translateY(8px);
-  transition:transform .35s ease;
-}
-
-.project-thumb:hover .project-title{
-  transform:translateY(0);
 }
 
 /* ====================================
