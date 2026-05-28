@@ -6,10 +6,11 @@ metaPT: "Edifício comercial em Bremen, Alemanha"
 metaEN: "Commercial building in Bremen, Germany"
 descriptionPT: "Texto temporário para o projeto Bremen. Estrutura focada em novos modelos de espaço de trabalho partilhado."
 descriptionEN: "Placeholder text for Bremen . Structure focused on new shared workspace models."
-coverImage: "/images/bremen/bremen1.jpg"
+coverImage: "/images/bremen/bremen2.jpg"
 
 images:
   - image: "/images/bremen/bremen2.jpg"
+  - image: "/images/bremen/bremen1.jpg"
   - image: "/images/bremen/bremen3.jpg"
   - image: "/images/bremen/bremen4.jpg"
   - image: "/images/bremen/bremen5.jpg"

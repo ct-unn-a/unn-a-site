@@ -11,7 +11,7 @@ architect: "Andreia Santa Margarido"
 projectTeam: "Eva Barbari, Carlos Trancoso"
 metaPT: "Habitação Multifamiliar · Matosinhos"
 metaEN: "Collective Housing · Matosinhos"
-coverImage: "/images/serpapinto/serpa2.jpg"
+coverImage: "/images/serpapinto/serpa1.jpg"
 descriptionPT: |
   O projeto responde aos fortes contrastes de escala e à descaracterização visual da Avenida Serpa Pinto através de uma postura de contenção volumétrica e rigor geométrico. A fachada principal estrutura-se numa grelha normativa de betão onde as paredes verticais variam sutilmente de ângulo e profundidade à medida que o edifício ganha altura. Este dispositivo formal dita a relação com a rua: vãos contidos e planos nos pisos inferiores para garantir proteção acústica e privacidade; recuos progressivos e varandas generosas nos pisos superiores para abrir o espaço à luz e às vistas desafogadas sobre o Porto de Leixões.
 descriptionEN: |
