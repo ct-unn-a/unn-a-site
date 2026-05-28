@@ -1,6 +1,6 @@
 ---
 id: "almada"
-titlePT: "Edifício Almada"
+titlePT: "Almada"
 titleEN: "Almada Building"
 metaPT: "Projeto de arquitetura em Almada"
 metaEN: "Architecture project in Almada"

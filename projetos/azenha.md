@@ -1,7 +1,7 @@
 ---
 id: "azenha"
-titlePT: "Edifício Azenha"
-titleEN: "Azenha building"
+titlePT: "Azenha"
+titleEN: "Azenha"
 metaPT: "Edifício de habitação na Azenha"
 metaEN: "Building in Azenha"
 descriptionPT: "Texto temporário para o projeto 2005_AZENHA. Foco na sustentabilidade e materiais locais."

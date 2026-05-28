@@ -1,7 +1,7 @@
 ---
 id: "bremen"
-titlePT: "Edifício Bremen"
-titleEN: "Bremen Building"
+titlePT: "Bremen"
+titleEN: "Bremen"
 metaPT: "Edifício comercial em Bremen, Alemanha"
 metaEN: "Commercial building in Bremen, Germany"
 descriptionPT: "Texto temporário para o projeto Bremen. Estrutura focada em novos modelos de espaço de trabalho partilhado."

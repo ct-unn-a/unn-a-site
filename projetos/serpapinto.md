@@ -1,7 +1,7 @@
 ---
 id: serpapinto
-titlePT: "Edifício Serpa Pinto"
-titleEN: "Serpa Pinto Building"
+titlePT: "Serpa Pinto"
+titleEN: "Serpa Pinto"
 locationPT: "Matosinhos, Portugal"
 locationEN: "Matosinhos, Portugal"
 projectDuration: "2020-2026"

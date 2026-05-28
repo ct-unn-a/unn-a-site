@@ -1,7 +1,7 @@
 ---
 id: "guincho"
-titlePT: "Edifício Guincho"
-titleEN: "Guincho Building"
+titlePT: "Guincho"
+titleEN: "Guincho"
 metaPT: "Projeto de arquitetura no Guincho"
 metaEN: "Architecture project at Guincho"
 descriptionPT: "Texto temporário para o projeto GUINCHO. Foco na sustentabilidade e materiais locais."

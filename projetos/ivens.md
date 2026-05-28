@@ -1,7 +1,7 @@
 ---
 id: "ivens"
-titlePT: "Edifício Ivens"
-titleEN: "Ivens Building"
+titlePT: "Ivens"
+titleEN: "Ivens"
 metaPT: "Projeto de arquitetura em Ivens"
 metaEN: "Architecture project in Ivens"
 descriptionPT: "Texto temporário para o projeto IVENS. Foco na sustentabilidade e materiais locais."

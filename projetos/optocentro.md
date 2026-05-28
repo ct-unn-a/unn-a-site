@@ -1,7 +1,7 @@
 ---
 id: "optocentro"
-titlePT: "Edifício Optocentro"
-titleEN: "Optocentro Building"
+titlePT: "Optocentro"
+titleEN: "Optocentro"
 metaPT: "Projeto de arquitetura no Optocentro"
 metaEN: "Architecture project at Optocentro"
 descriptionPT: "Texto temporário para o projeto OPTOCENTRO. Foco na sustentabilidade e materiais locais."

@@ -1,7 +1,7 @@
 ---
 id: "ribeira"
-titlePT: "Apartamento na Ribeira"
-titleEN: "Ribeira's Appartment"
+titlePT: "Ribeira"
+titleEN: "Ribeira"
 metaPT: "Remodelação de apartamento na ribeira do Porto"
 metaEN: "Remodelation of appartment in Porto"
 descriptionPT: "Texto temporário para o projeto 2605_ARCO. Estrutura focada em novos modelos de espaço de trabalho partilhado."

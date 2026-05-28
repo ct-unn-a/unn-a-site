@@ -1,7 +1,7 @@
 ---
 id: "amelia"
-titlePT: "Edifício Amélia"
-titleEN: "Amélia Building"
+titlePT: "Amélia"
+titleEN: "Amélia"
 metaPT: "Projeto de arquitetura em Amélia"
 metaEN: "Architecture project in Amélia"
 descriptionPT: "Texto temporário para o projeto AMELIA. Foco na sustentabilidade e materiais locais."

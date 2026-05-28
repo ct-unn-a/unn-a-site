@@ -1,7 +1,7 @@
 ---
 id: "peralta"
-titlePT: "Edifício Peralta"
-titleEN: "Peralta Building"
+titlePT: "Peralta"
+titleEN: "Peralta"
 metaPT: "Projeto de arquitetura em Peralta"
 metaEN: "Architecture project in Peralta"
 descriptionPT: "Texto temporário para o projeto PERALTA. Foco na sustentabilidade e materiais locais."
