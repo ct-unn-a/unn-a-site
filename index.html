@@ -247,12 +247,13 @@ header *{
 
 .project-thumb img{
   width:100%;
-  aspect-ratio:4/3;
+  height:320px;
   object-fit:cover;
   display:block;
   transition:
     transform .45s ease,
     opacity .25s ease;
+  background:#ddd;
 }
 
 .project-thumb:hover img{
@@ -598,14 +599,12 @@ document.getElementById("langToggle").addEventListener("click",()=>{
 function parseFrontmatter(text){
 
   if(!text.startsWith("---")){
-    console.warn("Sem frontmatter");
     return {};
   }
 
   const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
 
   if(!match){
-    console.warn("Frontmatter inválido");
     return {};
   }
 
@@ -697,15 +696,7 @@ function handleRouting(){
         ? p.id.toString().trim().toLowerCase()
         : "";
 
-      const pTitle =
-        p.titlePT
-        ? p.titlePT.toString().trim().toLowerCase()
-        : "";
-
-      return (
-        pId === cleanProjectId ||
-        pTitle === cleanProjectId
-      );
+      return pId === cleanProjectId;
 
     });
 
@@ -742,18 +733,9 @@ async function loadProjects(){
 
     const files = await response.json();
 
-    if(!Array.isArray(files)){
-
-      console.error("GitHub API inválida");
-      return;
-
-    }
-
     const mdFiles = files
       .filter(f => f.name && f.name.endsWith(".md"))
       .sort((a,b)=> a.name.localeCompare(b.name));
-
-    console.log("Markdown encontrados:", mdFiles);
 
     projects = [];
 
@@ -761,36 +743,24 @@ async function loadProjects(){
 
       try{
 
-        console.log("A carregar:", file.name);
-
         const text = await fetch(file.download_url)
           .then(r => r.text());
 
         const project = parseFrontmatter(text);
 
-        console.log("Projeto parseado:", file.name, project);
-
         if(project && (project.id || project.titlePT)){
 
           projects.push(project);
-
-          console.log("Projeto adicionado:", project.id);
-
-        }else{
-
-          console.warn("Projeto ignorado:", file.name);
 
         }
 
       }catch(err){
 
-        console.error("Erro no ficheiro:", file.name, err);
+        console.error("Erro:", file.name, err);
 
       }
 
     }
-
-    console.log("TOTAL:", projects.length);
 
     renderProjects();
 
@@ -846,8 +816,6 @@ function renderProjects(){
 
   projectsGrid.innerHTML = "";
 
-  console.log("Render projects:", projects);
-
   projects.forEach(project => {
 
     const cover = project.coverImage
@@ -857,7 +825,7 @@ function renderProjects(){
     const projectSlug =
       project.id
       ? project.id.toString().trim()
-      : encodeURIComponent(project.titlePT);
+      : "";
 
     const thumb = document.createElement("a");
 
@@ -866,7 +834,11 @@ function renderProjects(){
     thumb.href = `#${projectSlug}`;
 
     thumb.innerHTML = `
-      <img src="${cover}" alt="${project.titlePT || ''}">
+      <img
+        src="${cover}"
+        alt="${project.titlePT || ''}"
+        loading="lazy"
+      >
 
       <div class="project-info">
 
