@@ -341,6 +341,45 @@ header *{
   max-width:720px;
   font-size:17px;
   line-height:1.9;
+  margin-bottom:60px;
+}
+
+/* Estilos adicionados para os Sócios */
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 900px;
+  margin-top: 60px;
+}
+
+.partner-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  background: #ddd;
+  margin-bottom: 16px;
+}
+
+.partner-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  margin-bottom: 4px;
+}
+
+.partner-role {
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 /* ====================================
@@ -388,6 +427,13 @@ header *{
   }
   .slide-nav{
     display:none;
+  }
+  .about-section h2{
+    font-size:54px;
+  }
+  .partners-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 
@@ -441,12 +487,41 @@ header *{
     <p>
       UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
     </p>
+    
+    <!-- Sócios em PT -->
+    <div class="partners-grid">
+      <div class="partner-card">
+        <img src="/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
+        <div class="partner-name">Andreia Santa Margarido</div>
+        <div class="partner-role">Arquiteta Sócia Fundadora</div>
+      </div>
+      <div class="partner-card">
+        <img src="/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
+        <div class="partner-name">Gustavo Guimarães</div>
+        <div class="partner-role">Arquiteto Sócio Fundadora</div>
+      </div>
+    </div>
   </div>
+  
   <div class="lang-en" style="display:none">
     <h2>UNN-A</h2>
     <p>
       UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
     </p>
+    
+    <!-- Sócios em EN -->
+    <div class="partners-grid">
+      <div class="partner-card">
+        <img src="/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
+        <div class="partner-name">Andreia Santa Margarido</div>
+        <div class="partner-role">Founding Partner & Architect</div>
+      </div>
+      <div class="partner-card">
+        <img src="/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
+        <div class="partner-name">Gustavo Guimarães</div>
+        <div class="partner-role">Founding Partner & Architect</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -540,7 +615,6 @@ function handleRouting(){
   const hash = window.location.hash;
   hideAll();
 
-  // Agora, a rota padrão (#, #home ou vazia) abre diretamente a grelha de projetos
   if(!hash || hash === "#" || hash === "#home" || hash === "#projetos"){
     projectsGrid.style.display = "grid";
     window.scrollTo(0,0);
