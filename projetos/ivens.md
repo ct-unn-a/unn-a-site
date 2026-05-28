@@ -9,6 +9,8 @@ descriptionEN: "Placeholder text for IVENS project. Focus on sustainability and 
 coverImage: "/images/ivens/ivens1.jpg"
 
 images:
-  - image: "/images/ivens/ivens2.jpg"
   - image: "/images/ivens/ivens1.jpg"
+  - image: "/images/ivens/ivens2.jpg"
+  - image: "/images/ivens/ivens3.jpg"
+  - image: "/images/ivens/ivens4.jpg"
 ---

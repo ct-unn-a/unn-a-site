@@ -9,6 +9,10 @@ descriptionEN: "Placeholder text for 2005_AZENHA. Focus on sustainability and lo
 coverImage: "/images/azenha/azenha1.jpg"
 
 images:
-  - image: "/images/azenha/azenha2.jpg"
   - image: "/images/azenha/azenha1.jpg"
+  - image: "/images/azenha/azenha2.jpg"
+  - image: "/images/azenha/azenha3.jpg"
+  - image: "/images/azenha/azenha4.jpg"
+  - image: "/images/azenha/azenha5.jpg"
+  - image: "/images/azenha/azenha6.jpg"
 ---
