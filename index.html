@@ -147,14 +147,21 @@ header *{
   position:absolute;
   top:32px;
   left:32px;
-  text-decoration:none;
-  color:white;
-  font-size:76px;
-  line-height:.88;
-  letter-spacing:-0.09em;
-  font-weight:500;
+
   z-index:1001;
+
   mix-blend-mode:difference;
+
+  display:block;
+}
+
+.logo img{
+  display:block;
+
+  width:120px;
+  height:auto;
+
+  object-fit:contain;
 }
 
 .top-nav{
@@ -417,10 +424,13 @@ header *{
   }
 
   .logo{
-    font-size:46px;
-    top:22px;
-    left:22px;
-  }
+  top:22px;
+  left:22px;
+}
+
+.logo img{
+  width:72px;
+}
 
   .projects-grid{
     padding:110px 22px 60px;
@@ -475,7 +485,9 @@ header *{
   />
 </svg>
 
-<a href="#" class="logo">UNN-A</a>
+<a href="#" class="logo">
+  <img src="/unn-a-site/images/logo.png" alt="UNN-A">
+</a>
 
 <header>
   <nav class="top-nav">
