@@ -147,20 +147,15 @@ header *{
   position:absolute;
   top:32px;
   left:32px;
-
   z-index:1001;
-
   mix-blend-mode:difference;
-
   display:block;
 }
 
 .logo img{
   display:block;
-
   width:120px;
   height:auto;
-
   object-fit:contain;
 }
 
@@ -184,54 +179,6 @@ header *{
 .top-nav a:hover,
 #langToggle:hover{
   opacity:.5;
-}
-
-/* ====================================
-   HERO
-==================================== */
-
-.hero{
-  display:none;
-  position:relative;
-  width:100%;
-  height:100vh;
-  overflow:hidden;
-  align-items:flex-end;
-  padding:32px;
-}
-
-.hero-image-wrap{
-  position:absolute;
-  inset:0;
-}
-
-.hero-image-wrap img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.hero-overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to top,
-    rgba(0,0,0,.12),
-    rgba(0,0,0,.03)
-  );
-}
-
-.hero-text{
-  position:relative;
-  z-index:2;
-  max-width:640px;
-  mix-blend-mode:difference;
-}
-
-.hero-text p{
-  color:white;
-  font-size:15px;
-  line-height:1.8;
 }
 
 /* ====================================
@@ -401,69 +348,53 @@ header *{
 ==================================== */
 
 @media(max-width:1100px){
-
   .projects-grid{
     grid-template-columns:repeat(2,1fr);
   }
-
 }
 
 @media(max-width:900px){
-
   body{
     cursor:auto;
   }
-
   .cursor,
   .cursor-svg{
     display:none;
   }
-
   header{
     padding:22px;
   }
-
   .logo{
-  top:22px;
-  left:22px;
-}
-
-.logo img{
-  width:72px;
-}
-
+    top:22px;
+    left:22px;
+  }
+  .logo img{
+    width:72px;
+  }
   .projects-grid{
     padding:110px 22px 60px;
   }
-
   .project-content{
     padding:120px 22px 50px;
   }
-
   .project-gallery{
     padding:0 22px 80px;
   }
-
   .project-gallery img{
     height:62vh;
   }
-
   .project-content h1{
     font-size:58px;
   }
-
   .slide-nav{
     display:none;
   }
-
 }
 
 @media(max-width:640px){
-
   .projects-grid{
     grid-template-columns:1fr;
   }
-
 }
 
 </style>
@@ -485,67 +416,38 @@ header *{
   />
 </svg>
 
-<a href="#" class="logo">
+<a href="#projetos" class="logo">
   <img src="/unn-a-site/images/logo.png" alt="UNN-A">
 </a>
 
 <header>
   <nav class="top-nav">
-
     <a href="#projetos">
       <span class="lang-pt">Projetos</span>
       <span class="lang-en" style="display:none">Projects</span>
     </a>
-
     <a href="#about">About</a>
-
     <button id="langToggle">EN</button>
-
   </nav>
 </header>
-
-<section class="hero" id="hero">
-
-  <div class="hero-image-wrap">
-    <img id="heroImage" src="" alt="">
-  </div>
-
-  <div class="hero-overlay"></div>
-
-  <div class="hero-text">
-
-    <p class="lang-pt">
-      Arquitetura contemporânea, funcional e integrada no território.
-    </p>
-
-    <p class="lang-en" style="display:none">
-      Contemporary architecture integrated into territory and context.
-    </p>
-
-  </div>
-
-</section>
 
 <section class="projects-grid" id="projectsGrid"></section>
 
 <section class="project-view" id="projectView"></section>
 
 <section class="about-section" id="aboutSection">
-
   <div class="lang-pt">
     <h2>Unnamed Architects</h2>
     <p>
       UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
     </p>
   </div>
-
   <div class="lang-en" style="display:none">
     <h2>UNN-A</h2>
     <p>
       UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
     </p>
   </div>
-
 </section>
 
 <script>
@@ -555,19 +457,13 @@ header *{
 ==================================== */
 
 if(window.netlifyIdentity){
-
   window.netlifyIdentity.on("init", user => {
-
     if(!user){
-
       window.netlifyIdentity.on("login", () => {
         document.location.href = "/admin/";
       });
-
     }
-
   });
-
 }
 
 /* ====================================
@@ -577,30 +473,21 @@ if(window.netlifyIdentity){
 let currentLang = "pt";
 
 function applyLang(lang){
-
   const isEN = lang === "en";
-
   document.querySelectorAll(".lang-pt").forEach(el=>{
     el.style.display = isEN ? "none" : "";
   });
-
   document.querySelectorAll(".lang-en").forEach(el=>{
     el.style.display = isEN ? "" : "none";
   });
-
 }
 
 document.getElementById("langToggle").addEventListener("click",()=>{
-
   currentLang = currentLang === "pt" ? "en" : "pt";
-
   document.getElementById("langToggle").textContent =
     currentLang === "pt" ? "EN" : "PT";
-
   applyLang(currentLang);
-
   renderProjects();
-
 });
 
 /* ====================================
@@ -608,48 +495,33 @@ document.getElementById("langToggle").addEventListener("click",()=>{
 ==================================== */
 
 function parseFrontmatter(text){
-
   if(!text.startsWith("---")){
     return {};
   }
-
   const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
-
   if(!match){
     return {};
   }
-
   try{
-
     return jsyaml.load(match[1]) || {};
-
   }catch(e){
-
     console.error("Erro YAML:", e);
-
     return {};
-
   }
-
 }
 
 function normalizeImagePath(path){
-
   if(!path) return "";
-
   if(path.startsWith("/unn-a-site")){
     return path;
   }
-
   return "/unn-a-site" + path;
-
 }
 
 /* ====================================
    DOM
 ==================================== */
 
-const hero = document.getElementById("hero");
 const projectsGrid = document.getElementById("projectsGrid");
 const projectView = document.getElementById("projectView");
 const aboutSection = document.getElementById("aboutSection");
@@ -659,70 +531,36 @@ const aboutSection = document.getElementById("aboutSection");
 ==================================== */
 
 function hideAll(){
-
-  hero.style.display = "none";
   projectsGrid.style.display = "none";
   projectView.style.display = "none";
   aboutSection.style.display = "none";
-
 }
 
 function handleRouting(){
-
   const hash = window.location.hash;
-
   hideAll();
 
-  if(!hash || hash === "#" || hash === "#home"){
-
-    hero.style.display = "flex";
-
-    setRandomHeroImage();
-
-    window.scrollTo(0,0);
-
-  }else if(hash === "#projetos"){
-
+  // Agora, a rota padrão (#, #home ou vazia) abre diretamente a grelha de projetos
+  if(!hash || hash === "#" || hash === "#home" || hash === "#projetos"){
     projectsGrid.style.display = "grid";
-
     window.scrollTo(0,0);
-
   }else if(hash === "#about"){
-
     aboutSection.style.display = "block";
-
     window.scrollTo(0,0);
-
   }else{
-
     const projectId = hash.replace("#","");
-
-    const cleanProjectId =
-      decodeURIComponent(projectId).trim().toLowerCase();
-
+    const cleanProjectId = decodeURIComponent(projectId).trim().toLowerCase();
     const targetProject = projects.find(p => {
-
-      const pId =
-        p.id
-        ? p.id.toString().trim().toLowerCase()
-        : "";
-
+      const pId = p.id ? p.id.toString().trim().toLowerCase() : "";
       return pId === cleanProjectId;
-
     });
 
     if(targetProject){
-
       openProjectView(targetProject);
-
     }else{
-
       window.location.hash = "#projetos";
-
     }
-
   }
-
 }
 
 window.addEventListener("hashchange", handleRouting);
@@ -731,19 +569,13 @@ window.addEventListener("hashchange", handleRouting);
    FETCH PROJECTS
 ==================================== */
 
-const GITHUB_API =
-"https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
-
+const GITHUB_API = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
 let projects = [];
 
 async function loadProjects(){
-
   try{
-
     const response = await fetch(GITHUB_API);
-
     const files = await response.json();
-
     const mdFiles = files
       .filter(f => f.name && f.name.endsWith(".md"))
       .sort((a,b)=> a.name.localeCompare(b.name));
@@ -751,131 +583,57 @@ async function loadProjects(){
     projects = [];
 
     for(const file of mdFiles){
-
       try{
-
-        const text = await fetch(file.download_url)
-          .then(r => r.text());
-
+        const text = await fetch(file.download_url).then(r => r.text());
         const project = parseFrontmatter(text);
-
         if(project && (project.id || project.titlePT)){
-
           projects.push(project);
-
         }
-
       }catch(err){
-
         console.error("Erro:", file.name, err);
-
       }
-
     }
 
     renderProjects();
-
     handleRouting();
-
   }catch(err){
-
     console.error("Erro geral:", err);
-
   }
-
 }
 
 loadProjects();
-
-/* ====================================
-   HERO IMAGE
-==================================== */
-
-function setRandomHeroImage(){
-
-  if(!projects.length) return;
-
-  const allImages = [];
-
-  projects.forEach(project => {
-
-    if(project.coverImage){
-
-      allImages.push(
-        normalizeImagePath(project.coverImage)
-      );
-
-    }
-
-  });
-
-  if(!allImages.length) return;
-
-  const randomIndex =
-    Math.floor(Math.random() * allImages.length);
-
-  document.getElementById("heroImage").src =
-    allImages[randomIndex] + "?v=" + Date.now();
-
-}
 
 /* ====================================
    PROJECT GRID
 ==================================== */
 
 function renderProjects(){
-
   projectsGrid.innerHTML = "";
 
   projects.forEach(project => {
-
-    const cover = project.coverImage
-      ? normalizeImagePath(project.coverImage)
-      : "";
-
-    const projectSlug =
-      project.id
-      ? project.id.toString().trim()
-      : "";
-
+    const cover = project.coverImage ? normalizeImagePath(project.coverImage) : "";
+    const projectSlug = project.id ? project.id.toString().trim() : "";
     const thumb = document.createElement("a");
 
     thumb.className = "project-thumb";
-
     thumb.href = `#${projectSlug}`;
-
     thumb.innerHTML = `
       <img
         src="${cover}"
         alt="${project.titlePT || ''}"
         loading="lazy"
       >
-
       <div class="project-info">
-
         <div class="project-title">
-          ${
-            currentLang === "pt"
-            ? (project.titlePT || '')
-            : (project.titleEN || project.titlePT || '')
-          }
+          ${currentLang === "pt" ? (project.titlePT || '') : (project.titleEN || project.titlePT || '')}
         </div>
-
         <div class="project-meta">
-          ${
-            currentLang === "pt"
-            ? (project.metaPT || '')
-            : (project.metaEN || project.metaPT || '')
-          }
+          ${currentLang === "pt" ? (project.metaPT || '') : (project.metaEN || project.metaPT || '')}
         </div>
-
       </div>
     `;
-
     projectsGrid.appendChild(thumb);
-
   });
-
 }
 
 /* ====================================
@@ -883,17 +641,12 @@ function renderProjects(){
 ==================================== */
 
 function openProjectView(project){
-
   projectView.style.display = "block";
-
   let galleryHTML = "";
 
   if(project.images && Array.isArray(project.images)){
-
     galleryHTML = project.images.map(img => {
-
       if(!img || !img.image) return "";
-
       return `
         <img
           src="${normalizeImagePath(img.image)}"
@@ -901,59 +654,32 @@ function openProjectView(project){
           draggable="false"
         >
       `;
-
     }).join("");
-
   }
 
   projectView.innerHTML = `
-
     <div class="project-content">
-
       <h1>
-        ${
-          currentLang === "pt"
-          ? (project.titlePT || '')
-          : (project.titleEN || project.titlePT || '')
-        }
+        ${currentLang === "pt" ? (project.titlePT || '') : (project.titleEN || project.titlePT || '')}
       </h1>
-
       <div class="meta">
-        ${
-          currentLang === "pt"
-          ? (project.metaPT || '')
-          : (project.metaEN || project.metaPT || '')
-        }
+        ${currentLang === "pt" ? (project.metaPT || '') : (project.metaEN || project.metaPT || '')}
       </div>
-
       <div class="project-description">
-        ${
-          currentLang === "pt"
-          ? (project.descriptionPT || '')
-          : (project.descriptionEN || project.descriptionPT || '')
-        }
+        ${currentLang === "pt" ? (project.descriptionPT || '') : (project.descriptionEN || project.descriptionPT || '')}
       </div>
-
     </div>
-
     <div class="project-gallery-wrap">
-
       <button class="slide-nav slide-prev" id="slidePrev"></button>
-
       <div class="project-gallery" id="projectGallery">
         ${galleryHTML}
       </div>
-
       <button class="slide-nav slide-next" id="slideNext"></button>
-
     </div>
-
   `;
 
   setupGalleryButtons();
-
   window.scrollTo(0,0);
-
 }
 
 /* ====================================
@@ -961,7 +687,6 @@ function openProjectView(project){
 ==================================== */
 
 function setupGalleryButtons(){
-
   const slider = document.getElementById("projectGallery");
   const next = document.getElementById("slideNext");
   const prev = document.getElementById("slidePrev");
@@ -969,23 +694,18 @@ function setupGalleryButtons(){
   if(!slider || !next || !prev) return;
 
   next.addEventListener("click", ()=>{
-
     slider.scrollBy({
       left:window.innerWidth * .72,
       behavior:"smooth"
     });
-
   });
 
   prev.addEventListener("click", ()=>{
-
     slider.scrollBy({
       left:-window.innerWidth * .72,
       behavior:"smooth"
     });
-
   });
-
 }
 
 /* ====================================
@@ -995,53 +715,32 @@ function setupGalleryButtons(){
 const cursor = document.querySelector(".cursor");
 
 window.addEventListener("mousemove", e => {
-
   cursor.style.left = e.clientX + "px";
   cursor.style.top = e.clientY + "px";
-
 });
 
 document.addEventListener("mouseover", e => {
-
   const target = e.target;
-
   cursor.classList.remove("arrow-left","arrow-right");
 
   if(target.classList.contains("slide-prev")){
-
     cursor.classList.add("arrow-left");
-
   }else if(target.classList.contains("slide-next")){
-
     cursor.classList.add("arrow-right");
-
   }else if(target.closest("a, button, .project-thumb")){
-
     cursor.classList.add("hover");
-
   }else{
-
     cursor.classList.remove("hover");
-
   }
-
 });
 
 document.addEventListener("mouseout", e => {
-
   if(e.target.classList.contains("slide-nav")){
-
-    cursor.classList.remove(
-      "arrow-left",
-      "arrow-right"
-    );
-
+    cursor.classList.remove("arrow-left","arrow-right");
   }
-
 });
 
 </script>
 
 </body>
 </html>
-```
