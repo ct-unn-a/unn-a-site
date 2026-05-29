@@ -36,9 +36,9 @@ body{
 
 html{
   scroll-behavior:smooth;
-  /* Garante que o espaço do scrollbar esteja sempre reservado, evitando saltos de layout */
+  /* Garante que o espaço do scrollbar esteja sempre reservado, evitando que o layout e o top-nav saltem */
   scrollbar-gutter: stable;
-  /* Suporte para Firefox */
+  /* Suporte standard para browsers modernos (Firefox) */
   scrollbar-color: #000000 transparent;
   scrollbar-width: thin;
 }
@@ -173,7 +173,7 @@ header *{
   position:fixed;
   top:32px;
   left:32px;
-  z-index:1010; /* Ligeiramente superior ao header para manter-se sempre clicável */
+  z-index:1001;
   display:block;
   mix-blend-mode:difference;
 }
@@ -260,8 +260,8 @@ header *{
   justify-content:center;
   padding:24px;
   opacity:0;
+  transition:opacity .35s ease;
   text-align:center;
-  /* Transição removida daqui para o título aparecer de imediato */
 }
 
 .project-thumb:hover .project-overlay{
@@ -275,7 +275,6 @@ header *{
   letter-spacing:-0.06em;
   font-weight:600;
   color:white;
-  mix-blend-mode:difference;
 }
 
 /* ====================================
@@ -298,8 +297,6 @@ header *{
   letter-spacing:-0.09em;
   font-weight:500;
   margin-bottom:26px;
-  color:white;
-  mix-blend-mode:difference;
 }
 
 .project-content .meta{
@@ -581,37 +578,27 @@ header *{
 <section class="about-section" id="aboutSection">
 
   <div class="lang-pt">
+
     <h2>Unnamed Architects</h2>
+
     <p>
       UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
     </p>
-  </div>
 
-  <div class="lang-en" style="display:none">
-    <h2>Unnamed Architects</h2>
-    <p>
-      UNN-A (Unnamed Architects) is an architecture studio focused on contemporary, functional, and territory-integrated solutions.
-    </p>
-  </div>
+    <div class="partners-grid">
 
-  <div class="partners-grid">
-
-    <div class="partner-card">
-      <img src="https://ct-unn-a.github.io/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
-      <div class="partner-name">Andreia Santa Margarido</div>
-      <div class="partner-role">
-        <span class="lang-pt">Arquiteta Sócia Fundadora</span>
-        <span class="lang-en" style="display:none">Architect & Founding Partner</span>
+      <div class="partner-card">
+        <img src="https://ct-unn-a.github.io/unn-a-site/images/about_asm.jpg">
+        <div class="partner-name">Andreia Santa Margarido</div>
+        <div class="partner-role">Arquiteta Sócia Fundadora</div>
       </div>
-    </div>
 
-    <div class="partner-card">
-      <img src="https://ct-unn-a.github.io/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
-      <div class="partner-name">Gustavo Guimarães</div>
-      <div class="partner-role">
-        <span class="lang-pt">Arquiteto Sócio Fundador</span>
-        <span class="lang-en" style="display:none">Architect & Founding Partner</span>
+      <div class="partner-card">
+        <img src="https://ct-unn-a.github.io/unn-a-site/images/about_gg.jpg">
+        <div class="partner-name">Gustavo Guimarães</div>
+        <div class="partner-role">Arquiteto Sócio Fundador</div>
       </div>
+
     </div>
 
   </div>
@@ -653,11 +640,15 @@ function applyLang(lang){
   const isEN = lang === "en";
 
   document.querySelectorAll(".lang-pt").forEach(el=>{
+
     el.style.display = isEN ? "none" : "";
+
   });
 
   document.querySelectorAll(".lang-en").forEach(el=>{
+
     el.style.display = isEN ? "" : "none";
+
   });
 
 }
@@ -670,19 +661,8 @@ document.getElementById("langToggle").addEventListener("click",()=>{
     currentLang === "pt" ? "EN" : "PT";
 
   applyLang(currentLang);
-  renderProjects();
 
-  const hash = window.location.hash;
-  if(hash && hash !== "#" && hash !== "#home" && hash !== "#projetos" && hash !== "#about"){
-    const projectId = hash.replace("#","");
-    const targetProject = projects.find(p => {
-      const pId = p.id ? p.id.toString().trim().toLowerCase() : "";
-      return pId === projectId.toLowerCase();
-    });
-    if(targetProject){
-      openProjectView(targetProject);
-    }
-  }
+  renderProjects();
 
 });
 
