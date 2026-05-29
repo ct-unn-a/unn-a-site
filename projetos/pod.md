@@ -1,9 +1,9 @@
 ---
 id: "pod"
-titlePT: "Pod"
-titleEN: "Pod"
-metaPT: "Pod"
-metaEN: "Pod"
+titlePT: "Alpha Pod"
+titleEN: "Alpha Pod"
+metaPT: "Alpha Pod"
+metaEN: "Alpha Pod"
 descriptionPT: "Texto temporário para o projeto Pod. Foco na sustentabilidade e materiais locais."
 descriptionEN: "Placeholder text for Pod project. Focus on sustainability and local materials."
 coverImage: "/images/pod/pod4.jpg"
