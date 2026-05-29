@@ -260,8 +260,8 @@ header *{
   justify-content:center;
   padding:24px;
   opacity:0;
-  transition:opacity .35s ease;
   text-align:center;
+  /* Transição removida daqui para o título aparecer de imediato */
 }
 
 .project-thumb:hover .project-overlay{
@@ -275,6 +275,7 @@ header *{
   letter-spacing:-0.06em;
   font-weight:600;
   color:white;
+  mix-blend-mode:difference;
 }
 
 /* ====================================
@@ -297,6 +298,8 @@ header *{
   letter-spacing:-0.09em;
   font-weight:500;
   margin-bottom:26px;
+  color:white;
+  mix-blend-mode:difference;
 }
 
 .project-content .meta{
@@ -669,9 +672,6 @@ document.getElementById("langToggle").addEventListener("click",()=>{
   applyLang(currentLang);
   renderProjects();
 
-  /* CORREÇÃO DO COMPORTAMENTO ESTRANHO:
-     Se o utilizador estiver a ver um projeto aberto no momento do clique, 
-     forçamos o ecrã do projeto a re-renderizar na língua correta imediatamente. */
   const hash = window.location.hash;
   if(hash && hash !== "#" && hash !== "#home" && hash !== "#projetos" && hash !== "#about"){
     const projectId = hash.replace("#","");
