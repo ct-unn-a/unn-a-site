@@ -36,6 +36,11 @@ body{
 
 html{
   scroll-behavior:smooth;
+  /* Garante que o espaço do scrollbar esteja sempre reservado, evitando saltos de layout */
+  scrollbar-gutter: stable;
+  /* Suporte para Firefox */
+  scrollbar-color: #000000 transparent;
+  scrollbar-width: thin;
 }
 
 body{
@@ -44,6 +49,27 @@ body{
   font-family:'Inter',sans-serif;
   cursor:none;
   -webkit-font-smoothing:antialiased;
+}
+
+/* ====================================
+   SCROLLBAR MINIMALISTA (Chrome, Safari, Edge)
+==================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000000; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333333; 
 }
 
 /* ====================================
@@ -95,6 +121,21 @@ body{
   clip-path:polygon(0% 0%,100% 50%,0% 100%);
 }
 
+.cursor-svg{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  pointer-events:none;
+  z-index:9999998;
+  mix-blend-mode:difference;
+}
+
+.cursor-liquid-hidden .cursor-svg{
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
 /* ====================================
    LINKS
 ==================================== */
@@ -121,7 +162,6 @@ header{
   justify-content:flex-end;
   align-items:flex-start;
   z-index:1000;
-  mix-blend-mode:difference;
   pointer-events:none;
 }
 
@@ -130,24 +170,25 @@ header *{
 }
 
 .logo{
-  position:absolute;
+  position:fixed;
   top:32px;
   left:32px;
-  z-index:1001;
-  mix-blend-mode:difference;
+  z-index:1010; /* Ligeiramente superior ao header para manter-se sempre clicável */
   display:block;
+  mix-blend-mode:difference;
 }
 
 .logo img{
-  display:block;
-  width:120px;
+  width:150px;
   height:auto;
   object-fit:contain;
+  display:block;
 }
 
 .top-nav{
   display:flex;
   gap:28px;
+  mix-blend-mode:difference;
 }
 
 .top-nav a,
@@ -155,7 +196,7 @@ header *{
   text-decoration:none;
   border:none;
   background:none;
-  color:white;
+  color:black;
   font-size:12px;
   letter-spacing:.16em;
   text-transform:uppercase;
@@ -168,7 +209,7 @@ header *{
 }
 
 /* ====================================
-   EMPTY LANDING
+   LANDING
 ==================================== */
 
 .landing{
@@ -177,7 +218,7 @@ header *{
 }
 
 /* ====================================
-   GRID
+   PROJECT GRID
 ==================================== */
 
 .projects-grid{
@@ -190,7 +231,7 @@ header *{
 .project-thumb{
   position:relative;
   display:block;
-  aspect-ratio:1 / 1;
+  aspect-ratio:1/1;
   overflow:hidden;
   text-decoration:none;
   color:white;
@@ -402,7 +443,8 @@ header *{
     cursor:auto;
   }
 
-  .cursor{
+  .cursor,
+  .cursor-svg{
     display:none;
   }
 
@@ -416,7 +458,7 @@ header *{
   }
 
   .logo img{
-    width:72px;
+    width:120px;
   }
 
   .projects-grid{
@@ -492,8 +534,22 @@ header *{
 
 <div class="cursor"></div>
 
+<svg class="cursor-svg">
+
+  <path
+    id="cursorPath"
+    fill="none"
+    stroke="white"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity=".9"
+  />
+
+</svg>
+
 <a href="#home" class="logo">
-  <img src="/unn-a-site/images/logo.png" alt="UNN-A">
+  <img src="https://ct-unn-a.github.io/unn-a-site/images/logo.png" alt="UNN-A">
 </a>
 
 <header>
@@ -513,70 +569,46 @@ header *{
 
 </header>
 
-<!-- EMPTY LANDING -->
-
 <section class="landing" id="landing"></section>
-
-<!-- PROJECTS -->
 
 <section class="projects-grid" id="projectsGrid"></section>
 
-<!-- PROJECT VIEW -->
-
 <section class="project-view" id="projectView"></section>
-
-<!-- ABOUT -->
 
 <section class="about-section" id="aboutSection">
 
   <div class="lang-pt">
-
     <h2>Unnamed Architects</h2>
-
     <p>
       UNN-A (Unnamed Architects) é um atelier de arquitetura focado em soluções contemporâneas, funcionais e integradas no território.
     </p>
-
-    <div class="partners-grid">
-
-      <div class="partner-card">
-        <img src="/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
-        <div class="partner-name">Andreia Santa Margarido</div>
-        <div class="partner-role">Arquiteta Sócia Fundadora</div>
-      </div>
-
-      <div class="partner-card">
-        <img src="/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
-        <div class="partner-name">Gustavo Guimarães</div>
-        <div class="partner-role">Arquiteto Sócio Fundador</div>
-      </div>
-
-    </div>
-
   </div>
 
   <div class="lang-en" style="display:none">
-
-    <h2>UNN-A</h2>
-
+    <h2>Unnamed Architects</h2>
     <p>
-      UNN-A is an architecture studio focused on contemporary and contextual architectural solutions.
+      UNN-A (Unnamed Architects) is an architecture studio focused on contemporary, functional, and territory-integrated solutions.
     </p>
+  </div>
 
-    <div class="partners-grid">
+  <div class="partners-grid">
 
-      <div class="partner-card">
-        <img src="/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
-        <div class="partner-name">Andreia Santa Margarido</div>
-        <div class="partner-role">Founding Partner & Architect</div>
+    <div class="partner-card">
+      <img src="https://ct-unn-a.github.io/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
+      <div class="partner-name">Andreia Santa Margarido</div>
+      <div class="partner-role">
+        <span class="lang-pt">Arquiteta Sócia Fundadora</span>
+        <span class="lang-en" style="display:none">Architect & Founding Partner</span>
       </div>
+    </div>
 
-      <div class="partner-card">
-        <img src="/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
-        <div class="partner-name">Gustavo Guimarães</div>
-        <div class="partner-role">Founding Partner & Architect</div>
+    <div class="partner-card">
+      <img src="https://ct-unn-a.github.io/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
+      <div class="partner-name">Gustavo Guimarães</div>
+      <div class="partner-role">
+        <span class="lang-pt">Arquiteto Sócio Fundador</span>
+        <span class="lang-en" style="display:none">Architect & Founding Partner</span>
       </div>
-
     </div>
 
   </div>
@@ -596,7 +628,9 @@ if(window.netlifyIdentity){
     if(!user){
 
       window.netlifyIdentity.on("login", () => {
+
         document.location.href = "/admin/";
+
       });
 
     }
@@ -633,8 +667,22 @@ document.getElementById("langToggle").addEventListener("click",()=>{
     currentLang === "pt" ? "EN" : "PT";
 
   applyLang(currentLang);
-
   renderProjects();
+
+  /* CORREÇÃO DO COMPORTAMENTO ESTRANHO:
+     Se o utilizador estiver a ver um projeto aberto no momento do clique, 
+     forçamos o ecrã do projeto a re-renderizar na língua correta imediatamente. */
+  const hash = window.location.hash;
+  if(hash && hash !== "#" && hash !== "#home" && hash !== "#projetos" && hash !== "#about"){
+    const projectId = hash.replace("#","");
+    const targetProject = projects.find(p => {
+      const pId = p.id ? p.id.toString().trim().toLowerCase() : "";
+      return pId === projectId.toLowerCase();
+    });
+    if(targetProject){
+      openProjectView(targetProject);
+    }
+  }
 
 });
 
@@ -659,8 +707,6 @@ function parseFrontmatter(text){
     return jsyaml.load(match[1]) || {};
 
   }catch(e){
-
-    console.error("Erro YAML:", e);
 
     return {};
 
@@ -712,28 +758,17 @@ function handleRouting(){
 
     landing.style.display = "block";
 
-    window.scrollTo(0,0);
-
   }else if(hash === "#projetos"){
 
     projectsGrid.style.display = "grid";
-
-    window.scrollTo(0,0);
 
   }else if(hash === "#about"){
 
     aboutSection.style.display = "block";
 
-    window.scrollTo(0,0);
-
   }else{
 
     const projectId = hash.replace("#","");
-
-    const cleanProjectId =
-      decodeURIComponent(projectId)
-      .trim()
-      .toLowerCase();
 
     const targetProject = projects.find(p => {
 
@@ -742,7 +777,7 @@ function handleRouting(){
         ? p.id.toString().trim().toLowerCase()
         : "";
 
-      return pId === cleanProjectId;
+      return pId === projectId.toLowerCase();
 
     });
 
@@ -757,6 +792,10 @@ function handleRouting(){
     }
 
   }
+
+  updateCursorMode();
+
+  window.scrollTo(0,0);
 
 }
 
@@ -780,31 +819,16 @@ async function loadProjects(){
     const files = await response.json();
 
     const mdFiles = files
-      .filter(f => f.name && f.name.endsWith(".md"))
-      .sort((a,b)=> a.name.localeCompare(b.name));
-
-    projects = [];
+      .filter(f => f.name.endsWith(".md"));
 
     for(const file of mdFiles){
 
-      try{
+      const text = await fetch(file.download_url)
+      .then(r => r.text());
 
-        const text = await fetch(file.download_url)
-          .then(r => r.text());
+      const project = parseFrontmatter(text);
 
-        const project = parseFrontmatter(text);
-
-        if(project && (project.id || project.titlePT)){
-
-          projects.push(project);
-
-        }
-
-      }catch(err){
-
-        console.error("Erro:", file.name, err);
-
-      }
+      projects.push(project);
 
     }
 
@@ -814,7 +838,7 @@ async function loadProjects(){
 
   }catch(err){
 
-    console.error("Erro geral:", err);
+    console.error(err);
 
   }
 
@@ -859,11 +883,13 @@ function renderProjects(){
       <div class="project-overlay">
 
         <div class="project-title">
+
           ${
             currentLang === "pt"
             ? (project.titlePT || '')
             : (project.titleEN || project.titlePT || '')
           }
+
         </div>
 
       </div>
@@ -950,12 +976,10 @@ function openProjectView(project){
 
   setupGalleryButtons();
 
-  window.scrollTo(0,0);
-
 }
 
 /* ====================================
-   GALLERY BUTTONS
+   GALLERY
 ==================================== */
 
 function setupGalleryButtons(){
@@ -990,53 +1014,254 @@ function setupGalleryButtons(){
    CURSOR
 ==================================== */
 
-const cursor = document.querySelector(".cursor");
+const cursor =
+  document.querySelector(".cursor");
 
-window.addEventListener("mousemove", e => {
+const path =
+  document.getElementById("cursorPath");
 
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
+let mouseX =
+  window.innerWidth / 2;
 
-});
+let mouseY =
+  window.innerHeight / 2;
 
-document.addEventListener("mouseover", e => {
+const CURSOR = {
 
-  const target = e.target;
+  dotSize:6,
+  hoverSize:69,
 
-  cursor.classList.remove("arrow-left","arrow-right");
+  trailWidth:2,
+  trailOpacity:.9,
 
-  if(target.classList.contains("slide-prev")){
+  points:52,
 
-    cursor.classList.add("arrow-left");
+  headFollow:.78,
+  tailFollow:.72,
 
-  }else if(target.classList.contains("slide-next")){
+  wobble:.45
 
-    cursor.classList.add("arrow-right");
+};
 
-  }else if(target.closest("a, button, .project-thumb")){
+path.setAttribute(
+  "stroke-width",
+  CURSOR.trailWidth
+);
 
-    cursor.classList.add("hover");
+path.setAttribute(
+  "opacity",
+  CURSOR.trailOpacity
+);
+
+let points = [];
+
+for(let i = 0; i < CURSOR.points; i++){
+
+  points.push({
+    x:mouseX,
+    y:mouseY
+  });
+
+}
+
+window.addEventListener(
+  "mousemove",
+  e => {
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+  }
+);
+
+/* ====================================
+   ENABLE ONLY ON LANDING
+==================================== */
+
+function updateCursorMode(){
+
+  const hash = window.location.hash;
+
+  const isLanding =
+    !hash ||
+    hash === "#" ||
+    hash === "#home";
+
+  if(isLanding){
+
+    document.body.classList.remove(
+      "cursor-liquid-hidden"
+    );
 
   }else{
 
-    cursor.classList.remove("hover");
+    document.body.classList.add(
+      "cursor-liquid-hidden"
+    );
 
   }
 
-});
+}
 
-document.addEventListener("mouseout", e => {
+/* ====================================
+   ANIMATE
+==================================== */
 
-  if(e.target.classList.contains("slide-nav")){
+function animateCursor(){
+
+  cursor.style.left =
+    mouseX + "px";
+
+  cursor.style.top =
+    mouseY + "px";
+
+  points[0].x +=
+    (mouseX - points[0].x) *
+    CURSOR.headFollow;
+
+  points[0].y +=
+    (mouseY - points[0].y) *
+    CURSOR.headFollow;
+
+  for(let i = 1; i < points.length; i++){
+
+    points[i].x +=
+      (points[i - 1].x - points[i].x) *
+      CURSOR.tailFollow;
+
+    points[i].y +=
+      (points[i - 1].y - points[i].y) *
+      CURSOR.tailFollow;
+
+  }
+
+  let d = `
+    M
+    ${points[0].x}
+    ${points[0].y}
+  `;
+
+  for(let i = 1; i < points.length - 2; i++){
+
+    const wobbleX =
+      Math.sin(
+        performance.now() * .001 + i
+      ) * CURSOR.wobble;
+
+    const wobbleY =
+      Math.cos(
+        performance.now() * .001 + i
+      ) * CURSOR.wobble;
+
+    const xc =
+      (
+        points[i].x +
+        points[i + 1].x
+      ) / 2;
+
+    const yc =
+      (
+        points[i].y +
+        points[i + 1].y
+      ) / 2;
+
+    d += `
+
+      Q
+      ${points[i].x + wobbleX}
+      ${points[i].y + wobbleY}
+      ${xc}
+      ${yc}
+
+    `;
+
+  }
+
+  path.setAttribute("d", d);
+
+  requestAnimationFrame(
+    animateCursor
+  );
+
+}
+
+animateCursor();
+
+/* ====================================
+   HOVER
+==================================== */
+
+document.addEventListener(
+  "mouseover",
+  e => {
+
+    const target = e.target;
 
     cursor.classList.remove(
       "arrow-left",
       "arrow-right"
     );
 
-  }
+    if(
+      target.classList.contains(
+        "slide-prev"
+      )
+    ){
 
-});
+      cursor.classList.add(
+        "arrow-left"
+      );
+
+    }else if(
+      target.classList.contains(
+        "slide-next"
+      )
+    ){
+
+      cursor.classList.add(
+        "arrow-right"
+      );
+
+    }else if(
+      target.closest(
+        "a, button, .project-thumb"
+      )
+    ){
+
+      cursor.classList.add(
+        "hover"
+      );
+
+    }else{
+
+      cursor.classList.remove(
+        "hover"
+      );
+
+    }
+
+  }
+);
+
+document.addEventListener(
+  "mouseout",
+  e => {
+
+    if(
+      e.target.classList.contains(
+        "slide-nav"
+      )
+    ){
+
+      cursor.classList.remove(
+        "arrow-left",
+        "arrow-right"
+      );
+
+    }
+
+  }
+);
 
 </script>
 
