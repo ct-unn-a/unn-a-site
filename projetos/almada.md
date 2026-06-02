@@ -2,6 +2,18 @@
 id: "almada"
 titlePT: "Almada"
 titleEN: "Almada Building"
+
+programPT: "Habitação Coletiva"
+programEN: "Collective Housing"
+
+interventionPT: "Reabilitação"
+interventionEN: "Rehabilitation"
+
+statusPT: "Construído"
+statusEN: "Built"
+
+year: "2024"
+
 metaPT: "Projeto de arquitetura em Almada"
 metaEN: "Architecture project in Almada"
 descriptionPT: "Texto temporário para o projeto ALMADA. Foco na sustentabilidade e materiais locais."

@@ -2,6 +2,17 @@
 id: "amelia"
 titlePT: "Amélia"
 titleEN: "Amélia"
+
+programPT: "Restaurante"
+programEN: "Restaurant"
+
+interventionPT: "Remodelação"
+interventionEN: "Renovation"
+
+statusPT: "Construído"
+statusEN: "Built"
+
+year: "2024"
 metaPT: "Projeto de arquitetura em Amélia"
 metaEN: "Architecture project in Amélia"
 descriptionPT: "Texto temporário para o projeto AMELIA. Foco na sustentabilidade e materiais locais."
