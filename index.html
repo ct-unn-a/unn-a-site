@@ -49,45 +49,25 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* ====================================
-   SCROLLBAR MINIMALISTA
-==================================== */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent; 
-}
-::-webkit-scrollbar-thumb {
-  background: #000000; 
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #333333; 
-}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:#000; border-radius:10px; }
+::-webkit-scrollbar-thumb:hover { background:#333; }
 
 /* ====================================
-   CURSOR & THUMBNAIL PREVIEW FLUTUANTE
+   CURSOR
 ==================================== */
 .cursor{
   position:fixed;
-  top:0;
-  left:0;
-  width:6px;
-  height:6px;
+  top:0; left:0;
+  width:6px; height:6px;
   border-radius:999px;
   pointer-events:none;
   z-index:9999999;
   mix-blend-mode:difference;
   transform:translate(-50%,-50%);
-  transition:
-    width .25s ease,
-    height .25s ease,
-    border-radius .25s ease,
-    clip-path .25s ease;
+  transition: width .25s ease, height .25s ease, border-radius .25s ease, clip-path .25s ease;
 }
-
 .cursor::before{
   content:"";
   position:absolute;
@@ -95,295 +75,190 @@ body{
   border-radius:inherit;
   background:white;
 }
-
-.cursor.hover{
-  width:12px;
-  height:12px;
-}
-
+.cursor.hover{ width:12px; height:12px; }
 .cursor.arrow-left{
-  width:24px;
-  height:24px;
+  width:24px; height:24px;
   border-radius:0%;
   clip-path:polygon(100% 0%,0% 50%,100% 100%);
 }
-
 .cursor.arrow-right{
-  width:24px;
-  height:24px;
+  width:24px; height:24px;
   border-radius:0%;
   clip-path:polygon(0% 0%,100% 50%,0% 100%);
 }
 
 .cursor-svg{
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
+  position:fixed; inset:0;
+  width:100vw; height:100vh;
   pointer-events:none;
   z-index:9999998;
   mix-blend-mode:difference;
 }
+.cursor-liquid-hidden .cursor-svg{ opacity:0; transition:opacity .3s ease; }
 
-.cursor-liquid-hidden .cursor-svg{
+/* Preview float */
+.project-preview-float{
+  position:fixed;
+  width:280px;
+  aspect-ratio:3/2;
+  pointer-events:none;
+  z-index:999990;
   opacity:0;
-  transition:opacity .3s ease;
+  transform:translate(25px,-50%) scale(0.95);
+  overflow:hidden;
+  background:rgba(0,0,0,0.05);
+  transition:opacity .12s ease, transform .12s ease;
 }
-
-/* Contentor da Miniatura que segue o Rato */
-.project-preview-float {
-  position: fixed;
-  width: 280px;
-  aspect-ratio: 3/2;
-  pointer-events: none;
-  z-index: 999990;
-  opacity: 0;
-  transform: translate(25px, -50%) scale(0.95);
-  overflow: hidden;
-  background: rgba(0,0,0,0.05);
-  transition: opacity 0.12s ease, transform 0.12s ease;
-}
-
-.project-preview-float.visible {
-  opacity: 1;
-  transform: translate(25px, -50%) scale(1);
-}
-
-.project-preview-float img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.project-preview-float.visible{ opacity:1; transform:translate(25px,-50%) scale(1); }
+.project-preview-float img{ width:100%; height:100%; object-fit:cover; }
 
 /* ====================================
    LINKS
 ==================================== */
-a,
-button,
-.project-row.active,
-.project-gallery,
-.slide-nav{
-  cursor:none;
-}
+a, button, .project-row.active, .project-gallery, .slide-nav{ cursor:none; }
 
 /* ====================================
    HEADER
 ==================================== */
 header{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  padding:32px;
-  display:flex;
-  justify-content:flex-end;
-  align-items:flex-start;
-  z-index:1000;
-  pointer-events:none;
+  position:fixed; top:0; left:0;
+  width:100%; padding:32px;
+  display:flex; justify-content:flex-end; align-items:flex-start;
+  z-index:1000; pointer-events:none;
 }
-
-header *{
-  pointer-events:auto;
-}
+header *{ pointer-events:auto; }
 
 .logo{
-  position:fixed;
-  top:32px;
-  left:32px;
-  z-index:1010;
-  display:block;
+  position:fixed; top:32px; left:32px;
+  z-index:1010; display:block;
   mix-blend-mode:difference;
 }
+.logo img{ width:150px; height:auto; object-fit:contain; display:block; }
 
-.logo img{
-  width:150px;
-  height:auto;
-  object-fit:contain;
-  display:block;
+.top-nav{ display:flex; gap:28px; mix-blend-mode:difference; }
+.top-nav a, #langToggle{
+  text-decoration:none; border:none; background:none;
+  color:black; font-size:12px; letter-spacing:.16em;
+  text-transform:uppercase; transition:opacity .2s ease;
 }
-
-.top-nav{
-  display:flex;
-  gap:28px;
-  mix-blend-mode:difference;
-}
-
-.top-nav a,
-#langToggle{
-  text-decoration:none;
-  border:none;
-  background:none;
-  color:black;
-  font-size:12px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  transition:opacity .2s ease;
-}
-
-.top-nav a:hover,
-#langToggle:hover{
-  opacity:.5;
-}
+.top-nav a:hover, #langToggle:hover{ opacity:.5; }
 
 /* ====================================
    LANDING
 ==================================== */
-.landing{
-  width:100%;
-  height:100vh;
-}
+.landing{ width:100%; height:100vh; }
 
 /* ====================================
-   PROJECT INDEX (Tabela Justificada)
+   PROJECT INDEX
 ==================================== */
 .projects-grid{
   display:none;
   grid-template-columns:1fr;
   padding:160px 32px 100px;
-  max-width:1100px;
+  max-width:1300px;
   width:100%;
-  margin: 0 auto;
+  margin:0 auto;
 }
 
-/* Cabeçalho da Tabela */
-.projects-index-header {
-  display: grid;
-  grid-template-columns: 2.2fr 1.2fr 0.6fr;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--text);
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.projects-index-header div:last-child {
-  text-align: right;
-}
-
-/* Linha de Projeto */
-.project-row {
+/* Colunas: Projeto | Programa | Intervenção | Estado | Ano */
+.projects-index-header,
+.project-row{
   display:grid;
-  grid-template-columns: 2.2fr 1.2fr 0.6fr;
-  align-items: baseline;
-  padding: 22px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  text-decoration: none;
+  grid-template-columns: 2fr 1fr 1.2fr 0.9fr 0.4fr;
+  align-items:baseline;
+  gap: 0 16px;
 }
 
-/* Ativos (Clicáveis e Com Efeito Diferença) */
-.project-row.active {
+.projects-index-header{
+  padding-bottom:14px;
+  border-bottom:1px solid var(--text);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.projects-index-header div:last-child,
+.project-row-year{ text-align:right; }
+
+.project-row{
+  padding:20px 0;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+  text-decoration:none;
+}
+
+.project-row.active{
   color:white;
   mix-blend-mode:difference;
 }
-
-/* Inativos (Arquivo Histórico) */
-.project-row.inactive {
+.project-row.inactive{
   color:var(--muted);
   opacity:0.3;
   pointer-events:none;
 }
 
-.project-row-title {
+.project-row-title{
   font-family:'Syne',sans-serif;
-  font-size:36px;
+  font-size:32px;
   line-height:1;
   letter-spacing:-0.04em;
   font-weight:500;
-  text-align: left;
 }
 
-.project-row-typology {
-  font-size:14px;
-  letter-spacing:0.02em;
-  text-align: left;
-}
-
-.project-row-year {
-  font-size:14px;
-  letter-spacing:0.02em;
-  text-align: right;
+.project-row-program,
+.project-row-intervention,
+.project-row-status,
+.project-row-year{
+  font-size:13px;
+  letter-spacing:0.01em;
 }
 
 /* ====================================
    PROJECT VIEW
 ==================================== */
-.project-view{
-  display:none;
-}
+.project-view{ display:none; }
 
 .project-content{
   padding:160px 32px 60px;
   max-width:920px;
 }
-
 .project-content h1{
   font-family:'Syne',sans-serif;
-  font-size:92px;
-  line-height:.88;
-  letter-spacing:-0.09em;
-  font-weight:500;
+  font-size:92px; line-height:.88;
+  letter-spacing:-0.09em; font-weight:500;
   margin-bottom:26px;
-  color:white;
-  mix-blend-mode:difference;
+  color:white; mix-blend-mode:difference;
 }
-
 .project-content .meta{
   margin-bottom:42px;
-  font-size:11px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--muted);
+  font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted);
 }
-
-.project-description{
-  font-size:16px;
-  line-height:1.9;
-}
+.project-description{ font-size:16px; line-height:1.9; }
 
 /* ====================================
    GALLERY
 ==================================== */
-.project-gallery-wrap{
-  position:relative;
-}
-
+.project-gallery-wrap{ position:relative; }
 .project-gallery{
-  display:flex;
-  gap:22px;
-  overflow-x:auto;
-  overflow-y:hidden;
+  display:flex; gap:22px;
+  overflow-x:auto; overflow-y:hidden;
   scroll-behavior:smooth;
   padding:0 32px 120px;
   scrollbar-width:none;
   -webkit-overflow-scrolling:touch;
 }
-
-.project-gallery::-webkit-scrollbar{
-  display:none;
-}
-
+.project-gallery::-webkit-scrollbar{ display:none; }
 .project-gallery img{
-  height:78vh;
-  width:auto;
-  flex:none;
+  height:78vh; width:auto; flex:none;
   object-fit:contain;
-  user-select:none;
-  -webkit-user-drag:none;
-  pointer-events:none;
+  user-select:none; -webkit-user-drag:none; pointer-events:none;
 }
-
 .slide-nav{
-  position:absolute;
-  top:0;
-  bottom:120px;
-  width:50%;
-  border:none;
-  background:transparent;
-  z-index:100;
+  position:absolute; top:0; bottom:120px;
+  width:50%; border:none; background:transparent; z-index:100;
 }
-
 .slide-prev{ left:0; }
 .slide-next{ right:0; }
 
@@ -391,61 +266,36 @@ header *{
    ABOUT
 ==================================== */
 .about-section{
-  display:none;
-  min-height:100vh;
+  display:none; min-height:100vh;
   padding:160px 32px 120px;
 }
-
 .about-section h2{
   font-family:'Syne',sans-serif;
-  font-size:84px;
-  line-height:.9;
-  letter-spacing:-0.08em;
-  font-weight:500;
+  font-size:84px; line-height:.9;
+  letter-spacing:-0.08em; font-weight:500;
   margin-bottom:32px;
 }
-
 .about-section p{
-  max-width:720px;
-  font-size:17px;
-  line-height:1.9;
-  margin-bottom:60px;
+  max-width:720px; font-size:17px;
+  line-height:1.9; margin-bottom:60px;
 }
-
 .partners-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:40px;
-  max-width:900px;
-  margin-top:60px;
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:40px; max-width:900px; margin-top:60px;
 }
-
-.partner-card{
-  display:flex;
-  flex-direction:column;
-}
-
+.partner-card{ display:flex; flex-direction:column; }
 .partner-card img{
-  width:100%;
-  aspect-ratio:4/5;
-  object-fit:cover;
-  background:#ddd;
-  margin-bottom:16px;
+  width:100%; aspect-ratio:4/5;
+  object-fit:cover; background:#ddd; margin-bottom:16px;
 }
-
 .partner-name{
   font-family:'Syne',sans-serif;
-  font-size:24px;
-  font-weight:500;
-  letter-spacing:-0.04em;
-  margin-bottom:4px;
+  font-size:24px; font-weight:500;
+  letter-spacing:-0.04em; margin-bottom:4px;
 }
-
 .partner-role{
-  font-size:12px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--muted);
+  font-size:12px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted);
 }
 
 /* ====================================
@@ -458,14 +308,23 @@ header *{
   .logo{ top:22px; left:22px; }
   .logo img{ width:120px; }
   .projects-grid{ padding:120px 22px 60px; }
-  .projects-index-header { display:none; }
-  .project-row { grid-template-columns: 1fr; gap:6px; padding:16px 0; }
+  .projects-index-header{ display:none; }
+  .project-row{
+    grid-template-columns:1fr;
+    gap:4px; padding:16px 0;
+  }
   .project-row-title{ font-size:26px; }
-  .project-row-year { text-align: left; }
+  .project-row-year{ text-align:left; }
   .project-content{ padding:120px 22px 50px; }
   .project-content h1{ font-size:58px; }
-  .project-gallery{ padding:0 22px 80px; gap:12px; scroll-snap-type:x mandatory; }
-  .project-gallery img{ width:88vw; height:auto; max-height:70vh; scroll-snap-align:start; }
+  .project-gallery{
+    padding:0 22px 80px; gap:12px;
+    scroll-snap-type:x mandatory;
+  }
+  .project-gallery img{
+    width:88vw; height:auto;
+    max-height:70vh; scroll-snap-align:start;
+  }
   .slide-nav{ display:none; }
   .about-section{ padding:120px 22px 80px; }
   .about-section h2{ font-size:54px; }
@@ -480,7 +339,8 @@ header *{
 <div class="cursor"></div>
 
 <svg class="cursor-svg">
-  <path id="cursorPath" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+  <path id="cursorPath" fill="none" stroke="white" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
 </svg>
 
 <div id="projectPreviewFloat" class="project-preview-float">
@@ -544,25 +404,23 @@ header *{
 if(window.netlifyIdentity){
   window.netlifyIdentity.on("init", user => {
     if(!user){
-      window.netlifyIdentity.on("login", () => {
-        document.location.href = "/admin/";
-      });
+      window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
     }
   });
 }
 
 /* ====================================
-   LANGUAGE CONTROL
+   LANGUAGE
 ==================================== */
 let currentLang = "pt";
 
 function applyLang(lang){
   const isEN = lang === "en";
-  document.querySelectorAll(".lang-pt").forEach(el=>{ el.style.display = isEN ? "none" : ""; });
-  document.querySelectorAll(".lang-en").forEach(el=>{ el.style.display = isEN ? "" : "none"; });
+  document.querySelectorAll(".lang-pt").forEach(el => { el.style.display = isEN ? "none" : ""; });
+  document.querySelectorAll(".lang-en").forEach(el => { el.style.display = isEN ? "" : "none"; });
 }
 
-document.getElementById("langToggle").addEventListener("click",()=>{
+document.getElementById("langToggle").addEventListener("click", () => {
   currentLang = currentLang === "pt" ? "en" : "pt";
   document.getElementById("langToggle").textContent = currentLang === "pt" ? "EN" : "PT";
   applyLang(currentLang);
@@ -570,14 +428,14 @@ document.getElementById("langToggle").addEventListener("click",()=>{
 
   const hash = window.location.hash;
   if(hash && hash !== "#" && hash !== "#home" && hash !== "#projetos" && hash !== "#about"){
-    const projectId = hash.replace("#","");
-    const targetProject = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
-    if(targetProject) openProjectView(targetProject);
+    const projectId = hash.replace("#", "");
+    const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
+    if(target) openProjectView(target);
   }
 });
 
 /* ====================================
-   PARSERS & HELPERS
+   HELPERS
 ==================================== */
 function parseFrontmatter(text){
   if(!text.startsWith("---")) return {};
@@ -592,18 +450,18 @@ function normalizeImagePath(path){
   return "/unn-a-site" + path;
 }
 
-const landing = document.getElementById("landing");
+const landing      = document.getElementById("landing");
 const projectsGrid = document.getElementById("projectsGrid");
-const projectView = document.getElementById("projectView");
+const projectView  = document.getElementById("projectView");
 const aboutSection = document.getElementById("aboutSection");
 
 /* ====================================
-   ROUTING SYSTEM
+   ROUTING
 ==================================== */
 function hideAll(){
-  landing.style.display = "none";
+  landing.style.display      = "none";
   projectsGrid.style.display = "none";
-  projectView.style.display = "none";
+  projectView.style.display  = "none";
   aboutSection.style.display = "none";
 }
 
@@ -618,28 +476,27 @@ function handleRouting(){
   } else if(hash === "#about"){
     aboutSection.style.display = "block";
   } else {
-    const projectId = hash.replace("#","");
-    const targetProject = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
-    if(targetProject) openProjectView(targetProject);
+    const projectId = hash.replace("#", "");
+    const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
+    if(target) openProjectView(target);
     else window.location.hash = "#home";
   }
   updateCursorMode();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", handleRouting);
 
 /* ====================================
    DATA FETCHING
 ==================================== */
-const GITHUB_API      = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
-const INACTIVE_URL    = "https://raw.githubusercontent.com/ct-unn-a/unn-a-site/main/projetos/inativos.md";
+const GITHUB_API   = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
+const INACTIVE_URL = "https://raw.githubusercontent.com/ct-unn-a/unn-a-site/main/projetos/inativos.md";
 
-let projects         = [];   // active projects (from individual .md files)
-let inactiveProjects = [];   // inactive projects (from inativos.md)
+let projects         = [];
+let inactiveProjects = [];
 
 async function loadProjects(){
   try {
-    // 1. Load active projects from individual files
     const response = await fetch(GITHUB_API);
     const files = await response.json();
     const mdFiles = files.filter(f => f.name.endsWith(".md") && f.name !== "inativos.md");
@@ -650,9 +507,7 @@ async function loadProjects(){
       projects.push(project);
     }
 
-    // 2. Load inactive projects from inativos.md
     await loadInactiveProjects();
-
     renderProjects();
     handleRouting();
   } catch(err){
@@ -676,46 +531,75 @@ async function loadInactiveProjects(){
 loadProjects();
 
 /* ====================================
-   INDEX LIST RENDERER (Tabela Justificada)
+   RENDER INDEX
 ==================================== */
 function renderProjects(){
   projectsGrid.innerHTML = "";
 
-  // 1. Table header
-  const headerRow = document.createElement("div");
-  headerRow.className = "projects-index-header";
-  headerRow.innerHTML = currentLang === "pt"
-    ? `<div>Projeto</div><div>Tipologia</div><div>Ano</div>`
-    : `<div>Project</div><div>Typology</div><div>Year</div>`;
-  projectsGrid.appendChild(headerRow);
+  /* --- Cabeçalho --- */
+  const header = document.createElement("div");
+  header.className = "projects-index-header";
 
-  // 2. Map active projects
-  const activeItems = projects.map(p => ({ ...p, clickable: true }));
+  if(currentLang === "pt"){
+    header.innerHTML = `
+      <div>Projeto</div>
+      <div>Programa</div>
+      <div>Tipo de Intervenção</div>
+      <div>Estado</div>
+      <div>Ano</div>`;
+  } else {
+    header.innerHTML = `
+      <div>Project</div>
+      <div>Program</div>
+      <div>Intervention Type</div>
+      <div>Status</div>
+      <div>Year</div>`;
+  }
+  projectsGrid.appendChild(header);
 
-  // 3. Map inactive projects from inativos.md
-  // Uses programPT/EN as typology, falls back gracefully
-  const inactiveItems = inactiveProjects.map(p => ({
-    titlePT:      p.titlePT      || "",
-    titleEN:      p.titleEN      || p.titlePT || "",
-    typologyPT:   p.programPT    || "Arquitetura",
-    typologyEN:   p.programEN    || p.programPT || "Architecture",
-    year:         p.year         || "—",
-    clickable:    false
+  /* --- Projetos ativos (GitHub .md individuais) --- */
+  const activeItems = projects.map(p => ({
+    titlePT:       p.titlePT        || "",
+    titleEN:       p.titleEN        || p.titlePT || "",
+    programPT:     p.programPT      || "—",
+    programEN:     p.programEN      || p.programPT || "—",
+    interventionPT:p.interventionPT || "—",
+    interventionEN:p.interventionEN || p.interventionPT || "—",
+    statusPT:      p.statusPT       || "—",
+    statusEN:      p.statusEN       || p.statusPT || "—",
+    year:          p.year           || "—",
+    id:            p.id,
+    coverImage:    p.coverImage,
+    clickable:     true
   }));
 
-  // 4. Merge & sort alphabetically
+  /* --- Projetos inativos (inativos.md) --- */
+  const inactiveItems = inactiveProjects.map(p => ({
+    titlePT:       p.titlePT        || "",
+    titleEN:       p.titleEN        || p.titlePT || "",
+    programPT:     p.programPT      || "—",
+    programEN:     p.programEN      || p.programPT || "—",
+    interventionPT:p.interventionPT || "—",
+    interventionEN:p.interventionEN || p.interventionPT || "—",
+    statusPT:      p.statusPT       || "—",
+    statusEN:      p.statusEN       || p.statusPT || "—",
+    year:          p.year           || "—",
+    clickable:     false
+  }));
+
+  /* --- Ordenação alfabética --- */
   const allItems = [...activeItems, ...inactiveItems];
   allItems.sort((a, b) => {
-    const titleA = currentLang === "pt" ? (a.titlePT || "") : (a.titleEN || a.titlePT || "");
-    const titleB = currentLang === "pt" ? (b.titlePT || "") : (b.titleEN || b.titlePT || "");
-    return titleA.localeCompare(titleB);
+    const tA = currentLang === "pt" ? a.titlePT : (a.titleEN || a.titlePT);
+    const tB = currentLang === "pt" ? b.titlePT : (b.titleEN || b.titlePT);
+    return tA.localeCompare(tB);
   });
 
-  // 5. Render rows
+  /* --- Linhas --- */
   allItems.forEach(item => {
-    const isClickable = item.clickable !== false;
-    const projectSlug = item.id ? item.id.toString().trim() : "";
-    const cover = item.coverImage ? normalizeImagePath(item.coverImage) : "";
+    const isClickable  = item.clickable !== false;
+    const projectSlug  = item.id ? item.id.toString().trim() : "";
+    const cover        = item.coverImage ? normalizeImagePath(item.coverImage) : "";
 
     const row = document.createElement(isClickable ? "a" : "div");
     row.className = `project-row ${isClickable ? "active" : "inactive"}`;
@@ -725,14 +609,18 @@ function renderProjects(){
       row.setAttribute("data-preview", cover);
     }
 
-    const titleText = currentLang === "pt" ? (item.titlePT || "") : (item.titleEN || item.titlePT || "");
-    const typoText  = currentLang === "pt" ? (item.typologyPT || "Arquitetura") : (item.typologyEN || item.typologyPT || "Architecture");
-    const yearText  = item.year || (item.metaPT ? item.metaPT.match(/\d{4}/)?.[0] : "") || "—";
+    const title        = currentLang === "pt" ? item.titlePT        : (item.titleEN        || item.titlePT);
+    const program      = currentLang === "pt" ? item.programPT      : (item.programEN      || item.programPT);
+    const intervention = currentLang === "pt" ? item.interventionPT : (item.interventionEN || item.interventionPT);
+    const status       = currentLang === "pt" ? item.statusPT       : (item.statusEN       || item.statusPT);
+    const year         = item.year;
 
     row.innerHTML = `
-      <div class="project-row-title">${titleText}</div>
-      <div class="project-row-typology">${typoText}</div>
-      <div class="project-row-year">${yearText}</div>
+      <div class="project-row-title">${title}</div>
+      <div class="project-row-program">${program}</div>
+      <div class="project-row-intervention">${intervention}</div>
+      <div class="project-row-status">${status}</div>
+      <div class="project-row-year">${year}</div>
     `;
 
     projectsGrid.appendChild(row);
@@ -740,7 +628,7 @@ function renderProjects(){
 }
 
 /* ====================================
-   PROJECT GALERIA INTERNA
+   PROJECT VIEW
 ==================================== */
 function openProjectView(project){
   projectView.style.display = "block";
@@ -776,37 +664,31 @@ function setupGalleryButtons(){
   const prev   = document.getElementById("slidePrev");
   if(!slider || !next || !prev) return;
 
-  next.addEventListener("click", ()=>{ slider.scrollBy({ left: window.innerWidth * .72, behavior:"smooth" }); });
-  prev.addEventListener("click", ()=>{ slider.scrollBy({ left:-window.innerWidth * .72, behavior:"smooth" }); });
+  next.addEventListener("click", () => { slider.scrollBy({ left:  window.innerWidth * .72, behavior:"smooth" }); });
+  prev.addEventListener("click", () => { slider.scrollBy({ left: -window.innerWidth * .72, behavior:"smooth" }); });
 }
 
 /* ====================================
-   CURSOR & ANIMATION ENGINE
+   CURSOR ENGINE
 ==================================== */
-const cursor      = document.querySelector(".cursor");
-const path        = document.getElementById("cursorPath");
+const cursor       = document.querySelector(".cursor");
+const path         = document.getElementById("cursorPath");
 const previewFloat = document.getElementById("projectPreviewFloat");
-const previewImg  = previewFloat.querySelector("img");
+const previewImg   = previewFloat.querySelector("img");
 
-let mouseX = window.innerWidth / 2;
+let mouseX = window.innerWidth  / 2;
 let mouseY = window.innerHeight / 2;
 
 const CURSOR = {
-  dotSize:6,
-  hoverSize:12,
-  trailWidth:2,
-  trailOpacity:.9,
-  points:52,
-  headFollow:.78,
-  tailFollow:.72,
-  wobble:.45
+  points:52, headFollow:.78, tailFollow:.72, wobble:.45,
+  trailWidth:2, trailOpacity:.9
 };
 
 path.setAttribute("stroke-width", CURSOR.trailWidth);
-path.setAttribute("opacity", CURSOR.trailOpacity);
+path.setAttribute("opacity",      CURSOR.trailOpacity);
 
 let points = [];
-for(let i = 0; i < CURSOR.points; i++){ points.push({ x:mouseX, y:mouseY }); }
+for(let i = 0; i < CURSOR.points; i++) points.push({ x:mouseX, y:mouseY });
 
 window.addEventListener("mousemove", e => {
   mouseX = e.clientX;
@@ -818,8 +700,7 @@ window.addEventListener("mousemove", e => {
 function updateCursorMode(){
   const hash = window.location.hash;
   const isLanding = !hash || hash === "#" || hash === "#home";
-  if(isLanding) document.body.classList.remove("cursor-liquid-hidden");
-  else document.body.classList.add("cursor-liquid-hidden");
+  document.body.classList.toggle("cursor-liquid-hidden", !isLanding);
 }
 
 function animateCursor(){
@@ -830,17 +711,17 @@ function animateCursor(){
   points[0].y += (mouseY - points[0].y) * CURSOR.headFollow;
 
   for(let i = 1; i < points.length; i++){
-    points[i].x += (points[i - 1].x - points[i].x) * CURSOR.tailFollow;
-    points[i].y += (points[i - 1].y - points[i].y) * CURSOR.tailFollow;
+    points[i].x += (points[i-1].x - points[i].x) * CURSOR.tailFollow;
+    points[i].y += (points[i-1].y - points[i].y) * CURSOR.tailFollow;
   }
 
   let d = `M ${points[0].x} ${points[0].y}`;
   for(let i = 1; i < points.length - 2; i++){
-    const wobbleX = Math.sin(performance.now() * .001 + i) * CURSOR.wobble;
-    const wobbleY = Math.cos(performance.now() * .001 + i) * CURSOR.wobble;
-    const xc = (points[i].x + points[i + 1].x) / 2;
-    const yc = (points[i].y + points[i + 1].y) / 2;
-    d += ` Q ${points[i].x + wobbleX} ${points[i].y + wobbleY} ${xc} ${yc}`;
+    const wx = Math.sin(performance.now() * .001 + i) * CURSOR.wobble;
+    const wy = Math.cos(performance.now() * .001 + i) * CURSOR.wobble;
+    const xc = (points[i].x + points[i+1].x) / 2;
+    const yc = (points[i].y + points[i+1].y) / 2;
+    d += ` Q ${points[i].x + wx} ${points[i].y + wy} ${xc} ${yc}`;
   }
   path.setAttribute("d", d);
   requestAnimationFrame(animateCursor);
@@ -858,30 +739,20 @@ document.addEventListener("mouseover", e => {
 
   if(activeRow){
     const previewSrc = activeRow.getAttribute("data-preview");
-    if(previewSrc){
-      previewImg.src = previewSrc;
-      previewFloat.classList.add("visible");
-    }
+    if(previewSrc){ previewImg.src = previewSrc; previewFloat.classList.add("visible"); }
     cursor.classList.add("hover");
   } else {
     previewFloat.classList.remove("visible");
-
-    if(target.classList.contains("slide-prev")){
-      cursor.classList.add("arrow-left");
-    } else if(target.classList.contains("slide-next")){
-      cursor.classList.add("arrow-right");
-    } else if(target.closest("a, button")){
-      cursor.classList.add("hover");
-    } else {
-      cursor.classList.remove("hover");
-    }
+    if(target.classList.contains("slide-prev"))       cursor.classList.add("arrow-left");
+    else if(target.classList.contains("slide-next"))  cursor.classList.add("arrow-right");
+    else if(target.closest("a, button"))              cursor.classList.add("hover");
+    else                                              cursor.classList.remove("hover");
   }
 });
 
 document.addEventListener("mouseout", e => {
-  if(e.target.classList.contains("slide-nav")){
+  if(e.target.classList.contains("slide-nav"))
     cursor.classList.remove("arrow-left", "arrow-right");
-  }
 });
 
 </script>
