@@ -2,6 +2,16 @@
 id: "pod"
 titlePT: "Alpha Pod"
 titleEN: "Alpha Pod"
+programPT: "Design"
+programEN: "Design"
+
+interventionPT: "Design de produto"
+interventionEN: "Product Design"
+
+statusPT: "Em execução"
+statusEN: "Ongoing"
+
+year: "2021"
 metaPT: "Alpha Pod"
 metaEN: "Alpha Pod"
 descriptionPT: "Texto temporário para o projeto Pod. Foco na sustentabilidade e materiais locais."

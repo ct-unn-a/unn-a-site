@@ -2,6 +2,16 @@
 id: "ribeira"
 titlePT: "Ribeira"
 titleEN: "Ribeira"
+programPT: "Habitação"
+programEN: "Housing"
+
+interventionPT: "Reabilitação"
+interventionEN: "Rehabilitation"
+
+statusPT: "Construído"
+statusEN: "Built"
+
+year: "2025"
 metaPT: "Remodelação de apartamento na ribeira do Porto"
 metaEN: "Remodelation of appartment in Porto"
 descriptionPT: "Texto temporário para o projeto 2605_ARCO. Estrutura focada em novos modelos de espaço de trabalho partilhado."

@@ -2,6 +2,16 @@
 id: "casaagricola"
 titlePT: "Casa Agrícola"
 titleEN: "Agricultural House"
+programPT: "Habitação"
+programEN: "Housing"
+
+interventionPT: "Construção nova"
+interventionEN: "New construction"
+
+statusPT: "Em execução"
+statusEN: "Ongoing"
+
+year: "2026"
 metaPT: "Projeto de arquitetura da Casa Agrícola"
 metaEN: "Casa Agrícola architecture project"
 descriptionPT: "Texto temporário para o projeto CASAAGRICOLA. Foco na sustentabilidade e materiais locais."

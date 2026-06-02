@@ -2,6 +2,16 @@
 id: "cascais"
 titlePT: "Cascais"
 titleEN: "Cascais"
+programPT: "Habitação"
+programEN: "Housing"
+
+interventionPT: "Construção nova"
+interventionEN: "New construction"
+
+statusPT: "Em execução"
+statusEN: "Ongoing"
+
+year: "2020"
 metaPT: "Projeto de arquitetura em Cascais"
 metaEN: "Architecture project in Cascais"
 descriptionPT: "Texto temporário para o projeto CASCAIS. Foco na sustentabilidade e materiais locais."

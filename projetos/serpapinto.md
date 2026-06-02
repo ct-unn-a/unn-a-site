@@ -2,6 +2,17 @@
 id: serpapinto
 titlePT: "Serpa Pinto"
 titleEN: "Serpa Pinto"
+
+programPT: "Habitação Coletiva"
+programEN: "Collective Housing"
+
+interventionPT: "Construção nova"
+interventionEN: "New construction"
+
+statusPT: "Em construção"
+statusEN: "Under construction"
+
+year: "2026"
 locationPT: "Matosinhos, Portugal"
 locationEN: "Matosinhos, Portugal"
 projectDuration: "2020-2026"

@@ -1,17 +1,17 @@
 ---
 id: "andaluz"
-titlePT: "Andaluz"
-titleEN: "Andaluz"
-programPT: "Habitação"
+titlePT: "Edifício Andaluz"
+titleEN: "Andaluz Building"
+programPT: "Habitação Coletiva"
 programEN: "Housing"
 
-interventionPT: "Remodelação"
-interventionEN: "Renovation"
+interventionPT: "Construção nova"
+interventionEN: "New construction"
 
-statusPT: "Construído"
-statusEN: "Built"
+statusPT: "Em construção"
+statusEN: "Under construction"
 
-year: "2024"
+year: "2021"
 metaPT: "Projeto de arquitetura em Andaluz"
 metaEN: "Architecture project in Andaluz"
 descriptionPT: "Texto temporário para o projeto Andaluz. Foco na sustentabilidade e materiais locais."

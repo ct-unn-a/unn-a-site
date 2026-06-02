@@ -2,6 +2,16 @@
 id: "ivens"
 titlePT: "Ivens"
 titleEN: "Ivens"
+programPT: "Habitação"
+programEN: "Housing"
+
+interventionPT: "Construção nova"
+interventionEN: "New construction"
+
+statusPT: "Em construção"
+statusEN: "Under construction"
+
+year: "2025"
 metaPT: "Projeto de arquitetura em Ivens"
 metaEN: "Architecture project in Ivens"
 descriptionPT: "Texto temporário para o projeto IVENS. Foco na sustentabilidade e materiais locais."

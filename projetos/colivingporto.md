@@ -2,6 +2,16 @@
 id: "colivingporto"
 titlePT: "Co-living Porto"
 titleEN: "Co-living Porto"
+programPT: "Habitação colectiva"
+programEN: "Collective Housing"
+
+interventionPT: "Construção nova"
+interventionEN: "New construction"
+
+statusPT: "Em execução"
+statusEN: "Ongoing"
+
+year: "2021"
 metaPT: "Projeto de arquitetura de Co-living Porto"
 metaEN: "Architecture project of Co-living Porto"
 descriptionPT: "Texto temporário para o projeto Co-living Porto. Foco na sustentabilidade e materiais locais."

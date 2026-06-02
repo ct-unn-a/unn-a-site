@@ -2,6 +2,16 @@
 id: "guincho"
 titlePT: "Guincho"
 titleEN: "Guincho"
+programPT: "Habitação"
+programEN: "Housing"
+
+interventionPT: "Construção nova"
+interventionEN: "New construction"
+
+statusPT: "Em construção"
+statusEN: "Under construction"
+
+year: "2025"
 metaPT: "Projeto de arquitetura no Guincho"
 metaEN: "Architecture project at Guincho"
 descriptionPT: "Texto temporário para o projeto GUINCHO. Foco na sustentabilidade e materiais locais."

@@ -2,6 +2,16 @@
 id: "bremen"
 titlePT: "Bremen"
 titleEN: "Bremen"
+programPT: "Comercial"
+programEN: "Commercial"
+
+interventionPT: "Remodelação"
+interventionEN: "Renovation"
+
+statusPT: "Construído"
+statusEN: "Built"
+
+year: "2019"
 metaPT: "Edifício comercial em Bremen, Alemanha"
 metaEN: "Commercial building in Bremen, Germany"
 descriptionPT: "Texto temporário para o projeto Bremen. Estrutura focada em novos modelos de espaço de trabalho partilhado."

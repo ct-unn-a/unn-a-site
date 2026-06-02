@@ -1,7 +1,7 @@
 ---
 id: "amelia"
-titlePT: "Amélia"
-titleEN: "Amélia"
+titlePT: "Restaurante Amélia"
+titleEN: "Amélia Restaurant"
 
 programPT: "Restaurante"
 programEN: "Restaurant"
