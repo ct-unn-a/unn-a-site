@@ -38,8 +38,8 @@ projects:
     interventionPT: Remodelação
     interventionEN: Renovation
 
-    statusPT: Em execução
-    statusEN: Ongoing
+    statusPT: Construído
+    statusEN: Built
 
     year: 2022
     
@@ -53,7 +53,7 @@ projects:
     interventionEN: New construction
 
     statusPT: Em execução
-    statusEN: Ongoing
+    statusEN: 
 
     year: 2020
         
@@ -71,4 +71,59 @@ projects:
 
     year: 2012
 
+  - titlePT: Apartamentos na Costa Cabral  
+    titleEN: Costa Cabral Apartments
+
+    programPT: Habitação Coletiva
+    programEN: Collective Housing
+
+    interventionPT: Reabilitação
+    interventionEN: Rehabilitation
+
+    statusPT: Em execução
+    statusEN: Ongoing
+
+    year: 2021
+
+  - titlePT: Edifício Rua do Sol  
+    titleEN: Building Rua do Sol
+
+    programPT: Habitação Coletiva
+    programEN: Collective Housing
+
+    interventionPT: Reabilitação
+    interventionEN: Rehabilitation
+
+    statusPT: Em execução
+    statusEN: Ongoing
+
+    year: 2026
+
+  - titlePT: Pink Building  
+    titleEN: Pink Building
+
+    programPT: Hotel
+    programEN: Hotel
+
+    interventionPT: Reabilitação
+    interventionEN: Rehabilitation
+
+    statusPT: Em execução
+    statusEN: Ongoing
+
+    year: 2026
+
+  - titlePT: Edifício Dom Vicente  
+    titleEN: Dom Vicente Building
+
+    programPT: Hotel
+    programEN: Hotel
+
+    interventionPT: Reabilitação
+    interventionEN: Rehabilitation
+
+    statusPT: Em execução
+    statusEN: Ongoing
+
+    year: 2025     
 ---
