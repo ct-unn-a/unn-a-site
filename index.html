@@ -72,6 +72,11 @@ body{
   width:24px; height:24px; border-radius:0%;
   clip-path:polygon(0% 0%,100% 50%,0% 100%);
 }
+/* Nova classe para a seta apontando para cima */
+.cursor.arrow-up{
+  width:24px; height:24px; border-radius:0%;
+  clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+}
 
 .cursor-svg{
   position:fixed; inset:0; width:100vw; height:100vh;
@@ -697,9 +702,9 @@ animateCursor();
 ==================================== */
 document.addEventListener("mouseover", e => {
   const target = e.target;
-  cursor.classList.remove("arrow-left","arrow-right");
+  // Remove todas as classes de seta e a classe de hover padrão antes de aplicar a correta
+  cursor.classList.remove("arrow-left","arrow-right","arrow-up", "hover");
 
-  // Filtra para mostrar o preview apenas no hover da coluna do título (.project-row-title)
   const activeTitle = target.closest(".project-row.active .project-row-title");
 
   if(activeTitle){
@@ -708,6 +713,8 @@ document.addEventListener("mouseover", e => {
     if(src){ 
       previewImg.src = src; 
       previewFloat.classList.add("visible"); 
+      // Aplica a nova classe para a seta apontando para cima
+      cursor.classList.add("arrow-up");
     }
   } else {
     previewFloat.classList.remove("visible");
@@ -718,10 +725,12 @@ document.addEventListener("mouseover", e => {
     cursor.classList.add("arrow-left");
   } else if(target.classList.contains("slide-next")) {
     cursor.classList.add("arrow-right");
-  } else if(target.closest("a, button, .project-row.active")) {
+  } else if(target.closest("a, button")) {
+    // Para outros links e botões, mantém o comportamento de hover circular
     cursor.classList.add("hover");
-  } else {
-    cursor.classList.remove("hover");
+  } else if (target.closest(".project-row.active") && !activeTitle) {
+      // Se passar o rato na linha, mas não no título, mantém o comportamento de hover circular
+      cursor.classList.add("hover");
   }
 });
 
