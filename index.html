@@ -6,7 +6,7 @@
 
 <title>UNN-A · Unnamed Architects</title>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://identity.netlify.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,13 +88,13 @@ body{
   position:fixed; width:380px; aspect-ratio:1/1;
   border-radius:50%;
   pointer-events:none; opacity:0;
-  transform:translate(-50%,-50%) scale(0.95);
+  transform:translate(0%,-80%) scale(0.1);
   overflow:hidden; background:rgba(0,0,0,0.05);
   transition:opacity .12s ease, transform .12s ease;
   z-index:1; /* Colocado atrás do texto das linhas */
 }
-.project-preview-float.visible{ opacity:1; transform:translate(-50%,-50%) scale(1); }
-.project-preview-float img{ width:100%; height:100%; object-fit:cover; }
+.project-preview-float.visible{ opacity:1; transform:translate(0%,-80%) scale(1); }
+.project-preview-float img{ width:100%; height:100%; object-fit:cover; opacity: 50%;}
 
 /* ====================================
    LINKS
@@ -200,7 +200,7 @@ header *{ pointer-events:auto; }
   padding:20px 0;
   border-bottom:1px solid rgba(0,0,0,0.08);
   text-decoration:none;
-  transition:opacity .15s ease;
+  transition:opacity .15s ease, background-color 0.2s ease;
 }
 .project-row.active{ color:#000; } /* Nomes e dados ativos estritamente a preto, sem misturas */
 .project-row.inactive{ color:var(--muted); opacity:0.55; pointer-events:none; } /* Inativos ligeiramente mais escuros */
@@ -215,6 +215,30 @@ header *{ pointer-events:auto; }
 .project-row-status,
 .project-row-year{
   font-size:13px; letter-spacing:0.01em;
+}
+
+/* DEFINIÇÃO DA ANIMAÇÃO DE REORDENAÇÃO
+==================================== */
+@keyframes rowEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estado inicial escondido para os itens inativos (para evitar flash antes da animação JS) */
+.project-row.inactive.run-animation {
+    opacity: 0;
+}
+
+/* Classe gatilho da animação, aplicada via JS */
+.project-row.run-animation {
+  animation: rowEnter 0.4s ease forwards;
+  /* Garante que o estado final da animação prevalece sobre o CSS base */
 }
 
 /* ====================================
@@ -300,6 +324,10 @@ header *{ pointer-events:auto; }
   .about-section{ padding:120px 22px 80px; }
   .about-section h2{ font-size:54px; }
   .partners-grid{ grid-template-columns:1fr; gap:32px; }
+  
+  /* Desativar animação em mobile para performance */
+  .project-row.run-animation { animation: none !important; opacity: 1 !important; transform: none !important;}
+  .project-row.inactive.run-animation { opacity: 0.55 !important; }
 }
 
 </style>
@@ -571,13 +599,20 @@ function renderProjects(){
 
   const allItems = sortItems([...activeItems, ...inactiveItems]);
 
+  // Array para guardar as referências das linhas criadas
+  const rowElements = [];
+
   allItems.forEach(item => {
     const isClickable = item.clickable !== false;
     const slug  = item.id ? item.id.toString().trim() : "";
     const cover = item.coverImage ? normalizeImagePath(item.coverImage) : "";
 
     const row = document.createElement(isClickable ? "a" : "div");
-    row.className = `project-row ${isClickable ? "active" : "inactive"}`;
+    
+    // Adiciona a classe 'run-animation' e esconde inicialmente via CSS inline 
+    // para garantir que a animação gatilha corretamente
+    row.className = `project-row ${isClickable ? "active" : "inactive"} run-animation`;
+    row.style.opacity = "0"; 
 
     if(isClickable){
       row.href = `#${slug}`;
@@ -599,7 +634,25 @@ function renderProjects(){
     `;
 
     projectsGrid.appendChild(row);
+    rowElements.push(row); // Guarda a referência
   });
+
+  // Gatilha a animação com um 'stagger' (atraso incremental)
+  // Aplica-se apenas em desktop (ver media query)
+  if(window.innerWidth > 900) {
+      rowElements.forEach((row, index) => {
+        // Calcula o atraso: ex: 0ms, 30ms, 60ms, 90ms...
+        const delay = index * 30; 
+        
+        setTimeout(() => {
+            // Remove a opacidade inline para deixar a animação CSS tomar conta
+            row.style.opacity = ""; 
+        }, delay);
+      });
+  } else {
+      // Em mobile, removemos a opacidade inline imediatamente
+      rowElements.forEach(row => row.style.opacity = "");
+  }
 }
 
 /* ====================================
