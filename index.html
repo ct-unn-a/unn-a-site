@@ -22,23 +22,15 @@
   --muted:#8b8b8b;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{ margin:0; padding:0; box-sizing:border-box; }
 
-html,
-body{
-  width:100%;
-  overflow-x:hidden;
-}
+html, body{ width:100%; overflow-x:hidden; }
 
 html{
   scroll-behavior:smooth;
-  scrollbar-gutter: stable;
-  scrollbar-color: #000000 transparent;
-  scrollbar-width: thin;
+  scrollbar-gutter:stable;
+  scrollbar-color:#000 transparent;
+  scrollbar-width:thin;
 }
 
 body{
@@ -49,67 +41,53 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-::-webkit-scrollbar { width:6px; height:6px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:#000; border-radius:10px; }
-::-webkit-scrollbar-thumb:hover { background:#333; }
+::-webkit-scrollbar{ width:6px; height:6px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:#000; border-radius:10px; }
+::-webkit-scrollbar-thumb:hover{ background:#333; }
 
 /* ====================================
    CURSOR
 ==================================== */
 .cursor{
-  position:fixed;
-  top:0; left:0;
+  position:fixed; top:0; left:0;
   width:6px; height:6px;
   border-radius:999px;
   pointer-events:none;
   z-index:9999999;
   mix-blend-mode:difference;
   transform:translate(-50%,-50%);
-  transition: width .25s ease, height .25s ease, border-radius .25s ease, clip-path .25s ease;
+  transition:width .25s ease, height .25s ease, border-radius .25s ease, clip-path .25s ease;
 }
 .cursor::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:white;
+  content:""; position:absolute; inset:0;
+  border-radius:inherit; background:white;
 }
-.cursor.hover{ width:24px; height:24px; }
+.cursor.hover{ width:80px; height:80px; }
 .cursor.arrow-left{
-  width:24px; height:24px;
-  border-radius:0%;
+  width:24px; height:24px; border-radius:0%;
   clip-path:polygon(100% 0%,0% 50%,100% 100%);
 }
 .cursor.arrow-right{
-  width:24px; height:24px;
-  border-radius:0%;
+  width:24px; height:24px; border-radius:0%;
   clip-path:polygon(0% 0%,100% 50%,0% 100%);
 }
 
 .cursor-svg{
-  position:fixed; inset:0;
-  width:100vw; height:100vh;
-  pointer-events:none;
-  z-index:9999998;
-  mix-blend-mode:difference;
+  position:fixed; inset:0; width:100vw; height:100vh;
+  pointer-events:none; z-index:9999998; mix-blend-mode:difference;
 }
 .cursor-liquid-hidden .cursor-svg{ opacity:0; transition:opacity .3s ease; }
 
-/* Preview float */
 .project-preview-float{
-  position:fixed;
-  width:280px;
-  aspect-ratio:3/2;
-  pointer-events:none;
-  z-index:999990;
-  opacity:0;
-  transform:translate(25px,-50%) scale(0.95);
-  overflow:hidden;
-  background:rgba(0,0,0,0.05);
+  position:fixed; width:380px; aspect-ratio:1/1;
+  border-radius:50%;
+  pointer-events:none; z-index:999990; opacity:0;
+  transform:translate(-50%,-50%) scale(0.95);
+  overflow:hidden; background:rgba(0,0,0,0.05);
   transition:opacity .12s ease, transform .12s ease;
 }
-.project-preview-float.visible{ opacity:1; transform:translate(25px,-50%) scale(1); }
+.project-preview-float.visible{ opacity:1; transform:translate(-50%,-50%) scale(1); }
 .project-preview-float img{ width:100%; height:100%; object-fit:cover; }
 
 /* ====================================
@@ -121,8 +99,7 @@ a, button, .project-row.active, .project-gallery, .slide-nav{ cursor:none; }
    HEADER
 ==================================== */
 header{
-  position:fixed; top:0; left:0;
-  width:100%; padding:32px;
+  position:fixed; top:0; left:0; width:100%; padding:32px;
   display:flex; justify-content:flex-end; align-items:flex-start;
   z-index:1000; pointer-events:none;
 }
@@ -130,8 +107,7 @@ header *{ pointer-events:auto; }
 
 .logo{
   position:fixed; top:32px; left:32px;
-  z-index:1010; display:block;
-  mix-blend-mode:difference;
+  z-index:1010; display:block; mix-blend-mode:difference;
 }
 .logo img{ width:150px; height:auto; object-fit:contain; display:block; }
 
@@ -160,15 +136,15 @@ header *{ pointer-events:auto; }
   margin:0 auto;
 }
 
-/* Colunas: Projeto | Programa | Intervenção | Estado | Ano */
 .projects-index-header,
 .project-row{
   display:grid;
-  grid-template-columns: 2fr 1fr 1.2fr 0.9fr 0.4fr;
+  grid-template-columns:2fr 1fr 1.2fr 0.9fr 0.4fr;
   align-items:baseline;
-  gap: 0 16px;
+  gap:0 16px;
 }
 
+/* Cabeçalho clicável */
 .projects-index-header{
   padding-bottom:14px;
   border-bottom:1px solid var(--text);
@@ -179,39 +155,56 @@ header *{ pointer-events:auto; }
   font-weight:500;
 }
 
-.projects-index-header div:last-child,
-.project-row-year{ text-align:right; }
+.col-header{
+  background:none; border:none;
+  font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted);
+  font-weight:500; font-family:'Inter',sans-serif;
+  cursor:none; padding:0;
+  display:flex; align-items:center; gap:5px;
+  transition:color .2s ease;
+  text-align:left;
+}
+.col-header:hover{ color:var(--text); }
+.col-header.active-sort{ color:var(--text); }
+
+/* Indicador de seta de ordenação */
+.sort-arrow{
+  display:inline-block;
+  font-size:9px;
+  opacity:0;
+  transition:opacity .2s ease, transform .2s ease;
+  line-height:1;
+}
+.col-header.active-sort .sort-arrow{ opacity:1; }
+.col-header.active-sort.desc .sort-arrow{ transform:rotate(180deg); }
+
+/* Coluna Ano alinhada à direita */
+.projects-index-header .col-header:last-child,
+.project-row-year{
+  text-align:right;
+  justify-content:flex-end;
+}
 
 .project-row{
   padding:20px 0;
   border-bottom:1px solid rgba(0,0,0,0.08);
   text-decoration:none;
+  transition:opacity .15s ease;
 }
-
-.project-row.active{
-  color:white;
-  mix-blend-mode:difference;
-}
-.project-row.inactive{
-  color:var(--muted);
-  opacity:0.3;
-  pointer-events:none;
-}
+.project-row.active{ color:white; mix-blend-mode:difference; }
+.project-row.inactive{ color:var(--muted); opacity:0.3; pointer-events:none; }
 
 .project-row-title{
   font-family:'Syne',sans-serif;
-  font-size:32px;
-  line-height:1;
-  letter-spacing:-0.04em;
-  font-weight:500;
+  font-size:32px; line-height:1;
+  letter-spacing:-0.04em; font-weight:500;
 }
-
 .project-row-program,
 .project-row-intervention,
 .project-row-status,
 .project-row-year{
-  font-size:13px;
-  letter-spacing:0.01em;
+  font-size:13px; letter-spacing:0.01em;
 }
 
 /* ====================================
@@ -219,21 +212,16 @@ header *{ pointer-events:auto; }
 ==================================== */
 .project-view{ display:none; }
 
-.project-content{
-  padding:160px 32px 60px;
-  max-width:920px;
-}
+.project-content{ padding:160px 32px 60px; max-width:920px; }
 .project-content h1{
   font-family:'Syne',sans-serif;
   font-size:92px; line-height:.88;
   letter-spacing:-0.09em; font-weight:500;
-  margin-bottom:26px;
-  color:white; mix-blend-mode:difference;
+  margin-bottom:26px; color:white; mix-blend-mode:difference;
 }
 .project-content .meta{
-  margin-bottom:42px;
-  font-size:11px; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--muted);
+  margin-bottom:42px; font-size:11px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
 }
 .project-description{ font-size:16px; line-height:1.9; }
 
@@ -244,20 +232,17 @@ header *{ pointer-events:auto; }
 .project-gallery{
   display:flex; gap:22px;
   overflow-x:auto; overflow-y:hidden;
-  scroll-behavior:smooth;
-  padding:0 32px 120px;
-  scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth; padding:0 32px 120px;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch;
 }
 .project-gallery::-webkit-scrollbar{ display:none; }
 .project-gallery img{
-  height:78vh; width:auto; flex:none;
-  object-fit:contain;
+  height:78vh; width:auto; flex:none; object-fit:contain;
   user-select:none; -webkit-user-drag:none; pointer-events:none;
 }
 .slide-nav{
-  position:absolute; top:0; bottom:120px;
-  width:50%; border:none; background:transparent; z-index:100;
+  position:absolute; top:0; bottom:120px; width:50%;
+  border:none; background:transparent; z-index:100;
 }
 .slide-prev{ left:0; }
 .slide-next{ right:0; }
@@ -265,38 +250,23 @@ header *{ pointer-events:auto; }
 /* ====================================
    ABOUT
 ==================================== */
-.about-section{
-  display:none; min-height:100vh;
-  padding:160px 32px 120px;
-}
+.about-section{ display:none; min-height:100vh; padding:160px 32px 120px; }
 .about-section h2{
-  font-family:'Syne',sans-serif;
-  font-size:84px; line-height:.9;
-  letter-spacing:-0.08em; font-weight:500;
-  margin-bottom:32px;
+  font-family:'Syne',sans-serif; font-size:84px; line-height:.9;
+  letter-spacing:-0.08em; font-weight:500; margin-bottom:32px;
 }
-.about-section p{
-  max-width:720px; font-size:17px;
-  line-height:1.9; margin-bottom:60px;
-}
+.about-section p{ max-width:720px; font-size:17px; line-height:1.9; margin-bottom:60px; }
 .partners-grid{
   display:grid; grid-template-columns:repeat(2,1fr);
   gap:40px; max-width:900px; margin-top:60px;
 }
 .partner-card{ display:flex; flex-direction:column; }
-.partner-card img{
-  width:100%; aspect-ratio:4/5;
-  object-fit:cover; background:#ddd; margin-bottom:16px;
-}
+.partner-card img{ width:100%; aspect-ratio:4/5; object-fit:cover; background:#ddd; margin-bottom:16px; }
 .partner-name{
-  font-family:'Syne',sans-serif;
-  font-size:24px; font-weight:500;
+  font-family:'Syne',sans-serif; font-size:24px; font-weight:500;
   letter-spacing:-0.04em; margin-bottom:4px;
 }
-.partner-role{
-  font-size:12px; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--muted);
-}
+.partner-role{ font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 
 /* ====================================
    RESPONSIVE
@@ -309,22 +279,13 @@ header *{ pointer-events:auto; }
   .logo img{ width:120px; }
   .projects-grid{ padding:120px 22px 60px; }
   .projects-index-header{ display:none; }
-  .project-row{
-    grid-template-columns:1fr;
-    gap:4px; padding:16px 0;
-  }
+  .project-row{ grid-template-columns:1fr; gap:4px; padding:16px 0; }
   .project-row-title{ font-size:26px; }
   .project-row-year{ text-align:left; }
   .project-content{ padding:120px 22px 50px; }
   .project-content h1{ font-size:58px; }
-  .project-gallery{
-    padding:0 22px 80px; gap:12px;
-    scroll-snap-type:x mandatory;
-  }
-  .project-gallery img{
-    width:88vw; height:auto;
-    max-height:70vh; scroll-snap-align:start;
-  }
+  .project-gallery{ padding:0 22px 80px; gap:12px; scroll-snap-type:x mandatory; }
+  .project-gallery img{ width:88vw; height:auto; max-height:70vh; scroll-snap-align:start; }
   .slide-nav{ display:none; }
   .about-section{ padding:120px 22px 80px; }
   .about-section h2{ font-size:54px; }
@@ -362,9 +323,9 @@ header *{ pointer-events:auto; }
   </nav>
 </header>
 
-<section class="landing" id="landing"></section>
+<section class="landing"       id="landing"></section>
 <section class="projects-grid" id="projectsGrid"></section>
-<section class="project-view" id="projectView"></section>
+<section class="project-view"  id="projectView"></section>
 
 <section class="about-section" id="aboutSection">
   <div class="lang-pt">
@@ -375,7 +336,6 @@ header *{ pointer-events:auto; }
     <h2>Unnamed Architects</h2>
     <p>UNN-A (Unnamed Architects) is an architecture studio focused on contemporary, functional, and territory-integrated solutions.</p>
   </div>
-
   <div class="partners-grid">
     <div class="partner-card">
       <img src="https://ct-unn-a.github.io/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
@@ -403,9 +363,7 @@ header *{ pointer-events:auto; }
 ==================================== */
 if(window.netlifyIdentity){
   window.netlifyIdentity.on("init", user => {
-    if(!user){
-      window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
-    }
+    if(!user) window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
   });
 }
 
@@ -428,7 +386,7 @@ document.getElementById("langToggle").addEventListener("click", () => {
 
   const hash = window.location.hash;
   if(hash && hash !== "#" && hash !== "#home" && hash !== "#projetos" && hash !== "#about"){
-    const projectId = hash.replace("#", "");
+    const projectId = hash.replace("#","");
     const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
     if(target) openProjectView(target);
   }
@@ -444,10 +402,10 @@ function parseFrontmatter(text){
   try { return jsyaml.load(match[1]) || {}; } catch(e) { return {}; }
 }
 
-function normalizeImagePath(path){
-  if(!path) return "";
-  if(path.startsWith("/unn-a-site")) return path;
-  return "/unn-a-site" + path;
+function normalizeImagePath(p){
+  if(!p) return "";
+  if(p.startsWith("/unn-a-site")) return p;
+  return "/unn-a-site" + p;
 }
 
 const landing      = document.getElementById("landing");
@@ -456,19 +414,49 @@ const projectView  = document.getElementById("projectView");
 const aboutSection = document.getElementById("aboutSection");
 
 /* ====================================
+   SORT STATE
+==================================== */
+// columns: title | program | intervention | status | year
+let sortKey = "title";
+let sortDir = "asc"; // "asc" | "desc"
+
+function getSortValue(item, key){
+  const lang = currentLang;
+  switch(key){
+    case "title":        return lang === "pt" ? item.titlePT        : (item.titleEN        || item.titlePT);
+    case "program":      return lang === "pt" ? item.programPT      : (item.programEN      || item.programPT);
+    case "intervention": return lang === "pt" ? item.interventionPT : (item.interventionEN || item.interventionPT);
+    case "status":       return lang === "pt" ? item.statusPT       : (item.statusEN       || item.statusPT);
+    case "year":         return item.year || "—";
+    default:             return "";
+  }
+}
+
+function sortItems(items){
+  return [...items].sort((a, b) => {
+    const vA = String(getSortValue(a, sortKey) || "—");
+    const vB = String(getSortValue(b, sortKey) || "—");
+
+    // "—" sempre no fundo
+    if(vA === "—" && vB !== "—") return 1;
+    if(vB === "—" && vA !== "—") return -1;
+
+    const cmp = vA.localeCompare(vB, undefined, { numeric: true });
+    return sortDir === "asc" ? cmp : -cmp;
+  });
+}
+
+/* ====================================
    ROUTING
 ==================================== */
 function hideAll(){
-  landing.style.display      = "none";
-  projectsGrid.style.display = "none";
-  projectView.style.display  = "none";
-  aboutSection.style.display = "none";
+  landing.style.display = projectsGrid.style.display =
+  projectView.style.display = aboutSection.style.display = "none";
 }
 
 function handleRouting(){
   const hash = window.location.hash;
   hideAll();
-
   if(!hash || hash === "#" || hash === "#home"){
     landing.style.display = "block";
   } else if(hash === "#projetos"){
@@ -476,13 +464,13 @@ function handleRouting(){
   } else if(hash === "#about"){
     aboutSection.style.display = "block";
   } else {
-    const projectId = hash.replace("#", "");
+    const projectId = hash.replace("#","");
     const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
     if(target) openProjectView(target);
     else window.location.hash = "#home";
   }
   updateCursorMode();
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 window.addEventListener("hashchange", handleRouting);
 
@@ -496,36 +484,25 @@ let projects         = [];
 let inactiveProjects = [];
 
 async function loadProjects(){
-  try {
-    const response = await fetch(GITHUB_API);
-    const files = await response.json();
+  try{
+    const files = await fetch(GITHUB_API).then(r => r.json());
     const mdFiles = files.filter(f => f.name.endsWith(".md") && f.name !== "inativos.md");
-
     for(const file of mdFiles){
       const text = await fetch(file.download_url).then(r => r.text());
-      const project = parseFrontmatter(text);
-      projects.push(project);
+      projects.push(parseFrontmatter(text));
     }
-
     await loadInactiveProjects();
     renderProjects();
     handleRouting();
-  } catch(err){
-    console.error(err);
-  }
+  } catch(err){ console.error(err); }
 }
 
 async function loadInactiveProjects(){
-  try {
-    const text = await fetch(INACTIVE_URL).then(r => r.text());
+  try{
+    const text   = await fetch(INACTIVE_URL).then(r => r.text());
     const parsed = parseFrontmatter(text);
-    if(parsed.projects && Array.isArray(parsed.projects)){
-      inactiveProjects = parsed.projects;
-    }
-  } catch(err){
-    console.warn("Could not load inativos.md:", err);
-    inactiveProjects = [];
-  }
+    if(parsed.projects && Array.isArray(parsed.projects)) inactiveProjects = parsed.projects;
+  } catch(err){ console.warn("Could not load inativos.md:", err); }
 }
 
 loadProjects();
@@ -536,91 +513,84 @@ loadProjects();
 function renderProjects(){
   projectsGrid.innerHTML = "";
 
-  /* --- Cabeçalho --- */
+  /* ---- Cabeçalho com botões de ordenação ---- */
+  const labels = currentLang === "pt"
+    ? ["Projeto","Programa","Tipo de Intervenção","Estado","Ano"]
+    : ["Project","Program","Intervention Type","Status","Year"];
+  const keys = ["title","program","intervention","status","year"];
+
   const header = document.createElement("div");
   header.className = "projects-index-header";
 
-  if(currentLang === "pt"){
-    header.innerHTML = `
-      <div>Projeto</div>
-      <div>Programa</div>
-      <div>Tipo de Intervenção</div>
-      <div>Estado</div>
-      <div>Ano</div>`;
-  } else {
-    header.innerHTML = `
-      <div>Project</div>
-      <div>Program</div>
-      <div>Intervention Type</div>
-      <div>Status</div>
-      <div>Year</div>`;
-  }
-  projectsGrid.appendChild(header);
+  keys.forEach((key, i) => {
+    const btn = document.createElement("button");
+    btn.className = "col-header" +
+      (sortKey === key ? " active-sort" : "") +
+      (sortKey === key && sortDir === "desc" ? " desc" : "");
+    btn.innerHTML = `${labels[i]} <span class="sort-arrow">▲</span>`;
 
-  /* --- Projetos ativos (GitHub .md individuais) --- */
-  const activeItems = projects.map(p => ({
-    titlePT:       p.titlePT        || "",
-    titleEN:       p.titleEN        || p.titlePT || "",
-    programPT:     p.programPT      || "—",
-    programEN:     p.programEN      || p.programPT || "—",
-    interventionPT:p.interventionPT || "—",
-    interventionEN:p.interventionEN || p.interventionPT || "—",
-    statusPT:      p.statusPT       || "—",
-    statusEN:      p.statusEN       || p.statusPT || "—",
-    year:          p.year           || "—",
-    id:            p.id,
-    coverImage:    p.coverImage,
-    clickable:     true
-  }));
+    btn.addEventListener("click", () => {
+      if(sortKey === key){
+        sortDir = sortDir === "asc" ? "desc" : "asc";
+      } else {
+        sortKey = key;
+        sortDir = key === "year" ? "desc" : "asc"; // Ano começa descendente (mais recente primeiro)
+      }
+      renderProjects();
+    });
 
-  /* --- Projetos inativos (inativos.md) --- */
-  const inactiveItems = inactiveProjects.map(p => ({
-    titlePT:       p.titlePT        || "",
-    titleEN:       p.titleEN        || p.titlePT || "",
-    programPT:     p.programPT      || "—",
-    programEN:     p.programEN      || p.programPT || "—",
-    interventionPT:p.interventionPT || "—",
-    interventionEN:p.interventionEN || p.interventionPT || "—",
-    statusPT:      p.statusPT       || "—",
-    statusEN:      p.statusEN       || p.statusPT || "—",
-    year:          p.year           || "—",
-    clickable:     false
-  }));
-
-  /* --- Ordenação alfabética --- */
-  const allItems = [...activeItems, ...inactiveItems];
-  allItems.sort((a, b) => {
-    const tA = currentLang === "pt" ? a.titlePT : (a.titleEN || a.titlePT);
-    const tB = currentLang === "pt" ? b.titlePT : (b.titleEN || b.titlePT);
-    return tA.localeCompare(tB);
+    header.appendChild(btn);
   });
 
-  /* --- Linhas --- */
+  projectsGrid.appendChild(header);
+
+  /* ---- Normalizar itens ---- */
+  const normalize = (p, clickable) => ({
+    titlePT:        p.titlePT        || "",
+    titleEN:        p.titleEN        || p.titlePT || "",
+    programPT:      p.programPT      || "—",
+    programEN:      p.programEN      || p.programPT || "—",
+    interventionPT: p.interventionPT || "—",
+    interventionEN: p.interventionEN || p.interventionPT || "—",
+    statusPT:       p.statusPT       || "—",
+    statusEN:       p.statusEN       || p.statusPT || "—",
+    year:           p.year           || "—",
+    id:             p.id,
+    coverImage:     p.coverImage,
+    clickable
+  });
+
+  const activeItems   = projects.map(p  => normalize(p, true));
+  const inactiveItems = inactiveProjects.map(p => normalize(p, false));
+
+  const allItems = sortItems([...activeItems, ...inactiveItems]);
+
+  /* ---- Linhas ---- */
   allItems.forEach(item => {
-    const isClickable  = item.clickable !== false;
-    const projectSlug  = item.id ? item.id.toString().trim() : "";
-    const cover        = item.coverImage ? normalizeImagePath(item.coverImage) : "";
+    const isClickable = item.clickable !== false;
+    const slug  = item.id ? item.id.toString().trim() : "";
+    const cover = item.coverImage ? normalizeImagePath(item.coverImage) : "";
 
     const row = document.createElement(isClickable ? "a" : "div");
     row.className = `project-row ${isClickable ? "active" : "inactive"}`;
 
     if(isClickable){
-      row.href = `#${projectSlug}`;
+      row.href = `#${slug}`;
       row.setAttribute("data-preview", cover);
     }
 
-    const title        = currentLang === "pt" ? item.titlePT        : (item.titleEN        || item.titlePT);
-    const program      = currentLang === "pt" ? item.programPT      : (item.programEN      || item.programPT);
-    const intervention = currentLang === "pt" ? item.interventionPT : (item.interventionEN || item.interventionPT);
-    const status       = currentLang === "pt" ? item.statusPT       : (item.statusEN       || item.statusPT);
-    const year         = item.year;
+    const lang = currentLang;
+    const title        = lang === "pt" ? item.titlePT        : (item.titleEN        || item.titlePT);
+    const program      = lang === "pt" ? item.programPT      : (item.programEN      || item.programPT);
+    const intervention = lang === "pt" ? item.interventionPT : (item.interventionEN || item.interventionPT);
+    const status       = lang === "pt" ? item.statusPT       : (item.statusEN       || item.statusPT);
 
     row.innerHTML = `
       <div class="project-row-title">${title}</div>
       <div class="project-row-program">${program}</div>
       <div class="project-row-intervention">${intervention}</div>
       <div class="project-row-status">${status}</div>
-      <div class="project-row-year">${year}</div>
+      <div class="project-row-year">${item.year}</div>
     `;
 
     projectsGrid.appendChild(row);
@@ -633,20 +603,18 @@ function renderProjects(){
 function openProjectView(project){
   projectView.style.display = "block";
   let galleryHTML = "";
-
   if(project.images && Array.isArray(project.images)){
     galleryHTML = project.images.map(img => {
       if(!img || !img.image) return "";
       return `<img src="${normalizeImagePath(img.image)}" loading="lazy" draggable="false">`;
     }).join("");
   }
-
   projectView.innerHTML = `
     <div class="project-content">
-      <h1>${currentLang === "pt" ? (project.titlePT || "") : (project.titleEN || project.titlePT || "")}</h1>
-      <div class="meta">${currentLang === "pt" ? (project.metaPT || "") : (project.metaEN || project.metaPT || "")}</div>
+      <h1>${currentLang === "pt" ? (project.titlePT||"") : (project.titleEN||project.titlePT||"")}</h1>
+      <div class="meta">${currentLang === "pt" ? (project.metaPT||"") : (project.metaEN||project.metaPT||"")}</div>
       <div class="project-description">
-        ${currentLang === "pt" ? (project.descriptionPT || "") : (project.descriptionEN || project.descriptionPT || "")}
+        ${currentLang === "pt" ? (project.descriptionPT||"") : (project.descriptionEN||project.descriptionPT||"")}
       </div>
     </div>
     <div class="project-gallery-wrap">
@@ -662,10 +630,9 @@ function setupGalleryButtons(){
   const slider = document.getElementById("projectGallery");
   const next   = document.getElementById("slideNext");
   const prev   = document.getElementById("slidePrev");
-  if(!slider || !next || !prev) return;
-
-  next.addEventListener("click", () => { slider.scrollBy({ left:  window.innerWidth * .72, behavior:"smooth" }); });
-  prev.addEventListener("click", () => { slider.scrollBy({ left: -window.innerWidth * .72, behavior:"smooth" }); });
+  if(!slider||!next||!prev) return;
+  next.addEventListener("click", () => slider.scrollBy({ left:  window.innerWidth*.72, behavior:"smooth" }));
+  prev.addEventListener("click", () => slider.scrollBy({ left: -window.innerWidth*.72, behavior:"smooth" }));
 }
 
 /* ====================================
@@ -676,54 +643,46 @@ const path         = document.getElementById("cursorPath");
 const previewFloat = document.getElementById("projectPreviewFloat");
 const previewImg   = previewFloat.querySelector("img");
 
-let mouseX = window.innerWidth  / 2;
-let mouseY = window.innerHeight / 2;
+let mouseX = window.innerWidth/2;
+let mouseY = window.innerHeight/2;
 
-const CURSOR = {
-  points:52, headFollow:.78, tailFollow:.72, wobble:.45,
-  trailWidth:2, trailOpacity:.9
-};
-
+const CURSOR = { points:52, headFollow:.78, tailFollow:.72, wobble:.45, trailWidth:2, trailOpacity:.9 };
 path.setAttribute("stroke-width", CURSOR.trailWidth);
 path.setAttribute("opacity",      CURSOR.trailOpacity);
 
 let points = [];
-for(let i = 0; i < CURSOR.points; i++) points.push({ x:mouseX, y:mouseY });
+for(let i=0;i<CURSOR.points;i++) points.push({x:mouseX,y:mouseY});
 
 window.addEventListener("mousemove", e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  previewFloat.style.left = mouseX + "px";
-  previewFloat.style.top  = mouseY + "px";
+  mouseX = e.clientX; mouseY = e.clientY;
+  previewFloat.style.left = mouseX+"px";
+  previewFloat.style.top  = mouseY+"px";
 });
 
 function updateCursorMode(){
   const hash = window.location.hash;
-  const isLanding = !hash || hash === "#" || hash === "#home";
-  document.body.classList.toggle("cursor-liquid-hidden", !isLanding);
+  const isLanding = !hash||hash==="#"||hash==="#home";
+  document.body.classList.toggle("cursor-liquid-hidden",!isLanding);
 }
 
 function animateCursor(){
-  cursor.style.left = mouseX + "px";
-  cursor.style.top  = mouseY + "px";
-
-  points[0].x += (mouseX - points[0].x) * CURSOR.headFollow;
-  points[0].y += (mouseY - points[0].y) * CURSOR.headFollow;
-
-  for(let i = 1; i < points.length; i++){
-    points[i].x += (points[i-1].x - points[i].x) * CURSOR.tailFollow;
-    points[i].y += (points[i-1].y - points[i].y) * CURSOR.tailFollow;
+  cursor.style.left = mouseX+"px";
+  cursor.style.top  = mouseY+"px";
+  points[0].x += (mouseX-points[0].x)*CURSOR.headFollow;
+  points[0].y += (mouseY-points[0].y)*CURSOR.headFollow;
+  for(let i=1;i<points.length;i++){
+    points[i].x += (points[i-1].x-points[i].x)*CURSOR.tailFollow;
+    points[i].y += (points[i-1].y-points[i].y)*CURSOR.tailFollow;
   }
-
-  let d = `M ${points[0].x} ${points[0].y}`;
-  for(let i = 1; i < points.length - 2; i++){
-    const wx = Math.sin(performance.now() * .001 + i) * CURSOR.wobble;
-    const wy = Math.cos(performance.now() * .001 + i) * CURSOR.wobble;
-    const xc = (points[i].x + points[i+1].x) / 2;
-    const yc = (points[i].y + points[i+1].y) / 2;
-    d += ` Q ${points[i].x + wx} ${points[i].y + wy} ${xc} ${yc}`;
+  let d=`M ${points[0].x} ${points[0].y}`;
+  for(let i=1;i<points.length-2;i++){
+    const wx=Math.sin(performance.now()*.001+i)*CURSOR.wobble;
+    const wy=Math.cos(performance.now()*.001+i)*CURSOR.wobble;
+    const xc=(points[i].x+points[i+1].x)/2;
+    const yc=(points[i].y+points[i+1].y)/2;
+    d+=` Q ${points[i].x+wx} ${points[i].y+wy} ${xc} ${yc}`;
   }
-  path.setAttribute("d", d);
+  path.setAttribute("d",d);
   requestAnimationFrame(animateCursor);
 }
 animateCursor();
@@ -734,25 +693,24 @@ animateCursor();
 document.addEventListener("mouseover", e => {
   const target    = e.target;
   const activeRow = target.closest(".project-row.active");
-
-  cursor.classList.remove("arrow-left", "arrow-right");
+  cursor.classList.remove("arrow-left","arrow-right");
 
   if(activeRow){
-    const previewSrc = activeRow.getAttribute("data-preview");
-    if(previewSrc){ previewImg.src = previewSrc; previewFloat.classList.add("visible"); }
+    const src = activeRow.getAttribute("data-preview");
+    if(src){ previewImg.src=src; previewFloat.classList.add("visible"); }
     cursor.classList.add("hover");
   } else {
     previewFloat.classList.remove("visible");
-    if(target.classList.contains("slide-prev"))       cursor.classList.add("arrow-left");
-    else if(target.classList.contains("slide-next"))  cursor.classList.add("arrow-right");
-    else if(target.closest("a, button"))              cursor.classList.add("hover");
-    else                                              cursor.classList.remove("hover");
+    if(target.classList.contains("slide-prev"))      cursor.classList.add("arrow-left");
+    else if(target.classList.contains("slide-next")) cursor.classList.add("arrow-right");
+    else if(target.closest("a, button"))             cursor.classList.add("hover");
+    else                                             cursor.classList.remove("hover");
   }
 });
 
 document.addEventListener("mouseout", e => {
   if(e.target.classList.contains("slide-nav"))
-    cursor.classList.remove("arrow-left", "arrow-right");
+    cursor.classList.remove("arrow-left","arrow-right");
 });
 
 </script>
