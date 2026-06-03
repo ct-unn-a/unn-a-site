@@ -111,6 +111,11 @@ body{
 }
 .project-preview-float img{ width:100%; height:100%; object-fit:cover; opacity: 90%;}
 
+/* Elemento de preview inline estrutural (escondido em Desktop) */
+.project-row-mobile-preview {
+  display: none;
+}
+
 /* ====================================
    LINKS
 ==================================== */
@@ -328,9 +333,61 @@ header *{ pointer-events:auto; }
   .logo img{ width:120px; }
   .projects-grid{ padding:120px 22px 60px; }
   .projects-index-header{ display:none; }
-  .project-row{ grid-template-columns:1fr; gap:4px; padding:16px 0; }
-  .project-row-title{ font-size:26px; }
-  .project-row-year{ text-align:left; }
+  
+  /* Transforma a grid original num container Flex dinâmico */
+  .project-row{ 
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0; 
+  }
+  
+  /* Organiza e empilha as colunas de texto no lado esquerdo */
+  .project-row-title        { order: 1; font-size:26px; width: 100%; }
+  .project-row-program      { order: 2; width: 100%; }
+  .project-row-intervention { order: 3; width: 100%; }
+  .project-row-status       { order: 4; width: 100%; }
+  .project-row-year         { order: 5; text-align:left; justify-content: flex-start; width: 100%; }
+  
+  /* Força os elementos de metadados a quebrar linha mantendo o título no topo */
+  .project-row .project-row-title ~ div {
+    font-size: 13px;
+  }
+  
+  /* Cria uma quebra visual interna para o texto empilhar à esquerda da imagem */
+  .project-row {
+    flex-wrap: wrap;
+  }
+  
+  /* Container invisível para agrupar o bloco de texto sem alterar o HTML original */
+  .project-row > :not(.project-row-mobile-preview) {
+    flex: 1 1 60%;
+  }
+  .project-row-title {
+    flex: 1 1 100% !important;
+  }
+
+  /* Ativação do Preview Retangular no lado direito (Apenas para Projetos Ativos) */
+  .project-row.active .project-row-mobile-preview {
+    display: block;
+    order: 6;
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    margin-left: auto;
+    overflow: hidden;
+    background: rgba(0,0,0,0.05);
+  }
+  
+  .project-row-mobile-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    display: block;
+  }
+  
   .project-content{ padding:120px 22px 50px; }
   .project-content h1{ font-size:58px; }
   .project-gallery{ padding:0 22px 80px; gap:12px; scroll-snap-type:x mandatory; }
@@ -640,12 +697,16 @@ function renderProjects(){
     const intervention = lang === "pt" ? item.interventionPT : (item.interventionEN || item.interventionPT);
     const status       = lang === "pt" ? item.statusPT       : (item.statusEN       || item.statusPT);
 
+    // Mantemos os elementos em nós planos e diretos para preservar a reordenação exata das colunas em desktop
     row.innerHTML = `
       <div class="project-row-title">${title}</div>
       <div class="project-row-program">${program}</div>
       <div class="project-row-intervention">${intervention}</div>
       <div class="project-row-status">${status}</div>
       <div class="project-row-year">${item.year}</div>
+      <div class="project-row-mobile-preview">
+        ${cover ? `<img src="${cover}" alt="${title}" loading="lazy">` : ''}
+      </div>
     `;
 
     projectsGrid.appendChild(row);
