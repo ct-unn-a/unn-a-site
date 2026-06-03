@@ -86,6 +86,7 @@ body{
   transform:translate(-50%,-50%) scale(0.95);
   overflow:hidden; background:rgba(0,0,0,0.05);
   transition:opacity .12s ease, transform .12s ease;
+  z-index:10;
 }
 .project-preview-float.visible{ opacity:1; transform:translate(-50%,-50%) scale(1); }
 .project-preview-float img{ width:100%; height:100%; object-fit:cover; }
@@ -134,6 +135,7 @@ header *{ pointer-events:auto; }
   max-width:1300px;
   width:100%;
   margin:0 auto;
+  z-index:100;
 }
 
 .projects-index-header,
@@ -142,6 +144,7 @@ header *{ pointer-events:auto; }
   grid-template-columns:2fr 1fr 1.2fr 0.9fr 0.4fr;
   align-items:baseline;
   gap:0 16px;
+  z-index:100;
 }
 
 /* Cabeçalho clicável */
@@ -645,6 +648,8 @@ const previewImg   = previewFloat.querySelector("img");
 
 let mouseX = window.innerWidth/2;
 let mouseY = window.innerHeight/2;
+let previewX = mouseX;
+let previewY = mouseY;
 
 const CURSOR = { points:52, headFollow:.78, tailFollow:.72, wobble:.45, trailWidth:2, trailOpacity:.9 };
 path.setAttribute("stroke-width", CURSOR.trailWidth);
@@ -655,8 +660,6 @@ for(let i=0;i<CURSOR.points;i++) points.push({x:mouseX,y:mouseY});
 
 window.addEventListener("mousemove", e => {
   mouseX = e.clientX; mouseY = e.clientY;
-  previewFloat.style.left = mouseX+"px";
-  previewFloat.style.top  = mouseY+"px";
 });
 
 function updateCursorMode(){
@@ -666,6 +669,11 @@ function updateCursorMode(){
 }
 
 function animateCursor(){
+  previewX += (mouseX - previewX) * 0.07;
+previewY += (mouseY - previewY) * 0.07;
+
+previewFloat.style.left = previewX + "px";
+previewFloat.style.top  = previewY + "px";
   cursor.style.left = mouseX+"px";
   cursor.style.top  = mouseY+"px";
   points[0].x += (mouseX-points[0].x)*CURSOR.headFollow;
