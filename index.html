@@ -82,11 +82,11 @@ body{
 .project-preview-float{
   position:fixed; width:380px; aspect-ratio:1/1;
   border-radius:50%;
-  pointer-events:none; z-index:999990; opacity:0;
+  pointer-events:none; opacity:0;
   transform:translate(-50%,-50%) scale(0.95);
   overflow:hidden; background:rgba(0,0,0,0.05);
   transition:opacity .12s ease, transform .12s ease;
-  z-index:10;
+  z-index:1; /* Colocado atrás do texto das linhas */
 }
 .project-preview-float.visible{ opacity:1; transform:translate(-50%,-50%) scale(1); }
 .project-preview-float img{ width:100%; height:100%; object-fit:cover; }
@@ -136,6 +136,7 @@ header *{ pointer-events:auto; }
   width:100%;
   margin:0 auto;
   z-index:100;
+  position:relative; /* Garante a ativação do z-index sobre o preview */
 }
 
 .projects-index-header,
@@ -145,6 +146,7 @@ header *{ pointer-events:auto; }
   align-items:baseline;
   gap:0 16px;
   z-index:100;
+  position:relative;
 }
 
 /* Cabeçalho clicável */
@@ -195,8 +197,8 @@ header *{ pointer-events:auto; }
   text-decoration:none;
   transition:opacity .15s ease;
 }
-.project-row.active{ color:white; mix-blend-mode:difference; }
-.project-row.inactive{ color:var(--muted); opacity:0.3; pointer-events:none; }
+.project-row.active{ color:#000; } /* Nomes e dados ativos estritamente a preto, sem misturas */
+.project-row.inactive{ color:var(--muted); opacity:0.55; pointer-events:none; } /* Inativos ligeiramente mais escuros */
 
 .project-row-title{
   font-family:'Syne',sans-serif;
@@ -326,7 +328,7 @@ header *{ pointer-events:auto; }
   </nav>
 </header>
 
-<section class="landing"       id="landing"></section>
+<section class="landing"      id="landing"></section>
 <section class="projects-grid" id="projectsGrid"></section>
 <section class="project-view"  id="projectView"></section>
 
@@ -419,9 +421,8 @@ const aboutSection = document.getElementById("aboutSection");
 /* ====================================
    SORT STATE
 ==================================== */
-// columns: title | program | intervention | status | year
 let sortKey = "title";
-let sortDir = "asc"; // "asc" | "desc"
+let sortDir = "asc"; 
 
 function getSortValue(item, key){
   const lang = currentLang;
@@ -440,7 +441,6 @@ function sortItems(items){
     const vA = String(getSortValue(a, sortKey) || "—");
     const vB = String(getSortValue(b, sortKey) || "—");
 
-    // "—" sempre no fundo
     if(vA === "—" && vB !== "—") return 1;
     if(vB === "—" && vA !== "—") return -1;
 
@@ -516,7 +516,6 @@ loadProjects();
 function renderProjects(){
   projectsGrid.innerHTML = "";
 
-  /* ---- Cabeçalho com botões de ordenação ---- */
   const labels = currentLang === "pt"
     ? ["Projeto","Programa","Tipo de Intervenção","Estado","Ano"]
     : ["Project","Program","Intervention Type","Status","Year"];
@@ -537,7 +536,7 @@ function renderProjects(){
         sortDir = sortDir === "asc" ? "desc" : "asc";
       } else {
         sortKey = key;
-        sortDir = key === "year" ? "desc" : "asc"; // Ano começa descendente (mais recente primeiro)
+        sortDir = key === "year" ? "desc" : "asc"; 
       }
       renderProjects();
     });
@@ -547,7 +546,6 @@ function renderProjects(){
 
   projectsGrid.appendChild(header);
 
-  /* ---- Normalizar itens ---- */
   const normalize = (p, clickable) => ({
     titlePT:        p.titlePT        || "",
     titleEN:        p.titleEN        || p.titlePT || "",
@@ -568,7 +566,6 @@ function renderProjects(){
 
   const allItems = sortItems([...activeItems, ...inactiveItems]);
 
-  /* ---- Linhas ---- */
   allItems.forEach(item => {
     const isClickable = item.clickable !== false;
     const slug  = item.id ? item.id.toString().trim() : "";
@@ -653,7 +650,7 @@ let previewY = mouseY;
 
 const CURSOR = { points:52, headFollow:.78, tailFollow:.72, wobble:.45, trailWidth:2, trailOpacity:.9 };
 path.setAttribute("stroke-width", CURSOR.trailWidth);
-path.setAttribute("opacity",      CURSOR.trailOpacity);
+path.setAttribute("opacity",       CURSOR.trailOpacity);
 
 let points = [];
 for(let i=0;i<CURSOR.points;i++) points.push({x:mouseX,y:mouseY});
@@ -670,10 +667,10 @@ function updateCursorMode(){
 
 function animateCursor(){
   previewX += (mouseX - previewX) * 0.07;
-previewY += (mouseY - previewY) * 0.07;
+  previewY += (mouseY - previewY) * 0.05;
 
-previewFloat.style.left = previewX + "px";
-previewFloat.style.top  = previewY + "px";
+  previewFloat.style.left = previewX + "px";
+  previewFloat.style.top  = previewY + "px";
   cursor.style.left = mouseX+"px";
   cursor.style.top  = mouseY+"px";
   points[0].x += (mouseX-points[0].x)*CURSOR.headFollow;
@@ -699,20 +696,32 @@ animateCursor();
    MOUSE EVENT DELEGATION
 ==================================== */
 document.addEventListener("mouseover", e => {
-  const target    = e.target;
-  const activeRow = target.closest(".project-row.active");
+  const target = e.target;
   cursor.classList.remove("arrow-left","arrow-right");
 
-  if(activeRow){
+  // Filtra para mostrar o preview apenas no hover da coluna do título (.project-row-title)
+  const activeTitle = target.closest(".project-row.active .project-row-title");
+
+  if(activeTitle){
+    const activeRow = activeTitle.closest(".project-row.active");
     const src = activeRow.getAttribute("data-preview");
-    if(src){ previewImg.src=src; previewFloat.classList.add("visible"); }
-    cursor.classList.add("hover");
+    if(src){ 
+      previewImg.src = src; 
+      previewFloat.classList.add("visible"); 
+    }
   } else {
     previewFloat.classList.remove("visible");
-    if(target.classList.contains("slide-prev"))      cursor.classList.add("arrow-left");
-    else if(target.classList.contains("slide-next")) cursor.classList.add("arrow-right");
-    else if(target.closest("a, button"))             cursor.classList.add("hover");
-    else                                             cursor.classList.remove("hover");
+  }
+
+  // Comportamento visual do cursor em áreas interativas
+  if(target.classList.contains("slide-prev")) {
+    cursor.classList.add("arrow-left");
+  } else if(target.classList.contains("slide-next")) {
+    cursor.classList.add("arrow-right");
+  } else if(target.closest("a, button, .project-row.active")) {
+    cursor.classList.add("hover");
+  } else {
+    cursor.classList.remove("hover");
   }
 });
 
