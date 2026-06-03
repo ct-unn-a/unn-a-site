@@ -1,7 +1,7 @@
 ---
 id: "almada"
-titlePT: "Edifício Almada"
-titleEN: "Almada Building"
+titlePT: "Almada"
+titleEN: "Almada"
 
 programPT: "Habitação Coletiva"
 programEN: "Collective Housing"

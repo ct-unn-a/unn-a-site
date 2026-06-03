@@ -1,7 +1,7 @@
 ---
 id: "andaluz"
-titlePT: "Edifício Andaluz"
-titleEN: "Andaluz Building"
+titlePT: "Andaluz"
+titleEN: "Andaluz"
 programPT: "Habitação Coletiva"
 programEN: "Housing"
 

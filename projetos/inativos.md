@@ -1,8 +1,8 @@
 ---
 projects:
 
-  - titlePT: Casa nas Antas
-    titleEN: House in Antas
+  - titlePT: Antas
+    titleEN: Antas
 
     programPT: Habitação
     programEN: Housing
@@ -15,8 +15,8 @@ projects:
 
     year: 2019
 
-  - titlePT: Quinta dos Alcoutins
-    titleEN: Alcoutins House
+  - titlePT: Alcoutins
+    titleEN: Alcoutins
 
     programPT: Habitação
     programEN: Housing
@@ -42,23 +42,9 @@ projects:
     statusEN: Built
 
     year: 2022
-    
-  - titlePT: Casa em Cascais  
-    titleEN: Cascais House
-
-    programPT: Habitação
-    programEN: Housing
-
-    interventionPT: Construção nova
-    interventionEN: New construction
-
-    statusPT: Em execução
-    statusEN: 
-
-    year: 2020
         
-  - titlePT: Tapada de S. Domingos  
-    titleEN: Tapada de S. Domingos
+  - titlePT: S. Domingos  
+    titleEN: S. Domingos
 
     programPT: Turismo Rural
     programEN: Tourism
@@ -71,8 +57,8 @@ projects:
 
     year: 2012
 
-  - titlePT: Apartamentos na Costa Cabral  
-    titleEN: Costa Cabral Apartments
+  - titlePT: Costa Cabral  
+    titleEN: Costa Cabral
 
     programPT: Habitação Coletiva
     programEN: Collective Housing
@@ -85,8 +71,8 @@ projects:
 
     year: 2021
 
-  - titlePT: Edifício Rua do Sol  
-    titleEN: Building Rua do Sol
+  - titlePT: Rua do Sol  
+    titleEN: Rua do Sol
 
     programPT: Habitação Coletiva
     programEN: Collective Housing
@@ -113,8 +99,8 @@ projects:
 
     year: 2026
 
-  - titlePT: Edifício Dom Vicente  
-    titleEN: Dom Vicente Building
+  - titlePT: Dom Vicente  
+    titleEN: Dom Vicente
 
     programPT: Hotel
     programEN: Hotel

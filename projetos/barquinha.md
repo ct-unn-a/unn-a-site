@@ -9,7 +9,7 @@ interventionPT: "Construção nova"
 interventionEN: "New construction"
 
 statusPT: "Em construção"
-statusEN: "Currently being built"
+statusEN: "Under construction"
 
 year: "2019"
 metaPT: "Projeto de arquitetura em Barquinha"
