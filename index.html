@@ -85,16 +85,31 @@ body{
 .cursor-liquid-hidden .cursor-svg{ opacity:0; transition:opacity .3s ease; }
 
 .project-preview-float{
-  position:fixed; width:380px; aspect-ratio:1/1;
+  position:fixed; 
+  width:380px; 
+  aspect-ratio:1/1;
   border-radius:50%;
-  pointer-events:none; opacity:0;
-  transform:translate(0%,-80%) scale(0.1);
-  overflow:hidden; background:rgba(0,0,0,0.05);
-  transition:opacity .12s ease, transform .12s ease;
-  z-index:1; /* Colocado atrás do texto das linhas */
+  pointer-events:none; 
+  
+  /* Estado Escondido (Sair do Hover) */
+  opacity: 0;
+  transform: translate(0%, -80%) scale(0.1);
+  
+  overflow:hidden; 
+  background:rgba(0,0,0,0.05);
+  z-index:1; 
+  
+  /* Transição aplicada tanto na ENTRADA como na SAÍDA */
+  /* Ajustei de 2s para 0.4s para ser mais dinâmico, mas podes mudar o tempo */
+  transition: opacity 0.6s ease, transform 0.6s ease; 
 }
-.project-preview-float.visible{ opacity:1; transform:translate(0%,-80%) scale(1); }
-.project-preview-float img{ width:100%; height:100%; object-fit:cover; opacity: 50%;}
+
+.project-preview-float.visible{ 
+  /* Estado Ativo (Entrar no Hover) */
+  opacity: 1; 
+  transform: translate(0%, -80%) scale(1); 
+}
+.project-preview-float img{ width:100%; height:100%; object-fit:cover; opacity: 90%;}
 
 /* ====================================
    LINKS
