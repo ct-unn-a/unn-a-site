@@ -334,50 +334,44 @@ header *{ pointer-events:auto; }
   .projects-grid{ padding:120px 22px 60px; }
   .projects-index-header{ display:none; }
   
-  /* Transforma a grid original num container Flex dinâmico */
+  /* Define a linha como um container relativo com espaço reservado à direita para o círculo */
   .project-row{ 
     display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 0; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 20px 160px 20px 0; /* 160px de padding à direita protege o espaço do círculo */
+    position: relative;
+    min-height: 140px; /* Garante que a linha tem altura suficiente para o círculo sem rebentar o espaçamento */
   }
   
-  /* Organiza e empilha as colunas de texto no lado esquerdo */
-  .project-row-title        { order: 1; font-size:26px; width: 100%; }
+  /* Organiza o empilhamento vertical estrito dos textos à esquerda */
+  .project-row-title        { order: 1; font-size:26px; width: 100%; margin-bottom: 4px; }
   .project-row-program      { order: 2; width: 100%; }
   .project-row-intervention { order: 3; width: 100%; }
   .project-row-status       { order: 4; width: 100%; }
   .project-row-year         { order: 5; text-align:left; justify-content: flex-start; width: 100%; }
   
-  /* Força os elementos de metadados a quebrar linha mantendo o título no topo */
   .project-row .project-row-title ~ div {
     font-size: 13px;
-  }
-  
-  /* Cria uma quebra visual interna para o texto empilhar à esquerda da imagem */
-  .project-row {
-    flex-wrap: wrap;
-  }
-  
-  /* Container invisível para agrupar o bloco de texto sem alterar o HTML original */
-  .project-row > :not(.project-row-mobile-preview) {
-    flex: 1 1 60%;
-  }
-  .project-row-title {
-    flex: 1 1 100% !important;
+    line-height: 1.4;
   }
 
-  /* Ativação do Preview Retangular no lado direito (Apenas para Projetos Ativos) */
+  /* O Preview fixa-se de forma absoluta na "coluna" direita, centralizado verticalmente */
   .project-row.active .project-row-mobile-preview {
     display: block;
-    order: 6;
-    width: 90px;
-    height: 90px;
-    flex-shrink: 0;
-    margin-left: auto;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%); /* Garante centralização vertical perfeita */
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
     overflow: hidden;
     background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+    z-index: 2;
   }
   
   .project-row-mobile-preview img {
