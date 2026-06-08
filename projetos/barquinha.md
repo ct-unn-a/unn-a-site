@@ -8,8 +8,8 @@ programEN: "Housing"
 interventionPT: "Construção nova"
 interventionEN: "New construction"
 
-statusPT: "Em construção"
-statusEN: "Under construction"
+statusPT: "Em execução"
+statusEN: "Ongoing"
 
 year: "2019"
 metaPT: "Projeto de arquitetura em Barquinha"

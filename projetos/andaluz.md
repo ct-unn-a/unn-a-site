@@ -3,13 +3,13 @@ id: "andaluz"
 titlePT: "Andaluz"
 titleEN: "Andaluz"
 programPT: "Habitação Coletiva"
-programEN: "Housing"
+programEN: "Collective housing"
 
 interventionPT: "Construção nova"
 interventionEN: "New construction"
 
-statusPT: "Em construção"
-statusEN: "Under construction"
+statusPT: "Em execução"
+statusEN: "Ongoing"
 
 year: "2021"
 metaPT: "Projeto de arquitetura em Andaluz"
