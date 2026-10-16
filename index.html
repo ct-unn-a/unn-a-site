@@ -131,11 +131,11 @@ header{
 }
 header *{ pointer-events:auto; }
 
-.{
+.site-logo{
   position:fixed; top:32px; left:32px;
   z-index:1010; display:block; mix-blend-mode:difference;
 }
-. img{ width:150px; height:auto; object-fit:contain; display:block; }
+.site-logo img{ width:auto; height:42px; max-width:180px; object-fit:contain; display:block; }
 
 .top-nav{ display:flex; gap:28px; mix-blend-mode:difference; }
 .top-nav a, #langToggle{
@@ -329,8 +329,8 @@ header *{ pointer-events:auto; }
   body{ cursor:auto; }
   .cursor, .cursor-svg, .project-preview-float{ display:none !important; }
   header{ padding:22px; }
-  .{ top:22px; left:22px; }
-  . img{ width:120px; }
+  .site-logo{ top:22px; left:22px; }
+  .site-logo img{ height:32px; max-width:130px; }
   .projects-grid{ padding:120px 22px 60px; }
   .projects-index-header{ display:none; }
   
@@ -412,7 +412,7 @@ header *{ pointer-events:auto; }
   <img src="" alt="Preview">
 </div>
 
-<a href="#home" class="">
+<a href="#home" class="site-logo">
   <img src="https://ct-unn-a.github.io/unn-a-site/images/logo_ggunna.png" alt="UNN-A">
 </a>
 
