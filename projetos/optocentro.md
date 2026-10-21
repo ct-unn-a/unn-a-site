@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "optocentro"
 titlePT: "Optocentro"
 titleEN: "Optocentro"
@@ -14,8 +17,8 @@ statusEN: "Built"
 year: "2021"
 metaPT: "Projeto de arquitetura no Optocentro"
 metaEN: "Architecture project at Optocentro"
-descriptionPT: "Texto temporário para o projeto OPTOCENTRO. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for OPTOCENTRO project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/optocentro/optocentro4.jpg"
 
 images:

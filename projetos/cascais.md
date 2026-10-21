@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "cascais"
 titlePT: "Cascais"
 titleEN: "Cascais"
@@ -14,8 +17,8 @@ statusEN: "Ongoing"
 year: "2020"
 metaPT: "Projeto de arquitetura em Cascais"
 metaEN: "Architecture project in Cascais"
-descriptionPT: "Texto temporário para o projeto CASCAIS. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for CASCAIS project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/cascais/cascais1.jpg"
 
 images:

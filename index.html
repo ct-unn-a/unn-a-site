@@ -6,8 +6,8 @@
 
 <title>UNN-A · Unnamed Architects</title>
 
-<script src="https://identity.netlify.netlify.com/v1/netlify-identity-widget.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="assets/project-content.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -396,6 +396,16 @@ header *{ pointer-events:auto; }
   .project-row.inactive.run-animation { opacity: 0.55 !important; }
 }
 
+.project-description p + p{ margin-top:1em; }
+.project-details{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 32px; margin-top:36px; padding-top:24px; border-top:1px solid #ccc; }
+.project-details dt{ font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+.project-details dd{ font-size:14px; line-height:1.5; }
+.back-to-projects{ display:inline-block; margin-bottom:32px; font-size:12px; color:inherit; text-underline-offset:4px; }
+.load-message{ padding:32px 0; }
+.project-view > .load-message{ padding:160px 32px 60px; }
+.retry-button{ display:block; margin-top:16px; padding:10px 16px; background:none; border:1px solid currentColor; color:inherit; }
+:focus-visible{ outline:2px solid currentColor; outline-offset:5px; }
+@media(max-width:600px){ .project-details{ grid-template-columns:1fr; } }
 </style>
 </head>
 
@@ -413,7 +423,7 @@ header *{ pointer-events:auto; }
 </div>
 
 <a href="#home" class="site-logo">
-  <img src="https://ct-unn-a.github.io/unn-a-site/images/logo_ggunna.png" alt="UNN-A">
+  <img src="images/logo_ggunna.png" alt="UNN-A">
 </a>
 
 <header>
@@ -442,7 +452,7 @@ header *{ pointer-events:auto; }
   </div>
   <div class="partners-grid">
     <div class="partner-card">
-      <img src="https://ct-unn-a.github.io/unn-a-site/images/about_asm.jpg" alt="Andreia Santa Margarido">
+      <img src="images/about_asm.jpg" alt="Andreia Santa Margarido">
       <div class="partner-name">Andreia Santa Margarido</div>
       <div class="partner-role">
         <span class="lang-pt">Arquiteta Sócia Fundadora</span>
@@ -450,7 +460,7 @@ header *{ pointer-events:auto; }
       </div>
     </div>
     <div class="partner-card">
-      <img src="https://ct-unn-a.github.io/unn-a-site/images/about_gg.jpg" alt="Gustavo Guimarães">
+      <img src="images/about_gg.jpg" alt="Gustavo Guimarães">
       <div class="partner-name">Gustavo Guimarães</div>
       <div class="partner-role">
         <span class="lang-pt">Arquiteto Sócio Fundador</span>
@@ -467,7 +477,7 @@ header *{ pointer-events:auto; }
 ==================================== */
 if(window.netlifyIdentity){
   window.netlifyIdentity.on("init", user => {
-    if(!user) window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+    if(!user) window.netlifyIdentity.on("login", () => { document.location.href = new URL("admin/", document.baseURI).href; });
   });
 }
 
@@ -477,6 +487,7 @@ if(window.netlifyIdentity){
 let currentLang = "pt";
 
 function applyLang(lang){
+  document.documentElement.lang = lang;
   const isEN = lang === "en";
   document.querySelectorAll(".lang-pt").forEach(el => { el.style.display = isEN ? "none" : ""; });
   document.querySelectorAll(".lang-en").forEach(el => { el.style.display = isEN ? "" : "none"; });
@@ -491,7 +502,7 @@ document.getElementById("langToggle").addEventListener("click", () => {
   const hash = window.location.hash;
   if(hash && hash !== "#" && hash !== "#home" && hash !== "#projetos" && hash !== "#about"){
     const projectId = hash.replace("#","");
-    const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
+    const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase() && p.pageEnabled !== false);
     if(target) openProjectView(target);
   }
 });
@@ -499,17 +510,9 @@ document.getElementById("langToggle").addEventListener("click", () => {
 /* ====================================
    HELPERS
 ==================================== */
-function parseFrontmatter(text){
-  if(!text.startsWith("---")) return {};
-  const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
-  if(!match) return {};
-  try { return jsyaml.load(match[1]) || {}; } catch(e) { return {}; }
-}
-
+const { escapeHTML, translated, descriptionHTML, detailsHTML } = ProjectContent;
 function normalizeImagePath(p){
-  if(!p) return "";
-  if(p.startsWith("/unn-a-site")) return p;
-  return "/unn-a-site" + p;
+  return ProjectContent.imageURL(p, new URL(".", document.baseURI).href);
 }
 
 const landing      = document.getElementById("landing");
@@ -552,6 +555,7 @@ function sortItems(items){
    ROUTING
 ==================================== */
 function hideAll(){
+  document.title = "UNN-A · Unnamed Architects";
   landing.style.display = projectsGrid.style.display =
   projectView.style.display = aboutSection.style.display = "none";
 }
@@ -563,13 +567,17 @@ function handleRouting(){
     landing.style.display = "block";
   } else if(hash === "#projetos"){
     projectsGrid.style.display = "block";
+    if(loadState !== "ready") renderLoadState(projectsGrid);
   } else if(hash === "#about"){
     aboutSection.style.display = "block";
   } else {
     const projectId = hash.replace("#","");
-    const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase());
+    const target = projects.find(p => p.id?.toString().trim().toLowerCase() === projectId.toLowerCase() && p.pageEnabled !== false);
     if(target) openProjectView(target);
-    else window.location.hash = "#home";
+    else if(loadState !== "ready") {
+      projectView.style.display = "block";
+      renderLoadState(projectView);
+    } else window.location.hash = "#projetos";
   }
   updateCursorMode();
   window.scrollTo(0,0);
@@ -579,40 +587,46 @@ window.addEventListener("hashchange", handleRouting);
 /* ====================================
    DATA FETCHING
 ==================================== */
-const GITHUB_API   = "https://api.github.com/repos/ct-unn-a/unn-a-site/contents/projetos";
-const INACTIVE_URL = "https://raw.githubusercontent.com/ct-unn-a/unn-a-site/main/projetos/inativos.md";
+let projects = [];
+let loadState = "loading";
 
-let projects         = [];
-let inactiveProjects = [];
+function renderLoadState(container){
+  const en = currentLang === "en";
+  container.innerHTML = `<div class="load-message" role="status">${loadState === "error"
+    ? (en ? "Projects could not be loaded." : "Não foi possível carregar os projetos.")
+    : (en ? "Loading projects…" : "A carregar projetos…")}</div>`;
+  if(loadState === "error"){
+    const button = document.createElement("button");
+    button.className = "retry-button";
+    button.textContent = en ? "Try again" : "Tentar novamente";
+    button.addEventListener("click", loadProjects);
+    container.querySelector(".load-message").appendChild(button);
+  }
+}
 
 async function loadProjects(){
+  loadState = "loading";
+  handleRouting();
   try{
-    const files = await fetch(GITHUB_API).then(r => r.json());
-    const mdFiles = files.filter(f => f.name.endsWith(".md") && f.name !== "inativos.md");
-    for(const file of mdFiles){
-      const text = await fetch(file.download_url).then(r => r.text());
-      projects.push(parseFrontmatter(text));
-    }
-    await loadInactiveProjects();
+    const response = await fetch(new URL("data/projects.json", document.baseURI), { cache: "no-cache" });
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if(!Array.isArray(data) || data.some(p => !p || typeof p.id !== "string" || typeof p.titlePT !== "string")) throw new Error("Invalid project data");
+    projects = data;
+    loadState = "ready";
     renderProjects();
-    handleRouting();
-  } catch(err){ console.error(err); }
+  } catch(err){
+    loadState = "error";
+    console.error("Could not load projects:", err);
+  }
+  handleRouting();
 }
-
-async function loadInactiveProjects(){
-  try{
-    const text   = await fetch(INACTIVE_URL).then(r => r.text());
-    const parsed = parseFrontmatter(text);
-    if(parsed.projects && Array.isArray(parsed.projects)) inactiveProjects = parsed.projects;
-  } catch(err){ console.warn("Could not load inativos.md:", err); }
-}
-
-loadProjects();
 
 /* ====================================
    RENDER INDEX
 ==================================== */
 function renderProjects(){
+  if(loadState !== "ready"){ renderLoadState(projectsGrid); return; }
   projectsGrid.innerHTML = "";
 
   const labels = currentLang === "pt"
@@ -660,10 +674,7 @@ function renderProjects(){
     clickable
   });
 
-  const activeItems   = projects.map(p  => normalize(p, true));
-  const inactiveItems = inactiveProjects.map(p => normalize(p, false));
-
-  const allItems = sortItems([...activeItems, ...inactiveItems]);
+  const allItems = sortItems(projects.map(p => normalize(p, p.pageEnabled !== false)));
 
   // Array para guardar as referências das linhas criadas
   const rowElements = [];
@@ -671,7 +682,7 @@ function renderProjects(){
   allItems.forEach(item => {
     const isClickable = item.clickable !== false;
     const slug  = item.id ? item.id.toString().trim() : "";
-    const cover = item.coverImage ? normalizeImagePath(item.coverImage) : "";
+    const cover = item.coverImage ? escapeHTML(normalizeImagePath(item.coverImage)) : "";
 
     const row = document.createElement(isClickable ? "a" : "div");
     
@@ -681,8 +692,8 @@ function renderProjects(){
     row.style.opacity = "0"; 
 
     if(isClickable){
-      row.href = `#${slug}`;
-      row.setAttribute("data-preview", cover);
+      row.href = `#${encodeURIComponent(slug)}`;
+      row.setAttribute("data-preview", item.coverImage ? normalizeImagePath(item.coverImage) : "");
     }
 
     const lang = currentLang;
@@ -693,13 +704,13 @@ function renderProjects(){
 
     // Mantemos os elementos em nós planos e diretos para preservar a reordenação exata das colunas em desktop
     row.innerHTML = `
-      <div class="project-row-title">${title}</div>
-      <div class="project-row-program">${program}</div>
-      <div class="project-row-intervention">${intervention}</div>
-      <div class="project-row-status">${status}</div>
-      <div class="project-row-year">${item.year}</div>
+      <div class="project-row-title">${escapeHTML(title)}</div>
+      <div class="project-row-program">${escapeHTML(program)}</div>
+      <div class="project-row-intervention">${escapeHTML(intervention)}</div>
+      <div class="project-row-status">${escapeHTML(status)}</div>
+      <div class="project-row-year">${escapeHTML(item.year)}</div>
       <div class="project-row-mobile-preview">
-        ${cover ? `<img src="${cover}" alt="${title}" loading="lazy">` : ''}
+        ${cover ? `<img src="${cover}" alt="${escapeHTML(title)}" loading="lazy">` : ''}
       </div>
     `;
 
@@ -730,26 +741,26 @@ function renderProjects(){
 ==================================== */
 function openProjectView(project){
   projectView.style.display = "block";
-  let galleryHTML = "";
-  if(project.images && Array.isArray(project.images)){
-    galleryHTML = project.images.map(img => {
-      if(!img || !img.image) return "";
-      return `<img src="${normalizeImagePath(img.image)}" loading="lazy" draggable="false">`;
-    }).join("");
-  }
+  const title = translated(project, "title", currentLang);
+  const meta = translated(project, "meta", currentLang) || [translated(project, "program", currentLang), translated(project, "location", currentLang)].filter(Boolean).join(" · ");
+  document.title = `${title} · UNN-A`;
+  const galleryHTML = (project.images || []).map((img, index) => {
+    const alt = translated(img, "alt", currentLang) || `${title} — ${index + 1}`;
+    return `<img src="${escapeHTML(normalizeImagePath(img.image))}" alt="${escapeHTML(alt)}" loading="lazy" draggable="false">`;
+  }).join("");
   projectView.innerHTML = `
     <div class="project-content">
-      <h1>${currentLang === "pt" ? (project.titlePT||"") : (project.titleEN||project.titlePT||"")}</h1>
-      <div class="meta">${currentLang === "pt" ? (project.metaPT||"") : (project.metaEN||project.metaPT||"")}</div>
-      <div class="project-description">
-        ${currentLang === "pt" ? (project.descriptionPT||"") : (project.descriptionEN||project.descriptionPT||"")}
-      </div>
+      <a class="back-to-projects" href="#projetos">${currentLang === "en" ? "All projects" : "Todos os projetos"}</a>
+      <h1>${escapeHTML(title)}</h1>
+      <div class="meta">${escapeHTML(meta)}</div>
+      <div class="project-description">${descriptionHTML(translated(project, "description", currentLang))}</div>
+      ${detailsHTML(project, currentLang)}
     </div>
-    <div class="project-gallery-wrap">
-      <button class="slide-nav slide-prev" id="slidePrev"></button>
-      <div class="project-gallery" id="projectGallery">${galleryHTML}</div>
-      <button class="slide-nav slide-next" id="slideNext"></button>
-    </div>
+    ${galleryHTML ? `<div class="project-gallery-wrap">
+      <button class="slide-nav slide-prev" id="slidePrev" aria-label="${currentLang === "en" ? "Previous images" : "Imagens anteriores"}"></button>
+      <div class="project-gallery" id="projectGallery" tabindex="0" aria-label="${currentLang === "en" ? "Project images" : "Imagens do projeto"}">${galleryHTML}</div>
+      <button class="slide-nav slide-next" id="slideNext" aria-label="${currentLang === "en" ? "Next images" : "Imagens seguintes"}"></button>
+    </div>` : ""}
   `;
   setupGalleryButtons();
 }
@@ -862,6 +873,7 @@ document.addEventListener("mouseout", e => {
     cursor.classList.remove("arrow-left","arrow-right");
 });
 
+loadProjects();
 </script>
 </body>
 </html>

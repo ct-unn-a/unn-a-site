@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "colivingporto"
 titlePT: "Co-living Porto"
 titleEN: "Co-living Porto"
@@ -14,8 +17,8 @@ statusEN: "Ongoing"
 year: "2021"
 metaPT: "Projeto de arquitetura de Co-living Porto"
 metaEN: "Architecture project of Co-living Porto"
-descriptionPT: "Texto temporário para o projeto Co-living Porto. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for Co-living Porto project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/colivingporto/colivingporto1.jpg"
 
 images:

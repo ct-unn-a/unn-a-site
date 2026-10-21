@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "almada"
 titlePT: "Almada"
 titleEN: "Almada"
@@ -16,8 +19,8 @@ year: "2024"
 
 metaPT: "Projeto de arquitetura em Almada"
 metaEN: "Architecture project in Almada"
-descriptionPT: "Texto temporário para o projeto ALMADA. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for ALMADA project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/almada/almada15.jpg"
 
 images:

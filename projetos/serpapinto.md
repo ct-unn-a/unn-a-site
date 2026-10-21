@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Rever"
 id: serpapinto
 titlePT: "Serpa Pinto"
 titleEN: "Serpa Pinto"

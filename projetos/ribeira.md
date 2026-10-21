@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "ribeira"
 titlePT: "Ribeira"
 titleEN: "Ribeira"
@@ -14,8 +17,8 @@ statusEN: "Built"
 year: "2025"
 metaPT: "Remodelação de apartamento na ribeira do Porto"
 metaEN: "Remodelation of appartment in Porto"
-descriptionPT: "Texto temporário para o projeto 2605_ARCO. Estrutura focada em novos modelos de espaço de trabalho partilhado."
-descriptionEN: "Placeholder text for 2605_ARCO. Structure focused on new shared workspace models."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/ribeira/ribeira1.jpg"
 
 images:

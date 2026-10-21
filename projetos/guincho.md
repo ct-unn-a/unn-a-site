@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "guincho"
 titlePT: "Guincho"
 titleEN: "Guincho"
@@ -14,8 +17,8 @@ statusEN: "Under construction"
 year: "2025"
 metaPT: "Projeto de arquitetura no Guincho"
 metaEN: "Architecture project at Guincho"
-descriptionPT: "Texto temporário para o projeto GUINCHO. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for GUINCHO project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/guincho/guincho8.jpg"
 
 images:

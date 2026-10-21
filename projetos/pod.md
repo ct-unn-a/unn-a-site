@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "pod"
 titlePT: "Alpha Pod"
 titleEN: "Alpha Pod"
@@ -14,8 +17,8 @@ statusEN: "Ongoing"
 year: "2021"
 metaPT: "Alpha Pod"
 metaEN: "Alpha Pod"
-descriptionPT: "Texto temporário para o projeto Pod. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for Pod project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/pod/pod4.jpg"
 
 images:

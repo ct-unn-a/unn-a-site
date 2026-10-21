@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "casaagricola"
 titlePT: "Casa Agrícola"
 titleEN: "Agricultural House"
@@ -14,8 +17,8 @@ statusEN: "Ongoing"
 year: "2026"
 metaPT: "Projeto de arquitetura da Casa Agrícola"
 metaEN: "Casa Agrícola architecture project"
-descriptionPT: "Texto temporário para o projeto CASAAGRICOLA. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for CASAAGRICOLA project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/casaagricola/casaagricola3.jpg"
 
 images:
