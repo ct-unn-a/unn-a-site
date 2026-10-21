@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "bremen"
 titlePT: "Bremen"
 titleEN: "Bremen"
@@ -14,8 +17,8 @@ statusEN: "Built"
 year: "2019"
 metaPT: "Edifício comercial em Bremen, Alemanha"
 metaEN: "Commercial building in Bremen, Germany"
-descriptionPT: "Texto temporário para o projeto Bremen. Estrutura focada em novos modelos de espaço de trabalho partilhado."
-descriptionEN: "Placeholder text for Bremen . Structure focused on new shared workspace models."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/bremen/bremen13.jpg"
 
 images:

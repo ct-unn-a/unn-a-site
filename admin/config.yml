@@ -2,31 +2,96 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "images"
-public_folder: "/images"
-
-locale: "pt"
+local_backend: true
+media_folder: images/uploads
+public_folder: /images/uploads
+locale: pt
+display_url: ../
+logo_url: ../images/logo_ggunna.png
 
 collections:
-  - name: "projetos"
-    label: "Projetos"
-    label_singular: "Projeto"
-    folder: "projetos"
+  - name: projetos
+    label: Projetos
+    label_singular: Projeto
+    description: "Crie um projeto, preencha os dados e escolha quando o mostrar no site. Os campos em inglês são opcionais."
+    folder: projetos
     create: true
     delete: true
+    extension: md
+    format: frontmatter
+    identifier_field: id
+    slug: "{{slug}}"
+    summary: "{{titlePT}} · {{year}} · {{statusPT}}"
+    sortable_fields: [titlePT, year, statusPT, contentStatus]
+    view_filters:
+      - {label: Visíveis no site, field: published, pattern: true}
+      - {label: Ocultos, field: published, pattern: false}
+      - {label: Textos por completar, field: contentStatus, pattern: "Por completar"}
+      - {label: Só no índice, field: pageEnabled, pattern: false}
     editor:
-      preview: false
-    identifier_field: "id"
+      preview: true
     fields:
-      - { label: "ID do Projeto (ex: 2001_SERPA_PINTO)", name: "id", widget: "string" }
-      - { label: "Título em PT", name: "titlePT", widget: "string" }
-      - { label: "Título em EN", name: "titleEN", widget: "string" }
-      - { label: "Meta Detalhes PT (ex: Habitação Unifamiliar · Porto)", name: "metaPT", widget: "string" }
-      - { label: "Meta Detalhes EN (ex: Single-Family Housing · Porto)", name: "metaEN", widget: "string" }
-      - { label: "Descrição PT", name: "descriptionPT", widget: "markdown" }
-      - { label: "Descrição EN", name: "descriptionEN", widget: "markdown" }
-      - label: "Galeria de Imagens"
-        name: "images"
-        widget: "list"
+      - label: Nome do projeto
+        name: titlePT
+        widget: string
+      - label: Identificador do endereço
+        name: id
+        widget: string
+        hint: "Ex.: casa-do-rio. Use letras minúsculas, números e hífen. Depois de publicar, mantenha este identificador para preservar os links."
+        pattern: ['^(?!(?:home|about|projetos)$)[a-z0-9]+(?:-[a-z0-9]+)*$', "Use minúsculas, números e hífen; home, about e projetos estão reservados."]
+      - label: Mostrar no site
+        name: published
+        widget: boolean
+        default: false
+        hint: "Ative quando estiver pronto. Desativar retira o projeto do site; o repositório GitHub continua público."
+      - label: Abrir página com fotografias e descrição
+        name: pageEnabled
+        widget: boolean
+        default: true
+        hint: "Desative para mostrar apenas uma linha no índice, como nos antigos projetos de arquivo."
+      - label: Revisão dos conteúdos
+        name: contentStatus
+        widget: select
+        options: [Por completar, Rever, Revisto]
+        default: Por completar
+        hint: "Ajuda a organizar o trabalho no painel. Não aparece no site nem altera a visibilidade."
+      - {label: Ano apresentado no índice, name: year, widget: string, required: false, hint: "Ano do projeto, não a data de um documento. Ex.: 2026."}
+      - {label: Programa, name: programPT, widget: string, required: false, hint: "Ex.: Habitação coletiva, Restaurante, Loja comercial."}
+      - {label: Tipo de intervenção, name: interventionPT, widget: string, required: false, hint: "Ex.: Construção nova, Reabilitação, Alteração, Interiores."}
+      - {label: Estado da obra, name: statusPT, widget: string, required: false, hint: "Ex.: Em projeto, Em construção, Construído. Confirme o estado atual."}
+      - {label: Localização, name: locationPT, widget: string, required: false, hint: "Cidade e país. Ex.: Matosinhos, Portugal."}
+      - {label: Subtítulo, name: metaPT, widget: string, required: false, hint: "Ex.: Habitação coletiva · Matosinhos. Se ficar vazio, usamos o programa e a localização."}
+      - label: Descrição em português
+        name: descriptionPT
+        widget: text
         required: false
-        field: { label: "Imagem", name: "image", widget: "image" }
+        hint: "Texto simples. Separe os parágrafos com uma linha em branco. Publique apenas informação confirmada."
+      - label: Imagem de capa
+        name: coverImage
+        widget: image
+        required: false
+        hint: "Aparece no índice. Se não escolher uma capa, usamos a primeira imagem da galeria."
+      - label: Galeria
+        name: images
+        widget: list
+        required: false
+        collapsed: true
+        summary: "{{fields.altPT}} · {{fields.image}}"
+        hint: "Adicione imagens e arraste os itens para mudar a ordem. Prefira JPG ou WebP otimizados."
+        fields:
+          - {label: Fotografia ou desenho, name: image, widget: image}
+          - {label: Descrição da imagem em português, name: altPT, widget: string, required: false, hint: "Ex.: Fachada principal vista da rua."}
+          - {label: Descrição da imagem em inglês, name: altEN, widget: string, required: false}
+      - {label: Período do projeto, name: projectDuration, widget: string, required: false, hint: "Ex.: 2020–2026."}
+      - {label: Conclusão, name: completion, widget: string, required: false, hint: "Preencha apenas quando confirmada; indique se for uma previsão."}
+      - {label: Área bruta de construção, name: grossFloorArea, widget: string, required: false, hint: "Ex.: 1.500 m². Não confundir com áreas parcelares dos mapas de quantidades."}
+      - {label: Arquitetura, name: architect, widget: string, required: false}
+      - {label: Equipa, name: projectTeam, widget: string, required: false}
+      - {label: Fotografia, name: photography, widget: string, required: false}
+      - {label: "EN · Nome", name: titleEN, widget: string, required: false, hint: "Campos EN vazios usam o texto português."}
+      - {label: "EN · Programa", name: programEN, widget: string, required: false}
+      - {label: "EN · Intervenção", name: interventionEN, widget: string, required: false}
+      - {label: "EN · Estado", name: statusEN, widget: string, required: false}
+      - {label: "EN · Localização", name: locationEN, widget: string, required: false}
+      - {label: "EN · Subtítulo", name: metaEN, widget: string, required: false}
+      - {label: "EN · Descrição", name: descriptionEN, widget: text, required: false}

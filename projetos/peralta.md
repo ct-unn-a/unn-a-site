@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "peralta"
 titlePT: "Peralta"
 titleEN: "Peralta"
@@ -14,8 +17,8 @@ statusEN: "Ongoing"
 year: "2022"
 metaPT: "Projeto de arquitetura em Peralta"
 metaEN: "Architecture project in Peralta"
-descriptionPT: "Texto temporário para o projeto PERALTA. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for PERALTA project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/peralta/peralta1.jpg"
 
 images:

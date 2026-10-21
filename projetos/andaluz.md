@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "andaluz"
 titlePT: "Andaluz"
 titleEN: "Andaluz"
@@ -14,8 +17,8 @@ statusEN: "Ongoing"
 year: "2021"
 metaPT: "Projeto de arquitetura em Andaluz"
 metaEN: "Architecture project in Andaluz"
-descriptionPT: "Texto temporário para o projeto Andaluz. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for Andaluz project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/andaluz/andaluz1.jpg"
 
 images:

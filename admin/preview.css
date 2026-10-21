@@ -1,0 +1,10 @@
+body { margin: 0; padding: 28px; background: #f5f3ef; color: #111; font: 15px/1.7 Arial, sans-serif; }
+h1 { font-size: clamp(32px, 8vw, 64px); line-height: 1; letter-spacing: -.05em; font-weight: 500; }
+h2 { margin-top: 32px; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; }
+img { display: block; max-width: 100%; height: auto; margin: 16px 0; }
+.meta { color: #666; }
+.preview-toolbar { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+button { padding: 8px 12px; background: transparent; border: 1px solid #888; cursor: pointer; }
+.project-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; border-top: 1px solid #ccc; padding-top: 20px; }
+.project-details dt { font-size: 11px; text-transform: uppercase; color: #666; }
+.project-details dd { margin: 0; }

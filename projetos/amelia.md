@@ -1,4 +1,7 @@
 ---
+published: true
+pageEnabled: true
+contentStatus: "Por completar"
 id: "amelia"
 titlePT: "Amélia"
 titleEN: "Amélia"
@@ -15,8 +18,8 @@ statusEN: "Built"
 year: "2024"
 metaPT: "Remodelação interior de restaurante"
 metaEN: "Interior redesign for restaurant"
-descriptionPT: "Texto temporário para o projeto AMELIA. Foco na sustentabilidade e materiais locais."
-descriptionEN: "Placeholder text for AMELIA project. Focus on sustainability and local materials."
+descriptionPT: ""
+descriptionEN: ""
 coverImage: "/images/amelia/amelia8.jpg"
 
 images:
